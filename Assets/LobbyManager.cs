@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class LobbyManager : MonoBehaviour
     {
         PhotonNetwork.CurrentRoom.IsOpen=false;
         StartCoroutine(startTimer());
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Menu");
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
 
     IEnumerator startTimer()
@@ -24,5 +32,6 @@ public class LobbyManager : MonoBehaviour
         text.text="1";
         yield return new WaitForSeconds(1f);
         PhotonNetwork.LoadLevel("Teste");
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
 }

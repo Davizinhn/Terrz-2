@@ -28,6 +28,11 @@ public class FirstPersonButton : MonoBehaviour
         canPress=!isLocked&&!isPressing;
     }
 
+    public void ForeverLock()
+    {
+        isLocked = true;
+    }
+
     public void Pressing()
     {
         this.gameObject.GetComponent<PhotonView>().RPC("PressRPC", RpcTarget.AllBuffered);

@@ -7,6 +7,7 @@ TagManager:
   - Door
   - Generator
   - Button
+  - OpenButton
   layers:
   - Default
   - TransparentFX

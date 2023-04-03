@@ -32,14 +32,31 @@ public class FirstPersonMovement : MonoBehaviour
     public GameObject[] others;
     public LayerMask collisionLayer;
     public float distance = 2f;
+    public string Persona;
+    public GameObject megan, outro;
+
+    [PunRPC]
+    public void SetChar(string persona)
+    {
+        Persona = persona;
+    }
 
     void Awake()
     {
         if(view.IsMine)
         {
+            view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
                 a.enabled=false;
+            }
+            if(Persona=="megan")
+            {
+                anim = megan.GetComponent<Animator>();
+            }
+            else
+            {
+                anim = outro.GetComponent<Animator>();
             }
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
@@ -47,6 +64,18 @@ public class FirstPersonMovement : MonoBehaviour
         }
         else
         {
+            if(Persona=="megan")
+            {
+                outro.active=false;
+                megan.active=true;
+                anim = megan.GetComponent<Animator>();
+            }
+            else
+            {
+                megan.active=false;
+                outro.active=true;
+                anim = outro.GetComponent<Animator>();
+            }
             foreach(GameObject a in others)
             {
                 Destroy(a);
@@ -58,6 +87,35 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(view.IsMine)
+        {
+            if(Persona=="megan")
+            {
+                anim = megan.GetComponent<Animator>();
+            }
+            else
+            {
+                anim = outro.GetComponent<Animator>();
+            }
+            // Get the rigidbody on this.
+            rigidbody = GetComponent<Rigidbody>();
+            camera = GetComponentInChildren<Camera>();
+        }
+        else
+        {
+            if(Persona=="megan")
+            {
+                outro.active=false;
+                megan.active=true;
+                anim = megan.GetComponent<Animator>();
+            }
+            else
+            {
+                megan.active=false;
+                outro.active=true;
+                anim = outro.GetComponent<Animator>();
+            }
+        }
         if(view.IsMine)
         {
                     if(IsRunning)
