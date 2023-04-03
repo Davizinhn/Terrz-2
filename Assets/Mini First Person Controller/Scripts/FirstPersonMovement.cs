@@ -30,6 +30,8 @@ public class FirstPersonMovement : MonoBehaviour
     public PhotonView view;
     public SkinnedMeshRenderer[] personaMesh;
     public GameObject[] others;
+    public LayerMask collisionLayer;
+    public float distance = 2f;
 
     void Awake()
     {
@@ -83,7 +85,10 @@ public class FirstPersonMovement : MonoBehaviour
             anim.SetBool("isRunning", IsRunning);
             anim.SetBool("isGrounded", ground.isGrounded);
             // Apply movement.
-            rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+                        RaycastHit hit;
+            Ray ray = new Ray(this.transform.position, Camera.main.transform.forward);
+
+                rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
 
             // Apply headbobbing.
             if(ground.isGrounded)

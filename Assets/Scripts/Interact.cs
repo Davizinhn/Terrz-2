@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class Interact : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Interact : MonoBehaviour
     public float distance = 2f;
 
     PhotonView view;
+    public TMP_Text cue;
 
     void Start()
     {
@@ -29,12 +31,33 @@ public class Interact : MonoBehaviour
                 {
                     if(hit.transform.gameObject.GetComponent<Door>().canInteract)
                     {
+                        cue.text="Door";
                         if(Input.GetKeyDown(KeyCode.E))
                         {
                             hit.transform.gameObject.GetComponent<Door>().Mudar();
                         }
                     }
+                    else
+                    {
+                        cue.text="";
+                    }
                 }
+                else if (hit.transform.gameObject.tag == "Generator")
+                {
+                    cue.text="Generator";
+                    if(Input.GetKeyDown(KeyCode.E))
+                    {
+                            hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                    }
+                }
+                else
+                {
+                    cue.text="";
+                }
+            }
+            else
+            {
+                cue.text="";
             }
         }
     }
