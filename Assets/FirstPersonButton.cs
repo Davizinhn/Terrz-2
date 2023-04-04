@@ -33,9 +33,23 @@ public class FirstPersonButton : MonoBehaviour
         isLocked = true;
     }
 
-    public void Pressing()
+    public void Pressing(bool sopramim = false)
     {
-        this.gameObject.GetComponent<PhotonView>().RPC("PressRPC", RpcTarget.AllBuffered);
+        if(sopramim)
+        {
+            if(canPress)
+            {
+                isPressing=true;
+                this.gameObject.GetComponent<AudioSource>().Play();
+                this.gameObject.GetComponent<Animator>().SetTrigger("Press");
+                eventToExecute.Invoke();
+                StartCoroutine(Pressing1());
+            }
+        }
+        else
+        {
+            this.gameObject.GetComponent<PhotonView>().RPC("PressRPC", RpcTarget.AllBuffered);
+        }
     }
 
 

@@ -6,9 +6,13 @@ using Photon.Pun;
 public class Generator : MonoBehaviour
 {
     public bool Ativada;
+    public bool Quebrado;
+    int quebradoPoints = 0;
+    public GameObject quebradoStuff;
 
     public void Update()
     {
+        quebradoStuff.SetActive(Quebrado);
         this.gameObject.GetComponent<Animator>().SetBool("Ativado", Ativada);
         if(Ativada)
         {
@@ -18,16 +22,49 @@ public class Generator : MonoBehaviour
         {
             this.gameObject.GetComponent<AudioSource>().volume=0f;
         }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            this.gameObject.GetComponent<PhotonView>().RPC("Quebrar", RpcTarget.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void Quebrar()
+    {
+        Quebrado=true;
+        Ativada=false;
     }
 
     public void Mudar()
     {
-        this.gameObject.GetComponent<PhotonView>().RPC("Trocar", RpcTarget.AllBuffered);
+        if(!Quebrado)
+        {
+            this.gameObject.GetComponent<PhotonView>().RPC("Trocar", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            this.gameObject.GetComponent<PhotonView>().RPC("Consertar", RpcTarget.AllBuffered);
+        }
     }
 
     [PunRPC]
     public void Trocar()
     {
         Ativada = !Ativada;
+    }
+
+    [PunRPC]
+    public void Consertar()
+    {
+        if(Quebrado)
+        {
+            quebradoPoints++;
+            if(quebradoPoints>=5)
+            {
+                quebradoPoints=0;
+                Quebrado=false;
+            }
+        }
     }
 }

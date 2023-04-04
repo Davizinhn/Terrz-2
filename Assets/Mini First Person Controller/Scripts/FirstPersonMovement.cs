@@ -19,6 +19,7 @@ public class FirstPersonMovement : MonoBehaviour
     public float midpoint = 2.0f;
 
     public Animator anim;
+    public Animator anim1;
 
     Rigidbody rigidbody;
     Camera camera;
@@ -33,12 +34,17 @@ public class FirstPersonMovement : MonoBehaviour
     public LayerMask collisionLayer;
     public float distance = 2f;
     public string Persona;
+    string personaOther;
     public GameObject megan, outro;
+    bool hi;
+    public bool Morto;
+    public bool Morto1;
 
     [PunRPC]
     public void SetChar(string persona)
     {
         Persona = persona;
+        personaOther = persona;
     }
 
     void Awake()
@@ -50,14 +56,6 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 a.enabled=false;
             }
-            if(Persona=="megan")
-            {
-                anim = megan.GetComponent<Animator>();
-            }
-            else
-            {
-                anim = outro.GetComponent<Animator>();
-            }
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
             camera = GetComponentInChildren<Camera>();
@@ -68,14 +66,13 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 outro.active=false;
                 megan.active=true;
-                anim = megan.GetComponent<Animator>();
             }
             else
             {
                 megan.active=false;
                 outro.active=true;
-                anim = outro.GetComponent<Animator>();
             }
+            Att();
             foreach(GameObject a in others)
             {
                 Destroy(a);
@@ -84,36 +81,39 @@ public class FirstPersonMovement : MonoBehaviour
 
         
     }
-
-    void FixedUpdate()
+    int bibi;
+    public void Att()
     {
-        if(view.IsMine)
+        if(Persona=="megan")
         {
-            if(Persona=="megan")
-            {
-                anim = megan.GetComponent<Animator>();
-            }
-            else
-            {
-                anim = outro.GetComponent<Animator>();
-            }
-            // Get the rigidbody on this.
-            rigidbody = GetComponent<Rigidbody>();
-            camera = GetComponentInChildren<Camera>();
+            Persona="leonard";
         }
         else
         {
+            Persona="megan";
+        }
+        bibi++;
+        if(bibi>2)
+        {
+            Persona =personaOther;
+            hi=true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if(!view.IsMine)
+        {
+            if(!hi){Att();}
             if(Persona=="megan")
             {
                 outro.active=false;
                 megan.active=true;
-                anim = megan.GetComponent<Animator>();
             }
             else
             {
                 megan.active=false;
                 outro.active=true;
-                anim = outro.GetComponent<Animator>();
             }
         }
         if(view.IsMine)
@@ -138,10 +138,20 @@ public class FirstPersonMovement : MonoBehaviour
 
             // Get targetVelocity from input.
             Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
-            anim.SetFloat("Vertical", targetVelocity.y);
-            anim.SetFloat("Horizontal", targetVelocity.x);
-            anim.SetBool("isRunning", IsRunning);
-            anim.SetBool("isGrounded", ground.isGrounded);
+            if(Persona=="leonard")
+            {
+                anim.SetFloat("Vertical", targetVelocity.y);
+                anim.SetFloat("Horizontal", targetVelocity.x);
+                anim.SetBool("isRunning", IsRunning);
+                anim.SetBool("isGrounded", ground.isGrounded);
+            }
+            else if(Persona=="megan")
+            {
+                anim1.SetFloat("Vertical", targetVelocity.y);
+                anim1.SetFloat("Horizontal", targetVelocity.x);
+                anim1.SetBool("isRunning", IsRunning);
+                anim1.SetBool("isGrounded", ground.isGrounded);
+            }
             // Apply movement.
                         RaycastHit hit;
             Ray ray = new Ray(this.transform.position, Camera.main.transform.forward);

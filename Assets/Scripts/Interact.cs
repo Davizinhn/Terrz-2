@@ -63,7 +63,7 @@ public class Interact : MonoBehaviour
                     cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
                     {
-                            hit.transform.gameObject.GetComponent<FirstPersonButton>().Pressing();
+                            hit.transform.gameObject.GetComponent<FirstPersonButton>().Pressing(true);
                     }
                 }
                 else
