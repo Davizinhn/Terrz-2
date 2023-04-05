@@ -7,7 +7,7 @@ public class Generator : MonoBehaviour
 {
     public bool Ativada;
     public bool Quebrado;
-    int quebradoPoints = 0;
+    public int quebradoPoints = 0;
     public GameObject quebradoStuff;
 
     public void Update()
@@ -22,11 +22,11 @@ public class Generator : MonoBehaviour
         {
             this.gameObject.GetComponent<AudioSource>().volume=0f;
         }
+    }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
+    public void QuebrarNormie()
+    {
             this.gameObject.GetComponent<PhotonView>().RPC("Quebrar", RpcTarget.AllBuffered);
-        }
     }
 
     [PunRPC]

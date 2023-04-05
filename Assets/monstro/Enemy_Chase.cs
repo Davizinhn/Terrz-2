@@ -20,11 +20,52 @@ public class Enemy_Chase : MonoBehaviour
     public Vector3 ultimaLocalizacao;
     public bool andando;
     bool esperando=false;
+    bool punching = false;
+    public GameObject PunchCol;
+    public AudioSource audioC;
+    public AudioClip roarSound;
+    public AudioClip punchSound;
+    int randGen;
 
     void Start(){
         randomPoints = GameObject.FindGameObjectsWithTag("RandPoints");
         visions = GameObject.FindGameObjectsWithTag("MonsterVision");
         ChooseRandomPath();
+    }
+
+    public void OnTriggerEnter(Collider collision)
+    {
+        randGen = Random.RandomRange(0,5);
+    }
+
+    public void OnTriggerStay(Collider collision)
+    {
+        if(collision.gameObject.tag=="Generator" && !collision.gameObject.GetComponent<Generator>().Quebrado && !punching && !Seguindo && collision.gameObject.GetComponent<Generator>().Ativada && randGen==0 && !andando)
+        {
+            Punch();
+            this.gameObject.transform.LookAt(collision.gameObject.transform);
+        }
+    }
+
+    public void Punch()
+    {
+        if(!punching && !andando)
+        {
+            anim.SetTrigger("Punch");
+            punching = true;
+        }
+    }
+
+    public void PunchColActive()
+    {
+        audioC.PlayOneShot(punchSound);
+        PunchCol.active=true;
+    }
+
+    public void NoPunch()
+    {
+        PunchCol.active=false;
+        punching=false;
     }
 
     void Update () { 
@@ -39,7 +80,7 @@ public class Enemy_Chase : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, collisionLayer))
             {
                 Debug.DrawLine(vision.transform.position, hit.point, Color.green, 0.005f);
-                if(hit.transform.gameObject.tag=="Player")
+                if(hit.transform.gameObject.tag=="Player" && !Seguindo)
                 {
                     StopCoroutine(Verify());
                     StartCoroutine(Verify());
@@ -49,12 +90,12 @@ public class Enemy_Chase : MonoBehaviour
             }
         }
 
-        if(seguindoEsse!=null)
+        if(seguindoEsse!=null && !punching)
         {
             agent.SetDestination(seguindoEsse.position);
             ultimaLocalizacao = seguindoEsse.transform.position;
         }
-        else
+        else if(seguindoEsse==null && !punching)
         {
             if(ultimaLocalizacao!=new Vector3(0, 0, 0) && agent.destination!=ultimaLocalizacao && agent.remainingDistance==0)
             {
@@ -74,11 +115,11 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=6f;
+            agent.speed=4.5f;
         }
         else
         {
-            agent.speed=3.5f;
+            agent.speed=3f;
         }
         anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
         anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
@@ -92,23 +133,63 @@ public class Enemy_Chase : MonoBehaviour
 
     IEnumerator Esperar()
     {
-        esperando=true;
-        yield return new WaitForSeconds(Random.RandomRange(1.5f, 4.5f));
-        if(!Seguindo)
+        int a = Random.RandomRange(0,6);
+        if(a==0)
         {
-            ultimaLocalizacao = new Vector3(0, 0, 0);
-            ChooseRandomPath();
+            if(!punching)
+            {
+            Roar();
+            }
         }
-        esperando=false;
+        esperando=true;
+        if(a==0)
+        {
+            yield return new WaitForSeconds(Random.RandomRange(6f, 8f));
+            if(!Seguindo && !punching)
+            {
+                ultimaLocalizacao = new Vector3(0, 0, 0);
+                ChooseRandomPath();
+            }
+            esperando=false;
+        }
+        else
+        {
+            yield return new WaitForSeconds(Random.RandomRange(3.5f, 6.5f));
+            if(!Seguindo && !punching)
+            {
+                ultimaLocalizacao = new Vector3(0, 0, 0);
+                ChooseRandomPath();
+            }
+            esperando=false;
+        }
         yield break;
     }
 
     IEnumerator Verify()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.5f);
         seguindoEsse=null;
         Seguindo = false;
         yield break;
+    }
+
+    public void Roar()
+    {
+        if(!punching)
+        {
+            punching=true;
+            anim.SetTrigger("Roar");
+        }
+    }
+
+    public void StopRoar()
+    {
+        punching=false;
+    }
+
+    public void PlaySoundRoar()
+    {
+                    audioC.PlayOneShot(roarSound);
     }
 
     

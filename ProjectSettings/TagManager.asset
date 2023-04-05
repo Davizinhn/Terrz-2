@@ -11,6 +11,7 @@ TagManager:
   - RandPoints
   - Monster
   - MonsterVision
+  - PunchCol
   layers:
   - Default
   - TransparentFX

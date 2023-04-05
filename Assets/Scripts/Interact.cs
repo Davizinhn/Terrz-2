@@ -10,6 +10,10 @@ public class Interact : MonoBehaviour
     public LayerMask collisionLayer;
     public float distance = 2f;
 
+    public GameObject QuebradoStuff;
+        public TMP_Text quebradoText;
+    public CollisionCheckArrow arrow;
+
     PhotonView view;
     public TMP_Text cue;
 
@@ -24,11 +28,10 @@ public class Interact : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
-
             if (Physics.Raycast(ray, out hit, distance, collisionLayer))
             {
                 if (hit.transform.gameObject.tag == "Door")
-                {
+                {            QuebradoStuff.active=false;
                     if(hit.transform.gameObject.GetComponent<Door>().canInteract)
                     {
                         cue.text="Door";
@@ -45,13 +48,22 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "Generator")
                 {
                     cue.text="Generator";
-                    if(Input.GetKeyDown(KeyCode.E))
+                    if(Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active)
                     {
                             hit.transform.gameObject.GetComponent<Generator>().Mudar();
                     }
+                    else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && arrow.Pode)
+                    {
+                            hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                    }
+                    if(QuebradoStuff.active)
+                    {
+                        quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString()+"/5";
+                    }
+                    QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado;
                 }
                 else if (hit.transform.gameObject.tag == "Button" && PhotonNetwork.IsMasterClient)
-                {
+                {            QuebradoStuff.active=false;
                     cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
                     {
@@ -59,7 +71,7 @@ public class Interact : MonoBehaviour
                     }
                 }
                 else if (hit.transform.gameObject.tag == "OpenButton")
-                {
+                {            QuebradoStuff.active=false;
                     cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
                     {
@@ -68,11 +80,13 @@ public class Interact : MonoBehaviour
                 }
                 else
                 {
+                                QuebradoStuff.active=false;
                     cue.text="";
                 }
             }
             else
             {
+                            QuebradoStuff.active=false;
                 cue.text="";
             }
         }
