@@ -20,16 +20,24 @@ public class Door : MonoBehaviour
         view.RPC("MudarRPC", RpcTarget.AllBuffered);
     }
 
-    [PunRPC]
-    public void MudarRPC()
+    public void MudarEu()
     {
         if(canInteract)
         {
+        canInteract=false;
+        StartCoroutine(InteractVoltar());
+        isOpen=!isOpen;
+        PlayAudio(isOpen);
+        }
+    }
+
+    [PunRPC]
+    public void MudarRPC()
+    {
             canInteract=false;
             StartCoroutine(InteractVoltar());
             isOpen=!isOpen;
             PlayAudio(isOpen);
-        }
     }
 
     public void PlayAudio(bool audio)

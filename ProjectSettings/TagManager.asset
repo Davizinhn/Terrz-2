@@ -8,6 +8,9 @@ TagManager:
   - Generator
   - Button
   - OpenButton
+  - RandPoints
+  - Monster
+  - MonsterVision
   layers:
   - Default
   - TransparentFX
@@ -15,9 +18,9 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - NonMonster
+  - Monster
+  - OnlyMonster
   - 
   - 
   - 
