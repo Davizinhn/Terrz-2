@@ -30,7 +30,7 @@ public class Interact : MonoBehaviour
             Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
             if (Physics.Raycast(ray, out hit, distance, collisionLayer) && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
             {
-                if (hit.transform.gameObject.tag == "Door")
+                if (hit.transform.gameObject.tag == "Door" && !hit.transform.gameObject.GetComponent<Door>().isMetal)
                 {            QuebradoStuff.active=false;
                     if(hit.transform.gameObject.GetComponent<Door>().canInteract)
                     {
@@ -48,7 +48,7 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "Generator")
                 {
                     cue.text="Generator";
-                    if(Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active)
+                    if(Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
                     {
                             hit.transform.gameObject.GetComponent<Generator>().Mudar();
                     }

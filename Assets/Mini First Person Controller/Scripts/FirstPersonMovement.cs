@@ -221,9 +221,9 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
-    public void Morrer()
+    public void Morrer(bool morreu = true)
     {
-        if(!isDead)
+        if(!isDead && morreu)
         {
             if(Persona=="megan")
             {
@@ -241,7 +241,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";
-            this.gameObject.GetComponent<Rigidbody>().isKinematic=true;
+            this.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
             isDead=true;
             view.RPC("MorrerRPC", RpcTarget.AllBuffered);
             if(Persona=="leonard")
@@ -253,13 +253,27 @@ public class FirstPersonMovement : MonoBehaviour
                 anim1.SetBool("isDead", true);
             }
         }
+        else if(!isDead && !morreu)
+        {
+            GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
+            isDead=true;
+            view.RPC("MorrerRPC", RpcTarget.AllBuffered);
+            view.RPC("DestroyThis", RpcTarget.AllBuffered);
+        }
     }
 
     [PunRPC]
     public void MorrerRPC()
     {
+        Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag="PlayerMorto";
         isDead=true;
+    }
+
+    [PunRPC]
+    public void DestroyThis()
+    {
+        Destroy(this.gameObject);
     }
 }

@@ -6,7 +6,7 @@ public class PunchCol : MonoBehaviour
 {
     public void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.tag=="Generator" && !col.gameObject.GetComponent<Generator>().Quebrado)
+        if(col.gameObject.tag=="Generator" && !col.gameObject.GetComponent<Generator>().Quebrado && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
         {
             col.gameObject.GetComponent<Generator>().QuebrarNormie();
         }

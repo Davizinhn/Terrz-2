@@ -400,7 +400,7 @@ MonoBehaviour:
   visions: []
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 255
   Seguindo: 0
   seguindoEsse: {fileID: 0}
   anim: {fileID: 104637349916682982}

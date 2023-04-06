@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
 {
     public bool isOpen;
     public bool canInteract;
+    public bool isMetal;
     public AudioClip abrir, fechar;
     public PhotonView view;
 

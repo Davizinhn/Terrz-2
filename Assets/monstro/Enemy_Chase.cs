@@ -42,7 +42,7 @@ public class Enemy_Chase : MonoBehaviour
 
     public void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.tag=="Generator" && !collision.gameObject.GetComponent<Generator>().Quebrado && !punching && !Seguindo && collision.gameObject.GetComponent<Generator>().Ativada && randGen==0 && !andando)
+        if(collision.gameObject.tag=="Generator" && !collision.gameObject.GetComponent<Generator>().Quebrado && !punching && !Seguindo && collision.gameObject.GetComponent<Generator>().Ativada && randGen==0 && !andando && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
         {
             Punch();
             this.gameObject.transform.LookAt(collision.gameObject.transform);

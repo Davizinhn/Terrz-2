@@ -26,7 +26,10 @@ public class Generator : MonoBehaviour
 
     public void QuebrarNormie()
     {
+        if(!GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
+        {
             this.gameObject.GetComponent<PhotonView>().RPC("Quebrar", RpcTarget.AllBuffered);
+        }
     }
 
     [PunRPC]

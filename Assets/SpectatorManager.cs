@@ -26,7 +26,7 @@ public class SpectatorManager : MonoBehaviour
 
     void Update()
     {
-        if(playersMortos==players.Length-1){GameObject.Find("GameManager").GetComponent<ManageGame>().AcabarJogoo();}
+        if(playersMortos==players.Length-1 || players.Length==1){GameObject.Find("GameManager").GetComponent<ManageGame>().AcabarJogoo();}
         players = GameObject.FindObjectsOfType<SpectatorMePls>();
 
         if (Spectator)
