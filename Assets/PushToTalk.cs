@@ -28,7 +28,7 @@ public class PushToTalk : MonoBehaviourPun, IPunObservable
     {
         if (Input.GetKeyDown(PushButton))
         {
-            if (view.IsMine)
+            if (view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
             {
                 photonView.RPC("ActiveMic", RpcTarget.All);
                 VoiceRecorder.TransmitEnabled = true;
@@ -36,14 +36,20 @@ public class PushToTalk : MonoBehaviourPun, IPunObservable
         }
         else if (Input.GetKeyUp(PushButton))
         {
-            if (view.IsMine)
+            if (view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
             {
                 photonView.RPC("DeactiveMic", RpcTarget.All);
                 VoiceRecorder.TransmitEnabled = false;
             }
         }
+
+        if(this.gameObject.GetComponent<FirstPersonMovement>().isDead)
+        {
+                photonView.RPC("DeactiveMic", RpcTarget.All);
+                VoiceRecorder.TransmitEnabled = false;
+        }
         
-        if(view.IsMine)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
         {
             Mic.GetComponent<SpriteRenderer>().enabled=false;
             MicPlayer.active = VoiceRecorder.TransmitEnabled;

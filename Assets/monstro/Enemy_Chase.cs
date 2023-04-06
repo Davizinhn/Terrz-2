@@ -28,9 +28,11 @@ public class Enemy_Chase : MonoBehaviour
     int randGen;
 
     void Start(){
+                if(PhotonNetwork.IsMasterClient){
         randomPoints = GameObject.FindGameObjectsWithTag("RandPoints");
         visions = GameObject.FindGameObjectsWithTag("MonsterVision");
         ChooseRandomPath();
+                }
     }
 
     public void OnTriggerEnter(Collider collision)
@@ -47,12 +49,18 @@ public class Enemy_Chase : MonoBehaviour
         }
     }
 
-    public void Punch()
+    public void Punch(bool parar=false)
     {
-        if(!punching && !andando)
+        if(!punching && !andando && !parar)
         {
             anim.SetTrigger("Punch");
             punching = true;
+        }
+        else if(!punching && parar)
+        {
+            anim.SetTrigger("Punch");
+            Seguindo=false;
+            andando=false;
         }
     }
 
@@ -69,6 +77,9 @@ public class Enemy_Chase : MonoBehaviour
     }
 
     void Update () { 
+        if(PhotonNetwork.IsMasterClient)
+        {
+
         foreach (GameObject vision in visions)
         {
             Quaternion rotation = vision.transform.rotation;
@@ -88,6 +99,12 @@ public class Enemy_Chase : MonoBehaviour
                     seguindoEsse = hit.transform;
                 }
             }
+        }
+
+        if(Seguindo && agent.remainingDistance<2)
+        {
+            Punch(true);
+            this.gameObject.transform.LookAt(seguindoEsse);
         }
 
         if(seguindoEsse!=null && !punching)
@@ -115,7 +132,7 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=4.5f;
+            agent.speed=5f;
         }
         else
         {
@@ -123,6 +140,7 @@ public class Enemy_Chase : MonoBehaviour
         }
         anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
         anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
+        }
     }
 
     public void ChooseRandomPath()
@@ -179,7 +197,15 @@ public class Enemy_Chase : MonoBehaviour
         {
             punching=true;
             anim.SetTrigger("Roar");
+            this.gameObject.GetComponent<PhotonView>().RPC("RoarOthers", RpcTarget.OthersBuffered);
         }
+    }
+
+    [PunRPC]
+    public void RoarOthers()
+    {
+            punching=true;
+            anim.SetTrigger("Roar");
     }
 
     public void StopRoar()

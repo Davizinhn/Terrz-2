@@ -10,5 +10,9 @@ public class PunchCol : MonoBehaviour
         {
             col.gameObject.GetComponent<Generator>().QuebrarNormie();
         }
+        if(col.gameObject.tag=="Player" && !col.gameObject.GetComponent<FirstPersonMovement>().isDead)
+        {
+            col.gameObject.GetComponent<FirstPersonMovement>().Morrer();
+        }
     }
 }

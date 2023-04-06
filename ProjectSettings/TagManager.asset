@@ -12,6 +12,8 @@ TagManager:
   - Monster
   - MonsterVision
   - PunchCol
+  - PlayerMorto
+  - SpectatorCam
   layers:
   - Default
   - TransparentFX

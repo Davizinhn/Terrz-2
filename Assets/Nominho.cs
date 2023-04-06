@@ -9,6 +9,9 @@ public class Nominho : MonoBehaviour
 
     void Update()
     {
-        this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(Camera.main.transform.position, this.gameObject.transform.position) < maxDistance);
+        if(Camera.main != null)
+        {
+            this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(Camera.main.transform.position, this.gameObject.transform.position) < maxDistance);
+        }
     }
 }

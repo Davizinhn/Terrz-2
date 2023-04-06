@@ -33,7 +33,7 @@ public class Jump : MonoBehaviour
 
     void LateUpdate()
     {
-                if(view.IsMine)
+                if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
         {
         // Jump when the Jump button is pressed and we are on the ground.
         if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))

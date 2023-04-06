@@ -37,8 +37,7 @@ public class FirstPersonMovement : MonoBehaviour
     string personaOther;
     public GameObject megan, outro;
     bool hi;
-    public bool Morto;
-    public bool Morto1;
+    public bool isDead;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -102,7 +101,9 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!view.IsMine)
+        if(!isDead)
+        {
+             if(!view.IsMine)
         {
             if(!hi){Att();}
             if(Persona=="megan")
@@ -196,5 +197,61 @@ public class FirstPersonMovement : MonoBehaviour
             }
             }
         }
+        }
+        else
+        {
+            if(Persona=="leonard")
+            {
+                anim.SetBool("isDead", true);
+                anim.SetBool("isGrounded", true);
+            }
+            else if(Persona=="megan")
+            {
+                anim1.SetBool("isDead", true);
+                anim1.SetBool("isGrounded", true);
+            }
+        }
+    }
+
+    public void Morrer()
+    {
+        if(!isDead)
+        {
+            if(Persona=="megan")
+            {
+                outro.active=false;
+                megan.active=true;
+            }
+            else
+            {
+                megan.active=false;
+                outro.active=true;
+            }
+            foreach(SkinnedMeshRenderer a in personaMesh)
+            {
+                a.enabled=true;
+            }
+            GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
+            this.gameObject.tag="PlayerMorto";
+            this.gameObject.GetComponent<Rigidbody>().isKinematic=true;
+            isDead=true;
+            view.RPC("MorrerRPC", RpcTarget.AllBuffered);
+            if(Persona=="leonard")
+            {
+                anim.SetBool("isDead", true);
+            }
+            else if(Persona=="megan")
+            {
+                anim1.SetBool("isDead", true);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void MorrerRPC()
+    {
+        GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
+        this.gameObject.tag="PlayerMorto";
+        isDead=true;
     }
 }

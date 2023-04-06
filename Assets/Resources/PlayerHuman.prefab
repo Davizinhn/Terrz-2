@@ -797,6 +797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera1: {fileID: 0}
+  camera2: {fileID: 0}
 --- !u!1 &759246340136065767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2497,6 +2498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera1: {fileID: 0}
+  camera2: {fileID: 0}
 --- !u!1 &2901777746635806823
 GameObject:
   m_ObjectHideFlags: 0
@@ -6397,6 +6399,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: isGrounded
+  - Type: 4
+    SynchronizeType: 2
+    Name: isDead
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
@@ -6960,6 +6965,7 @@ GameObject:
   - component: {fileID: 2769335304900511636}
   - component: {fileID: 1853631826958909035}
   - component: {fileID: 2542468802653082920}
+  - component: {fileID: 7731187224848311383}
   m_Layer: 3
   m_Name: PlayerHuman
   m_TagString: Player
@@ -7038,7 +7044,7 @@ MonoBehaviour:
   runningKey: 304
   bobbingSpeed: 0.1
   bobbingAmount: 0.045
-  midpoint: 2.173
+  midpoint: 2.126
   anim: {fileID: 2802297574790990220}
   anim1: {fileID: 4763541302005967848}
   view: {fileID: 6413430603566427437}
@@ -7065,8 +7071,7 @@ MonoBehaviour:
   Persona: leonard
   megan: {fileID: 7552627605801408167}
   outro: {fileID: 8734751218067593565}
-  Morto: 0
-  Morto1: 0
+  isDead: 0
 --- !u!114 &8468278693173653293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7082,7 +7087,7 @@ MonoBehaviour:
   thisCamera: {fileID: 8370940058182751266}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 255
   distance: 2
   QuebradoStuff: {fileID: 199932824687531342}
   quebradoText: {fileID: 731600078689806642}
@@ -7402,6 +7407,18 @@ AudioDistortionFilter:
   m_GameObject: {fileID: 8387210475777761592}
   m_Enabled: 1
   m_DistortionLevel: 0.75
+--- !u!114 &7731187224848311383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387210475777761592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1169d5b7efa994a4789cb745bf863fa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8387529646035333026
 GameObject:
   m_ObjectHideFlags: 0
@@ -8033,6 +8050,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: isGrounded
+  - Type: 4
+    SynchronizeType: 2
+    Name: isDead
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

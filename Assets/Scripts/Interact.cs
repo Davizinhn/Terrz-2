@@ -24,11 +24,11 @@ public class Interact : MonoBehaviour
 
     public void Update()
     {
-        if(view.IsMine)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
         {
             RaycastHit hit;
             Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
-            if (Physics.Raycast(ray, out hit, distance, collisionLayer))
+            if (Physics.Raycast(ray, out hit, distance, collisionLayer) && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
             {
                 if (hit.transform.gameObject.tag == "Door")
                 {            QuebradoStuff.active=false;
