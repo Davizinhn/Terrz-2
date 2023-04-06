@@ -50,6 +50,13 @@ public class FirstPersonMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
+            foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
+            {
+                if(player.view.IsMine && player.gameObject != this.gameObject)
+                {
+                    Destroy(player.gameObject);
+                }
+            }
             view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
@@ -77,6 +84,7 @@ public class FirstPersonMovement : MonoBehaviour
                 Destroy(a);
             }
         }
+        
 
         
     }

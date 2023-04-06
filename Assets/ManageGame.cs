@@ -29,6 +29,7 @@ public class ManageGame : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         PhotonNetwork.LoadLevel("Lobby");
+        PhotonNetwork.CurrentRoom.IsOpen=true;
         SceneManager.UnloadSceneAsync("Teste");
         yield break;
     }
