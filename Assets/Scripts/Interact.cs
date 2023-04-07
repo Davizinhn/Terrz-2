@@ -13,13 +13,17 @@ public class Interact : MonoBehaviour
     public GameObject QuebradoStuff;
         public TMP_Text quebradoText;
     public CollisionCheckArrow arrow;
+    public RectTransform Coiso;
 
     PhotonView view;
     public TMP_Text cue;
+    public AudioSource tick;
+        Vector3 hahi;
 
     void Start()
     {
         view = this.gameObject.GetComponent<PhotonView>();
+        Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
     }
 
     public void Update()
@@ -55,6 +59,13 @@ public class Interact : MonoBehaviour
                     else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && arrow.Pode)
                     {
                             hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                            Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
+                    }
+                    else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && !arrow.Pode)
+                    {
+                        tick.Play();
+                        hahi = this.gameObject.transform.position;
+                        view.RPC("Atrair", RpcTarget.MasterClient, this.gameObject.transform.position);
                     }
                     if(QuebradoStuff.active)
                     {
@@ -90,5 +101,11 @@ public class Interact : MonoBehaviour
                 cue.text="";
             }
         }
+    }
+
+    [PunRPC]
+    public void Atrair(Vector3 ha)
+    {
+        GameObject.FindObjectOfType<Enemy_Chase>().GeradorOuvir(hahi);
     }
 }

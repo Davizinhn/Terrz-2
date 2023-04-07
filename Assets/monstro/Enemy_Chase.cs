@@ -64,6 +64,14 @@ public class Enemy_Chase : MonoBehaviour
         }
     }
 
+    public void GeradorOuvir(Vector3 posicao)
+    {
+        if(!Seguindo)
+        {
+            agent.SetDestination(posicao);
+        }
+    }
+
     public void PunchColActive()
     {
         audioC.PlayOneShot(punchSound);

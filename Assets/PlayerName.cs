@@ -9,9 +9,36 @@ public class PlayerName : MonoBehaviour
 {
     public TMP_InputField nameInpunField;
     public TMP_Dropdown dropdown;
+
+    public string curPersona;
+    public SkinnedMeshRenderer[] leonard;
+    public SkinnedMeshRenderer[] megan;
     // Start is called before the first frame update
     void Start()
     {
+                curPersona =  PlayerPrefs.GetString("curPersona");
+        if(curPersona=="megan")
+        {
+            foreach (SkinnedMeshRenderer a in megan)
+            {
+                a.enabled=true;
+            }
+            foreach (SkinnedMeshRenderer a in leonard)
+            {
+                a.enabled=false;
+            }
+        }
+        else
+        {
+            foreach (SkinnedMeshRenderer a in megan)
+            {
+                a.enabled=false;
+            }
+            foreach (SkinnedMeshRenderer a in leonard)
+            {
+                a.enabled=true;
+            }
+        }
         if (!PlayerPrefs.HasKey("curPersona"))
         {
             if(dropdown.value==0){
@@ -41,6 +68,10 @@ public class PlayerName : MonoBehaviour
             nameInpunField.text = PlayerName;
         }
     }
+
+    public void Update()
+    {
+    }
     public void PlacePlayerName()
     {
         string PlayerNickname = nameInpunField.text;
@@ -55,6 +86,29 @@ public class PlayerName : MonoBehaviour
         }else
         {
                     PlayerPrefs.SetString("curPersona", "megan");
+        }
+        curPersona =  PlayerPrefs.GetString("curPersona");
+        if(curPersona=="megan")
+        {
+            foreach (SkinnedMeshRenderer a in megan)
+            {
+                a.enabled=true;
+            }
+            foreach (SkinnedMeshRenderer a in leonard)
+            {
+                a.enabled=false;
+            }
+        }
+        else
+        {
+            foreach (SkinnedMeshRenderer a in megan)
+            {
+                a.enabled=false;
+            }
+            foreach (SkinnedMeshRenderer a in leonard)
+            {
+                a.enabled=true;
+            }
         }
     }
 }
