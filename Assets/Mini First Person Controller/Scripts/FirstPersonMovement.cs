@@ -38,6 +38,7 @@ public class FirstPersonMovement : MonoBehaviour
     public GameObject megan, outro;
     bool hi;
     public bool isDead;
+    GameObject outroEu;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -46,15 +47,21 @@ public class FirstPersonMovement : MonoBehaviour
         personaOther = persona;
     }
 
+    public void DestroyAObject()
+    {
+        Destroy(outroEu);
+    }
+
     void Awake()
     {
         if(view.IsMine)
         {
             foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
-                if(player.view.IsMine && player.gameObject != this.gameObject)
+                if(player.gameObject.GetComponent<PhotonView>().IsMine && player.gameObject != this.gameObject)
                 {
-                    Destroy(player.gameObject);
+                    outroEu = player.gameObject;
+                    view.RPC("DestroyAObject", RpcTarget.AllBuffered);
                 }
             }
             view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));

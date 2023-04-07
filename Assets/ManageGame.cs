@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ManageGame : MonoBehaviour
 {
@@ -11,15 +12,34 @@ public class ManageGame : MonoBehaviour
     public bool isacabando;
     public bool foge;
         public Generator[] allGen;
+        public List<Generator> activeGenerators = new List<Generator>();
         public bool ativados;
+        public TMP_Text genText;
 
     public void Awake()
     {
                 allGen = FindObjectsOfType<Generator>();
+
     }
 
     public void Update()
     {
+        genText.text="Generators Left: \n"+activeGenerators.Count+"/"+allGen.Length.ToString();
+
+        // Limpa a lista de geradores ativos
+        activeGenerators.Clear();
+
+        // Procura por todos os objetos Generators na cena
+        Generator[] allGenerators = FindObjectsOfType<Generator>();
+
+        // Adiciona apenas os geradores ativados à lista de geradores ativos
+        foreach (Generator generator in allGenerators)
+        {
+            if (generator.Ativada)
+            {
+                activeGenerators.Add(generator);
+            }
+        }
         foreach(Generator a in allGen)
         {
             ativados=true;

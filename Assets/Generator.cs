@@ -63,7 +63,7 @@ public class Generator : MonoBehaviour
         if(Quebrado)
         {
             quebradoPoints++;
-            if(quebradoPoints>=5)
+            if(quebradoPoints>=30)
             {
                 quebradoPoints=0;
                 Quebrado=false;

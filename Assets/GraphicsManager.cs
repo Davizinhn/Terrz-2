@@ -16,14 +16,6 @@ public class GraphicsManager : MonoBehaviour
 
     public void OnAtualiazar()
     {
-        if(PlayerPrefs.GetInt("PostProcess") == 0)
-        {
-            campadrao.GetComponent<PostProcessVolume>().enabled=false;
-        }
-        else
-        {
-            campadrao.GetComponent<PostProcessVolume>().enabled=true;
-        }
         if (myDrop.value == 0)
         {
             PlayerPrefs.SetInt("PostProcess", 0);
@@ -44,6 +36,14 @@ public class GraphicsManager : MonoBehaviour
                         PlayerPrefs.SetInt("PostProcess", 1);
             QualitySettings.SetQualityLevel(5, true);
         }    
+        if(PlayerPrefs.GetInt("PostProcess") == 0)
+        {
+            campadrao.GetComponent<PostProcessVolume>().enabled=false;
+        }
+        else
+        {
+            campadrao.GetComponent<PostProcessVolume>().enabled=true;
+        }
     }
 
     void Start()

@@ -8219,9 +8219,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2088618338}
-        m_TargetAssemblyTypeName: CreateAndJoinRooms, Assembly-CSharp
-        m_MethodName: CreateRoom
+      - m_Target: {fileID: 2088618340}
+        m_TargetAssemblyTypeName: SairDoJogo, Assembly-CSharp
+        m_MethodName: PlayAudioA
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8231,9 +8231,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2088618340}
-        m_TargetAssemblyTypeName: SairDoJogo, Assembly-CSharp
-        m_MethodName: PlayAudioA
+      - m_Target: {fileID: 2088618338}
+        m_TargetAssemblyTypeName: CreateAndJoinRooms, Assembly-CSharp
+        m_MethodName: CreateRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11890,9 +11890,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2088618338}
-        m_TargetAssemblyTypeName: CreateAndJoinRooms, Assembly-CSharp
-        m_MethodName: JoinRoom
+      - m_Target: {fileID: 2088618340}
+        m_TargetAssemblyTypeName: SairDoJogo, Assembly-CSharp
+        m_MethodName: PlayAudioA
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11902,9 +11902,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2088618340}
-        m_TargetAssemblyTypeName: SairDoJogo, Assembly-CSharp
-        m_MethodName: PlayAudioA
+      - m_Target: {fileID: 2088618338}
+        m_TargetAssemblyTypeName: CreateAndJoinRooms, Assembly-CSharp
+        m_MethodName: JoinRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

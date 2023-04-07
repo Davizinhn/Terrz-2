@@ -31,6 +31,12 @@ public class LobbyManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         text.text="1";
         yield return new WaitForSeconds(1f);
+        this.gameObject.GetComponent<PhotonView>().RPC("Teleportar", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void Teleportar()
+    {
         PhotonNetwork.LoadLevel("Teste");
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }

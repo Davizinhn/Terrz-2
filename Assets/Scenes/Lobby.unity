@@ -3845,6 +3845,7 @@ GameObject:
   - component: {fileID: 1623402292}
   - component: {fileID: 1623402293}
   - component: {fileID: 1623402294}
+  - component: {fileID: 1623402295}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -3895,6 +3896,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 262506814}
+--- !u!114 &1623402295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623402291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1629323779
 PrefabInstance:
   m_ObjectHideFlags: 0
