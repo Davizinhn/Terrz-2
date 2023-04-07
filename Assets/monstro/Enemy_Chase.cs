@@ -37,7 +37,7 @@ public class Enemy_Chase : MonoBehaviour
 
     public void OnTriggerEnter(Collider collision)
     {
-        randGen = Random.RandomRange(0,5);
+        randGen = Random.RandomRange(0,2);
     }
 
     public void OnTriggerStay(Collider collision)
@@ -140,7 +140,7 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=5f;
+            agent.speed=6.5f;
         }
         else
         {

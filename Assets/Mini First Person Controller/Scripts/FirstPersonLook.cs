@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class FirstPersonLook : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class FirstPersonLook : MonoBehaviour
     void Start()
     {
         // Lock the mouse cursor to the game screen.
+        if(PlayerPrefs.GetInt("PostProcess") == 0)
+        {
+            this.gameObject.GetComponent<PostProcessVolume>().enabled=false;
+        }
         Cursor.lockState = CursorLockMode.Locked;
     }
 

@@ -8,11 +8,13 @@ using Unity.VisualScripting;
 using UnityEditor;
 using Cinemachine;
 using Random = UnityEngine.Random;
+using UnityEngine.Rendering.PostProcessing;
 
 public class SpectatorManager : MonoBehaviour
 {
     public bool Spectator = false;
     public GameObject SpectatorCam;
+    public GameObject campadrao;
     public CinemachineFreeLook spectatorCine;
     [SerializeField] public SpectatorMePls[] players;
     public GameObject currentPlayer;
@@ -22,6 +24,10 @@ public class SpectatorManager : MonoBehaviour
     private void Start()
     {
         currentPlayer = players[0].gameObject;
+                if(PlayerPrefs.GetInt("PostProcess") == 0)
+        {
+            campadrao.GetComponent<PostProcessVolume>().enabled=false;
+        }
     }
 
     void Update()
