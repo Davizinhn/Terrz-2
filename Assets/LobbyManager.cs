@@ -31,7 +31,7 @@ public class LobbyManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         text.text="1";
         yield return new WaitForSeconds(1f);
-        this.gameObject.GetComponent<PhotonView>().RPC("Teleportar", RpcTarget.AllBuffered);
+        this.gameObject.GetComponent<PhotonView>().RPC("Teleportar", RpcTarget.All);
     }
 
     [PunRPC]

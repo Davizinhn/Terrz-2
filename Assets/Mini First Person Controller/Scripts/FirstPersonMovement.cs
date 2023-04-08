@@ -230,6 +230,7 @@ public class FirstPersonMovement : MonoBehaviour
 
     public void Morrer(bool morreu = true)
     {
+        if(view.IsMine){
         if(!isDead && morreu)
         {
             if(Persona=="megan")
@@ -266,7 +267,7 @@ public class FirstPersonMovement : MonoBehaviour
             isDead=true;
             view.RPC("MorrerRPC", RpcTarget.AllBuffered);
             view.RPC("DestroyThis", RpcTarget.AllBuffered);
-        }
+        }}
     }
 
     [PunRPC]
@@ -275,7 +276,6 @@ public class FirstPersonMovement : MonoBehaviour
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag="PlayerMorto";
-        isDead=true;
     }
 
     [PunRPC]
