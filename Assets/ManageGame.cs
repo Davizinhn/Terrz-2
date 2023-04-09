@@ -66,11 +66,10 @@ public class ManageGame : MonoBehaviour
         if(!isacabando)
         {
             isacabando=true;
-            this.gameObject.GetComponent<PhotonView>().RPC("AcabarJogo", RpcTarget.AllBuffered);
+            AcabarJogo();
         }
     }
 
-    [PunRPC]
     public void AcabarJogo()
     {
         StartCoroutine(acabarGame());
@@ -80,9 +79,11 @@ public class ManageGame : MonoBehaviour
     IEnumerator acabarGame()
     {
         yield return new WaitForSeconds(3f);
+        if(SceneManager.GetActiveScene().name!="Lobby")
+        {
         PhotonNetwork.LoadLevel("Lobby");
         PhotonNetwork.CurrentRoom.IsOpen=true;
-        SceneManager.UnloadSceneAsync("Teste");
+        }
         yield break;
     }
 }

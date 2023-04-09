@@ -140,7 +140,7 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=7f;
+            agent.speed=5f;
         }
         else
         {

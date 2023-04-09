@@ -42,7 +42,10 @@ public class LobbyManager : MonoBehaviour
     [PunRPC]
     public void Teleportar()
     {
+        if(SceneManager.GetActiveScene().name!="Game")
+        {
         PhotonNetwork.LoadLevel("Game");
+        }
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
 }

@@ -301,6 +301,9 @@ MonoBehaviour:
   abrir: {fileID: 8300000, guid: 5370bd3021fff174b94d3a55fe0cb650, type: 3}
   fechar: {fileID: 8300000, guid: f11ec18f45d7f324fa1d2e65928a6c66, type: 3}
   view: {fileID: 2386260282572697275}
+  meshs:
+  - {fileID: 4273279332365463961}
+  - {fileID: 4273177443550629331}
 --- !u!114 &2386260282572697275
 MonoBehaviour:
   m_ObjectHideFlags: 0

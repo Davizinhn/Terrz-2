@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
     public bool isMetal;
     public AudioClip abrir, fechar;
     public PhotonView view;
+    public GameObject[] meshs;
 
     void Update()
     {
@@ -55,8 +56,12 @@ public class Door : MonoBehaviour
 
     IEnumerator InteractVoltar()
     {
-        yield return new WaitForSeconds(2f);
+        meshs[0].GetComponent<MeshCollider>().enabled=false;
+        meshs[1].GetComponent<MeshCollider>().enabled=false;
+        yield return new WaitForSeconds(1.015f);
         if(!canInteract){
+                    meshs[0].GetComponent<MeshCollider>().enabled=true;
+        meshs[1].GetComponent<MeshCollider>().enabled=true;
         canInteract=true;
         }
         yield break;

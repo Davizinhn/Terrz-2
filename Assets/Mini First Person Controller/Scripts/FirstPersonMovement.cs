@@ -56,14 +56,14 @@ public class FirstPersonMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
-            foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
+            /*foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
                 if(player.gameObject.GetComponent<PhotonView>().IsMine && player.gameObject != this.gameObject)
                 {
                     outroEu = player.gameObject;
-                    view.RPC("DestroyAObject", RpcTarget.AllBuffered);
+                    Destroy(outroEu);
                 }
-            }
+            }*/
             view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));
             foreach(SkinnedMeshRenderer a in personaMesh)
             {

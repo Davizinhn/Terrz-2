@@ -69,7 +69,7 @@ public class Interact : MonoBehaviour
                     }
                     if(QuebradoStuff.active)
                     {
-                        quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString()+"/30";
+                        quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString()+"/10";
                     }
                     QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado;
                 }
