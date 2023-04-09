@@ -38,6 +38,10 @@ public class SpectatorManager : MonoBehaviour
         if (Spectator)
         {
             SpectatorCam.SetActive(true);
+            if(PlayerPrefs.GetInt("PostProcess") == 0 && campadrao.GetComponent<PostProcessVolume>().enabled==true)
+            {
+                campadrao.GetComponent<PostProcessVolume>().enabled=false;
+            }
             Destroy(GameObject.FindWithTag("MainCamera"));
             Cursor.lockState = CursorLockMode.Locked;
 
