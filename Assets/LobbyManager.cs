@@ -9,6 +9,11 @@ public class LobbyManager : MonoBehaviour
 {
 
     public TMP_Text text;
+
+    public void Start()
+    {
+        GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Lobby", "");
+    }
     public void InitGame()
     {
         PhotonNetwork.CurrentRoom.IsOpen=false;
@@ -37,7 +42,7 @@ public class LobbyManager : MonoBehaviour
     [PunRPC]
     public void Teleportar()
     {
-        PhotonNetwork.LoadLevel("Teste");
+        PhotonNetwork.LoadLevel("Game");
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
 }

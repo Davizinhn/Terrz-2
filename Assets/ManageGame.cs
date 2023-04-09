@@ -22,6 +22,11 @@ public class ManageGame : MonoBehaviour
 
     }
 
+    public void Start()
+    {
+        GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Game", "");
+    }
+
     public void Update()
     {
         genText.text="Generators Left: \n"+activeGenerators.Count+"/"+allGen.Length.ToString();
