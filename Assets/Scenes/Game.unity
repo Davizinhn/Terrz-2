@@ -44442,6 +44442,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1753588703}
     m_Modifications:
+    - target: {fileID: 1353287649944691771, guid: 47f7e2f5bb2be9d4c8adfa908440ee76, type: 3}
+      propertyPath: outlineMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4351746241726605986, guid: 47f7e2f5bb2be9d4c8adfa908440ee76, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.000000001135712

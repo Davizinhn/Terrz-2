@@ -14364,6 +14364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ativada: 0
   Quebrado: 0
+  quebradoPoints: 0
   quebradoStuff: {fileID: 5767412676716603382}
 --- !u!114 &8055974368434813267
 MonoBehaviour:
