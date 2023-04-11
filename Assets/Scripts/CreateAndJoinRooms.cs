@@ -15,7 +15,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
-        GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Menu", "");
+        GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Menus", "");
     }
 
     public void CreateRoom()
