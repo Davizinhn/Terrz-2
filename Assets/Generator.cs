@@ -9,6 +9,7 @@ public class Generator : MonoBehaviour
     public bool Quebrado;
     public int quebradoPoints = 0;
     public GameObject quebradoStuff;
+    public ParticleSystem explosion;
 
     public void Update()
     {
@@ -30,6 +31,17 @@ public class Generator : MonoBehaviour
         {
             this.gameObject.GetComponent<PhotonView>().RPC("Quebrar", RpcTarget.AllBuffered);
         }
+    }
+
+    public void TocarExplosion()
+    {
+        this.gameObject.GetComponent<PhotonView>().RPC("Explosao", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void Explosao()
+    {
+        ParticleSystem exp = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
     }
 
     [PunRPC]

@@ -64,6 +64,7 @@ public class Interact : MonoBehaviour
                     else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && !arrow.Pode)
                     {
                         tick.Play();
+                        hit.transform.gameObject.GetComponent<Generator>().TocarExplosion();
                         hahi = this.gameObject.transform.position;
                         view.RPC("Atrair", RpcTarget.MasterClient, this.gameObject.transform.position);
                     }

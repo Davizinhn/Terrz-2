@@ -14366,6 +14366,7 @@ MonoBehaviour:
   Quebrado: 0
   quebradoPoints: 0
   quebradoStuff: {fileID: 5767412676716603382}
+  explosion: {fileID: 6652183271964910265, guid: 657b28e7e476df44781f50ac52c3449a, type: 3}
 --- !u!114 &8055974368434813267
 MonoBehaviour:
   m_ObjectHideFlags: 0
