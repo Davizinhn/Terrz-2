@@ -11,9 +11,9 @@ public class ChromaticControler : MonoBehaviour
     public Transform enemy;
     public PostProcessVolume v;
     private ChromaticAberration ca;
-        private Grain gra;
+    private Grain gra;
     public AudioSource chaseMusic;
-        public AudioSource normalMusic;
+    public AudioSource normalMusic;
     public float maxDistance = 5f;
     public float maxChromaticAberration = 1f;
     public float maxDistanceAud = 5f;
@@ -31,7 +31,7 @@ public class ChromaticControler : MonoBehaviour
             float distance = Vector3.Distance(enemy.position, player.position);
             float chromaticAberrationValue = maxChromaticAberration * (1 - (distance / maxDistance));
             float musicVol = 0;
-            if(this.gameObject.GetComponent<Enemy_Chase>().Seguindo && this.gameObject.GetComponent<Enemy_Chase>().seguindoEsse == player)
+            if(this.gameObject.GetComponent<Enemy_Chase>().Seguindo && distance <= maxDistanceAud)
             {
                 musicVol = maxAud * (1 - (distance / maxDistanceAud));
             }
@@ -46,8 +46,9 @@ public class ChromaticControler : MonoBehaviour
                 chaseMusic.volume = musicVol;
                 chaseMusic.Play();
             }
-            else if(musicVol < 0.1f && chaseMusic.isPlaying)
+            else if(distance > maxDistanceAud && chaseMusic.isPlaying)
             {
+                musicVol = 0.1f;
                 chaseMusic.Stop();
             }
 
