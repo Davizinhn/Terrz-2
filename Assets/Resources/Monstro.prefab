@@ -2036,7 +2036,7 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 0
+    InterpolateOption: 1
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 1
     ExtrapolateOption: 0
@@ -2125,7 +2125,7 @@ MonoBehaviour:
   PunchCol: {fileID: 4086179915104447172}
   audioC: {fileID: 104637349916682897}
   roarSound: {fileID: 8300000, guid: aa69646d3f660414285297953da2fdd1, type: 3}
-  punchSound: {fileID: 8300000, guid: 5f71df0d1a25098488cb9ee5e9656cea, type: 3}
+  punchSound: {fileID: 8300000, guid: ed5e70d4b78a47c40ba9ae85fcb2bf6d, type: 3}
 --- !u!195 &104637349916682988
 NavMeshAgent:
   m_ObjectHideFlags: 0

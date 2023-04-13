@@ -39,6 +39,7 @@ public class FirstPersonMovement : MonoBehaviour
     bool hi;
     public bool isDead;
     GameObject outroEu;
+    public GameObject morteSound;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -233,6 +234,7 @@ public class FirstPersonMovement : MonoBehaviour
         if(view.IsMine){
         if(!isDead && morreu)
         {
+            morteSound.active=true;
             if(Persona=="megan")
             {
                 outro.active=false;
@@ -273,6 +275,7 @@ public class FirstPersonMovement : MonoBehaviour
     [PunRPC]
     public void MorrerRPC()
     {
+        morteSound.active=true;
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag="PlayerMorto";

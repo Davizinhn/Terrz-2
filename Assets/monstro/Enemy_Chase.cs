@@ -77,6 +77,11 @@ public class Enemy_Chase : MonoBehaviour
         audioC.PlayOneShot(punchSound);
         PunchCol.active=true;
     }
+    
+    public void DeactivePunch()
+    {
+        PunchCol.active=false;
+    }
 
     public void NoPunch()
     {
@@ -162,7 +167,7 @@ public class Enemy_Chase : MonoBehaviour
         int a = Random.RandomRange(0,6);
         if(a==0)
         {
-            if(!punching)
+            if(!punching && !Seguindo && !andando)
             {
             Roar();
             }
@@ -201,7 +206,7 @@ public class Enemy_Chase : MonoBehaviour
 
     public void Roar()
     {
-        if(!punching)
+        if(!punching && !andando)
         {
             punching=true;
             anim.SetTrigger("Roar");
