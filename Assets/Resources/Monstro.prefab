@@ -1752,7 +1752,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736461345388884061}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.9, y: 0.60168004, z: -16.26}
+  m_LocalPosition: {x: 26.972681, y: 0.60168004, z: -16.191542}
   m_LocalScale: {x: 1.7835944, y: 1.7835944, z: 1.7835944}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2036,7 +2036,7 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 1
+    InterpolateOption: 3
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 1
     ExtrapolateOption: 0
@@ -2045,7 +2045,7 @@ MonoBehaviour:
     ExtrapolateNumberOfStoredPositions: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 2
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
@@ -2318,8 +2318,9 @@ MonoBehaviour:
   normalMusic: {fileID: 538301496334358281}
   maxDistance: 10
   maxChromaticAberration: 3
-  maxDistanceAud: 15
+  maxDistanceAud: 30
   maxAud: 1
+  musicChase: 0
 --- !u!1 &745215710921353079
 GameObject:
   m_ObjectHideFlags: 0
@@ -21467,7 +21468,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 86
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 140

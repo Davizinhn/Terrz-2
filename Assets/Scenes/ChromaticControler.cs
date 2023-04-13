@@ -21,8 +21,11 @@ public class ChromaticControler : MonoBehaviour
 
     public void Awake()
     {
+        chaseMusic.volume=0;
     }
 
+
+    public bool musicChase = false;
     private void Update()
     {
         if(v != null){
@@ -31,28 +34,35 @@ public class ChromaticControler : MonoBehaviour
             float distance = Vector3.Distance(enemy.position, player.position);
             float chromaticAberrationValue = maxChromaticAberration * (1 - (distance / maxDistance));
             float musicVol = 0;
-            if(this.gameObject.GetComponent<Enemy_Chase>().Seguindo && distance <= maxDistanceAud)
+            musicVol = maxAud * (1 - (distance / maxDistanceAud));
+
+            if(!chaseMusic.isPlaying && musicChase)
             {
-                musicVol = maxAud * (1 - (distance / maxDistanceAud));
+                 chaseMusic.Play();
+            }
+            if(musicVol > 0.25f)
+            {
+                                musicChase=true;
+            }
+            else if(musicVol < 0.25f)
+            {
+                                musicChase=false;
+            }
+            if(musicChase)
+            {
+            chaseMusic.volume = musicVol;
             }
             else
             {
-                musicVol=0.1f;
+                            chaseMusic.Stop();
+                            chaseMusic.volume = 0;
             }
+            
+
             ca.intensity.value = chromaticAberrationValue;
             gra.intensity.value = chromaticAberrationValue;
-            if(musicVol > 0.1f && !chaseMusic.isPlaying)
-            {
-                chaseMusic.volume = musicVol;
-                chaseMusic.Play();
-            }
-            else if(distance > maxDistanceAud && chaseMusic.isPlaying)
-            {
-                musicVol = 0.1f;
-                chaseMusic.Stop();
-            }
 
-            if(chaseMusic.isPlaying!=true)
+            if(chaseMusic.volume==0)
             {
                 normalMusic.volume = 0.1f;
             }
@@ -77,6 +87,10 @@ public class ChromaticControler : MonoBehaviour
         else if(GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator==true)
         {
             chaseMusic.volume--;
+            if(chaseMusic.isPlaying!=true)
+            {
+                normalMusic.volume = 0.1f;
+            }
         }
     }
 }
