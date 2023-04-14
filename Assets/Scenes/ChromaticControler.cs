@@ -40,7 +40,7 @@ public class ChromaticControler : MonoBehaviour
             {
                  chaseMusic.Play();
             }
-            if(musicVol > 0.25f)
+            if(musicVol > 0.25f && this.gameObject.GetComponent<Enemy_Chase>().Seguindo)
             {
                                 musicChase=true;
             }
@@ -87,10 +87,7 @@ public class ChromaticControler : MonoBehaviour
         else if(GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator==true)
         {
             chaseMusic.volume--;
-            if(chaseMusic.isPlaying!=true)
-            {
-                normalMusic.volume = 0.1f;
-            }
+            normalMusic.volume = 0.1f;
         }
     }
 }

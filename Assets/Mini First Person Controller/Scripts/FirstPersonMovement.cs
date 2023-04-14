@@ -73,6 +73,14 @@ public class FirstPersonMovement : MonoBehaviour
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
             camera = GetComponentInChildren<Camera>();
+            if(Persona=="leonard")
+            {
+                anim.SetBool("isGrounded", true);
+            }
+            else if(Persona=="megan")
+            {
+                anim1.SetBool("isGrounded", true);
+            }
         }
         else
         {
@@ -154,6 +162,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
 
             // Get targetVelocity from input.
+            if(GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic){
             Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
             if(Persona=="leonard")
             {
@@ -174,6 +183,7 @@ public class FirstPersonMovement : MonoBehaviour
             Ray ray = new Ray(this.transform.position, Camera.main.transform.forward);
 
                 rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+            }
 
             // Apply headbobbing.
             if(ground.isGrounded)

@@ -58,6 +58,8 @@ MonoBehaviour:
   - Atrair
   - Teleportar
   - Explosao
+  - SettingBool
+  - SettingPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

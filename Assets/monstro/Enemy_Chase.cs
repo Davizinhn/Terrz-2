@@ -145,7 +145,7 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=5f;
+            agent.speed=5.25f;
         }
         else
         {
@@ -153,6 +153,7 @@ public class Enemy_Chase : MonoBehaviour
         }
         anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
         anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
+                this.gameObject.GetComponent<PhotonView>().RPC("SettingBool", RpcTarget.Others, Seguindo);
         }
     }
 
@@ -200,6 +201,7 @@ public class Enemy_Chase : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         seguindoEsse=null;
+        this.gameObject.GetComponent<PhotonView>().RPC("SettingPlayer", RpcTarget.All, null);
         Seguindo = false;
         yield break;
     }
@@ -229,6 +231,12 @@ public class Enemy_Chase : MonoBehaviour
     public void PlaySoundRoar()
     {
                     audioC.PlayOneShot(roarSound);
+    }
+
+    [PunRPC]
+    public void SettingBool (bool someValue)
+    {
+        Seguindo = someValue;
     }
 
     
