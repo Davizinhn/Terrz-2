@@ -7,6 +7,7 @@ public class Generator : MonoBehaviour
 {
     public bool Ativada;
     public bool Quebrado;
+    public bool canInteract = true;
     public int quebradoPoints = 0;
     public GameObject quebradoStuff;
     public ParticleSystem explosion;
@@ -41,7 +42,16 @@ public class Generator : MonoBehaviour
     [PunRPC]
     public void Explosao()
     {
+        canInteract = false;
+        StartCoroutine(CanInteractBack());
         ParticleSystem exp = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
+    }
+
+    IEnumerator CanInteractBack()
+    {
+        yield return new WaitForSeconds(3f);
+        canInteract=true;
+        yield break;
     }
 
     [PunRPC]

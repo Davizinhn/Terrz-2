@@ -72,7 +72,7 @@ public class Interact : MonoBehaviour
                     {
                         quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString()+"/10";
                     }
-                    QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado;
+                    QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado && hit.transform.gameObject.GetComponent<Generator>().canInteract;
                 }
                 else if (hit.transform.gameObject.tag == "Button" && PhotonNetwork.IsMasterClient)
                 {            QuebradoStuff.active=false;
