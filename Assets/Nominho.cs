@@ -11,9 +11,17 @@ public class Nominho : MonoBehaviour
     {
         if(Camera.main != null)
         {
-            if (GameObject.FindObjectOfType<SpectatorManager>().Spectator)
+            if (GameObject.FindObjectOfType<SpectatorManager>()!=null)
             {
-                this.gameObject.GetComponent<Animator>().SetBool("Ativado", true);
+                if(GameObject.FindObjectOfType<SpectatorManager>().Spectator)
+                {
+                    this.gameObject.GetComponent<Animator>().SetBool("Ativado", true);
+                }
+                else
+                {
+                    this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(Camera.main.transform.position, this.gameObject.transform.position) < maxDistance);
+                }
+                
             }
             else
             {
