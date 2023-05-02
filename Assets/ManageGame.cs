@@ -15,6 +15,7 @@ public class ManageGame : MonoBehaviour
         public List<Generator> activeGenerators = new List<Generator>();
         public bool ativados;
         public TMP_Text genText;
+    public int playersPost;
 
     public void Awake()
     {
@@ -85,5 +86,11 @@ public class ManageGame : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsOpen=true;
         }
         yield break;
+    }
+
+    [PunRPC]
+    public void addPlayers()
+    {
+        playersPost++;
     }
 }

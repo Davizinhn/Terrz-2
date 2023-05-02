@@ -104,7 +104,7 @@ public class Enemy_Chase : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, collisionLayer))
             {
                 Debug.DrawLine(vision.transform.position, hit.point, Color.green, 0.005f);
-                if(hit.transform.gameObject.tag=="Player" && !Seguindo)
+                if(hit.transform.gameObject.tag=="Player" && !Seguindo && !hit.transform.gameObject.GetComponent<FirstPersonMovement>().isLaying)
                 {
                     StopCoroutine(Verify());
                     StartCoroutine(Verify());

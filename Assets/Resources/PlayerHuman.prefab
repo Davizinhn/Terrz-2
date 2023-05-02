@@ -6530,6 +6530,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: isDead
+  - Type: 4
+    SynchronizeType: 2
+    Name: isLaying
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
@@ -7305,6 +7308,9 @@ MonoBehaviour:
   midpoint: 2.126
   anim: {fileID: 2802297574790990220}
   anim1: {fileID: 4763541302005967848}
+  isLaying: 0
+  curBed: {fileID: 0}
+  camera: {fileID: 0}
   view: {fileID: 6413430603566427437}
   personaMesh:
   - {fileID: 1832646378573650825}
@@ -8314,6 +8320,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: isDead
+  - Type: 4
+    SynchronizeType: 2
+    Name: isLaying
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

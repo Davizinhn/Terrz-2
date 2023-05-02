@@ -1,6 +1,8 @@
+using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CinematicManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class CinematicManager : MonoBehaviour
     Vector3 targetPosition;
     Quaternion targetRotation;
     GameObject monstro;
+    bool adicionei;
 
 
     public void Awake()
@@ -34,9 +37,14 @@ public class CinematicManager : MonoBehaviour
         if(this.gameObject.transform.position == targetPosition)
         {
             CinematicBack();
+            if(!adicionei)
+            {
+                adicionei = true;
+                GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("addPlayers", RpcTarget.AllBuffered);
+            }
         }
 
-        allPlayersReady = GameObject.FindGameObjectsWithTag("Player").Length == Photon.Pun.PhotonNetwork.PlayerList.Length;
+        allPlayersReady = GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost == Photon.Pun.PhotonNetwork.PlayerList.Length;
     }
 
     IEnumerator GoToCamera()
@@ -49,12 +57,19 @@ public class CinematicManager : MonoBehaviour
 
     IEnumerator PessoasEsperandoNao()
     {
-        yield return new WaitForSeconds(5f);
+        yield return null;
+        if(GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost == Photon.Pun.PhotonNetwork.PlayerList.Length)
+        {
             monstro.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=true;
             monstro.GetComponent<ChromaticControler>().normalMusic.gameObject.active=true;
             inCinematic=false;
             waitingForOthers.active=false;
             this.gameObject.active=false;
+        }
+        else
+        {
+            StartCoroutine(PessoasEsperandoNao());
+        }
         yield break;
     }
 
@@ -79,7 +94,7 @@ public class CinematicManager : MonoBehaviour
             else{
             waitingForOthers.active=true;
             monstro.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=false;
-            waitingForOthers.GetComponent<TMPro.TMP_Text>().text = "Waiting for other players: \n"+GameObject.FindGameObjectsWithTag("Player").Length.ToString()+"/"+Photon.Pun.PhotonNetwork.PlayerList.Length.ToString();
+                waitingForOthers.GetComponent<TMPro.TMP_Text>().text = "Waiting for other players: \n" + GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost +"/"+Photon.Pun.PhotonNetwork.PlayerList.Length.ToString();
             StartCoroutine(PessoasEsperandoNao());
             }
         }
@@ -87,7 +102,7 @@ public class CinematicManager : MonoBehaviour
         {
             waitingForOthers.active=true;
             monstro.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=false;
-            waitingForOthers.GetComponent<TMPro.TMP_Text>().text = "Waiting for other players: \n"+GameObject.FindGameObjectsWithTag("Player").Length.ToString()+"/"+Photon.Pun.PhotonNetwork.PlayerList.Length.ToString();
+            waitingForOthers.GetComponent<TMPro.TMP_Text>().text = "Waiting for other players: \n"+ GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost + "/"+Photon.Pun.PhotonNetwork.PlayerList.Length.ToString();
         }
     }
 }

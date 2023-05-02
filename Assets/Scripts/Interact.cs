@@ -90,6 +90,17 @@ public class Interact : MonoBehaviour
                             hit.transform.gameObject.GetComponent<FirstPersonButton>().Pressing(true);
                     }
                 }
+                else if (hit.transform.gameObject.tag == "Bed")
+                {
+                    cue.text="Hide";
+                    if(Input.GetKeyDown(KeyCode.E))
+                    {
+                        if (!this.GetComponent<FirstPersonMovement>().isLaying)
+                        { 
+                            hit.transform.gameObject.GetComponent<PhotonView>().RPC("LayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
+                        }
+                    }
+                }
                 else
                 {
                                 QuebradoStuff.active=false;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Unity.Burst.CompilerServices;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -20,9 +21,11 @@ public class FirstPersonMovement : MonoBehaviour
 
     public Animator anim;
     public Animator anim1;
+    public bool isLaying;
+    public BedBehaviour curBed;
 
     Rigidbody rigidbody;
-    Camera camera;
+    public Camera camera;
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
 
@@ -152,7 +155,12 @@ public class FirstPersonMovement : MonoBehaviour
                         bobbingSpeed = 0.18f;
                     }
             // Update IsRunning from input.
-            IsRunning = canRun && Input.GetKey(runningKey);
+            IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
+
+            if(isLaying && Input.GetKeyDown(KeyCode.E))
+                {
+                    curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
+                }
 
             // Get targetMovingSpeed.
             float targetMovingSpeed = IsRunning ? runSpeed : speed;
@@ -163,13 +171,15 @@ public class FirstPersonMovement : MonoBehaviour
 
             // Get targetVelocity from input.
             if(GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic){
-            Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
+                    Vector2 targetVelocity = new Vector2(0f, 0f);
+                    if (!isLaying) { targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed); }
             if(Persona=="leonard")
             {
                 anim.SetFloat("Vertical", targetVelocity.y);
                 anim.SetFloat("Horizontal", targetVelocity.x);
                 anim.SetBool("isRunning", IsRunning);
                 anim.SetBool("isGrounded", ground.isGrounded);
+                        anim.SetBool("isLaying", isLaying);
             }
             else if(Persona=="megan")
             {
@@ -177,16 +187,20 @@ public class FirstPersonMovement : MonoBehaviour
                 anim1.SetFloat("Horizontal", targetVelocity.x);
                 anim1.SetBool("isRunning", IsRunning);
                 anim1.SetBool("isGrounded", ground.isGrounded);
-            }
+                        anim1.SetBool("isLaying", isLaying);
+                    }
             // Apply movement.
                         RaycastHit hit;
             Ray ray = new Ray(this.transform.position, Camera.main.transform.forward);
 
-                rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+                    if (!isLaying)
+                    {
+                        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+                    }
             }
 
             // Apply headbobbing.
-            if(ground.isGrounded)
+            if(ground.isGrounded && !isLaying)
             {
             float waveslice = 0.0f;
             float horizontal = Input.GetAxis("Horizontal");
