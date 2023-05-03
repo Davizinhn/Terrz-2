@@ -89,8 +89,8 @@ public class Enemy_Chase : MonoBehaviour
         punching=false;
     }
 
-    void Update () { 
-        if(PhotonNetwork.IsMasterClient)
+    void Update () {
+            if (PhotonNetwork.IsMasterClient)
         {
 
         foreach (GameObject vision in visions)
@@ -145,11 +145,11 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=5.25f;
+            agent.speed=4.75f;
         }
         else
         {
-            agent.speed=3f;
+            agent.speed=2.5f;
         }
         anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
         anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
@@ -201,7 +201,7 @@ public class Enemy_Chase : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         seguindoEsse=null;
-        this.gameObject.GetComponent<PhotonView>().RPC("SettingPlayer", RpcTarget.All, null);
+        //this.gameObject.GetComponent<PhotonView>().RPC("SettingPlayer", RpcTarget.All, null);
         Seguindo = false;
         yield break;
     }
