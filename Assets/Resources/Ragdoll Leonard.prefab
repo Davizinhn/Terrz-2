@@ -2595,6 +2595,7 @@ GameObject:
   - component: {fileID: 8794895240025133037}
   - component: {fileID: 430011615098295707}
   - component: {fileID: 580609987794686687}
+  - component: {fileID: 6289985194895006204}
   m_Layer: 3
   m_Name: Ragdoll Leonard
   m_TagString: Untagged
@@ -2737,6 +2738,17 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 580609987794686687}
+  - {fileID: 7327431001576775922}
+  - {fileID: 2705092850920405516}
+  - {fileID: 4250668717094238884}
+  - {fileID: 8702545964321027112}
+  - {fileID: 715993629775540488}
+  - {fileID: 9069999113381202022}
+  - {fileID: 8532356165668853133}
+  - {fileID: 6375260027963714952}
+  - {fileID: 333469237651600123}
+  - {fileID: 7707192041990251923}
+  - {fileID: 3358846095517259404}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2773,6 +2785,19 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &6289985194895006204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137367550403492680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ceefc3f23d11754f882a38f86d79efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 6717713609742447019}
 --- !u!1 &6189383179779683582
 GameObject:
   m_ObjectHideFlags: 0

@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 3928154518870450802}
   - component: {fileID: 3928154518870450807}
   - component: {fileID: 3928154518870450800}
+  - component: {fileID: 5390468547979895860}
   m_Layer: 3
   m_Name: Ragdoll Megan
   m_TagString: Untagged
@@ -389,6 +390,19 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &5390468547979895860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928154518870450812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ceefc3f23d11754f882a38f86d79efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3928154518870040709}
 --- !u!1 &3928154518998146411
 GameObject:
   m_ObjectHideFlags: 0
