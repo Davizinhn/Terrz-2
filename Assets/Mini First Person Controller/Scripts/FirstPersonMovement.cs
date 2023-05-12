@@ -42,6 +42,7 @@ public class FirstPersonMovement : MonoBehaviour
     bool hi;
     public bool isDead;
     GameObject outroEu;
+    public GameObject morteSound;
     public GameObject RagDollLeonard;
     public GameObject RagDollMegan;
     public GameObject coiso;
@@ -260,6 +261,7 @@ public class FirstPersonMovement : MonoBehaviour
         if(view.IsMine){
         if(!isDead && morreu)
         {
+            morteSound.active=true;
             if(Persona=="megan")
             {
                 view.RPC("SpawnMegan", RpcTarget.AllBuffered);
@@ -314,12 +316,14 @@ public class FirstPersonMovement : MonoBehaviour
     [PunRPC]
     public void SpawnMegan()
     {
+        morteSound.active = true;
         PhotonNetwork.Instantiate("Ragdoll Megan", this.gameObject.transform.position, Quaternion.identity);
     }
 
     [PunRPC]
     public void SpawnLeonard()
     {
+        morteSound.active = true;
         PhotonNetwork.Instantiate("Ragdoll Leonard", this.gameObject.transform.position, Quaternion.identity);
     }
 
