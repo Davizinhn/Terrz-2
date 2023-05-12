@@ -244,11 +244,13 @@ public class FirstPersonMovement : MonoBehaviour
         {
             if(Persona=="leonard")
             {
-                this.gameObject.transform.position = RagDollLeonard.transform.position;
+                anim.SetBool("isDead", true);
+                anim.SetBool("isGrounded", true);
             }
             else if(Persona=="megan")
             {
-                this.gameObject.transform.position = RagDollMegan.transform.position;
+                anim1.SetBool("isDead", true);
+                anim1.SetBool("isGrounded", true);
             }
         }
     }
@@ -258,61 +260,67 @@ public class FirstPersonMovement : MonoBehaviour
         if(view.IsMine){
         if(!isDead && morreu)
         {
-
             if(Persona=="megan")
             {
-                    view.RPC("SpawnMegan", RpcTarget.AllBufferedViaServer);
-                }
+                view.RPC("SpawnMegan", RpcTarget.AllBuffered);
+                outro.active=false;
+                megan.active=false;
+            }
             else
             {
-                    view.RPC("SpawnLeonard", RpcTarget.AllBufferedViaServer);
-                }
+                view.RPC("SpawnLeonard", RpcTarget.AllBuffered);
+                megan.active=false;
+                outro.active=false;
+            }
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";
             this.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
-            //this.gameObject.GetComponent<SpectatorMePls>().enabled = false;
+        
             isDead=true;            
-            view.RPC("MorrerRPC", RpcTarget.AllBufferedViaServer);
+            view.RPC("MorrerRPC", RpcTarget.AllBuffered);
+
         }
         else if(!isDead && !morreu)
         {
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             isDead=true;
-            view.RPC("MorrerRPC", RpcTarget.AllBufferedViaServer);
-            view.RPC("DestroyThis", RpcTarget.AllBufferedViaServer);
+            view.RPC("MorrerRPC", RpcTarget.AllBuffered);
+            view.RPC("DestroyThis", RpcTarget.AllBuffered);
         }}
     }
 
     [PunRPC]
     public void MorrerRPC()
     {
+        /*
+        if (Persona == "leonard")
+        {
+            PhotonNetwork.Instantiate("Ragdoll Leonard", this.gameObject.transform.position, Quaternion.identity);
+        }
+        else if (Persona == "megan")
+        {
+            PhotonNetwork.Instantiate("Ragdoll Megan", this.gameObject.transform.position, Quaternion.identity);
+        }
+        */
         //morteSound.active=true;
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
-        //Destroy(anim.gameObject);
-        //Destroy(anim1.gameObject);
-        foreach(SkinnedMeshRenderer i in personaMesh)
-        {
-            i.enabled = false; 
-        }
+        Destroy(anim.gameObject);
+        Destroy(anim1.gameObject);
         Destroy(coiso);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag="PlayerMorto";
-        this.isDead = true;
-        //this.gameObject.GetComponent<SpectatorMePls>().enabled = false;
     }
 
     [PunRPC]
     public void SpawnMegan()
     {
-        RagDollMegan.transform.parent = null;
-        RagDollMegan.SetActive(true);
+        PhotonNetwork.Instantiate("Ragdoll Megan", this.gameObject.transform.position, Quaternion.identity);
     }
 
     [PunRPC]
     public void SpawnLeonard()
     {
-        RagDollLeonard.transform.parent = null;
-        RagDollLeonard.SetActive(true);
+        PhotonNetwork.Instantiate("Ragdoll Leonard", this.gameObject.transform.position, Quaternion.identity);
     }
 
     [PunRPC]

@@ -7,6 +7,6 @@ public class RagdollSound : MonoBehaviour
     public Rigidbody rb;
     void Awake()
     {
-        rb.AddForce(Vector3.back*20, ForceMode.Force);
+        rb.AddForce(Vector3.back*2, ForceMode.Impulse);
     }
 }
