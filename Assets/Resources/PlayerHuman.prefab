@@ -7337,9 +7337,6 @@ MonoBehaviour:
   outro: {fileID: 8734751218067593565}
   isDead: 0
   morteSound: {fileID: 5476125225251577329}
-  RagDollLeonard: {fileID: 6137367550403492680, guid: a09eaf40c7e87a34a972b6a15bd7e3e6, type: 3}
-  RagDollMegan: {fileID: 3928154518870450812, guid: 62bc279c9e40f574abe3f8fe4e311812, type: 3}
-  coiso: {fileID: 5854657242218139002}
 --- !u!114 &8468278693173653293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7734,7 +7731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceThreshold: 0.15
-  isGrounded: 1
+  isGrounded: 0
 --- !u!1 &8387601470110389260
 GameObject:
   m_ObjectHideFlags: 0
