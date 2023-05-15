@@ -195,9 +195,14 @@ public class FirstPersonMovement : MonoBehaviour
 
                     if (!isLaying)
                     {
-                        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+                        Vector3 movementDirection = new Vector3(targetVelocity.x, 0f, targetVelocity.y);
+                        Vector3 adjustedVelocity = transform.rotation * movementDirection;
+                        adjustedVelocity.y = rigidbody.velocity.y;
+
+                        rigidbody.velocity = adjustedVelocity;
+
                     }
-            }
+                }
 
             // Apply headbobbing.
             if(ground.isGrounded && !isLaying)

@@ -26,6 +26,8 @@ public class Enemy_Chase : MonoBehaviour
     public AudioClip roarSound;
     public AudioClip punchSound;
     int randGen;
+    public float minWalkV = 3f;
+    public float minRunV = 5.25f;
 
     void Start(){
                 if(PhotonNetwork.IsMasterClient){
@@ -37,7 +39,7 @@ public class Enemy_Chase : MonoBehaviour
 
     public void OnTriggerEnter(Collider collision)
     {
-        randGen = Random.RandomRange(0,2);
+        randGen = Random.RandomRange(0,1);
     }
 
     public void OnTriggerStay(Collider collision)
@@ -145,11 +147,29 @@ public class Enemy_Chase : MonoBehaviour
 
         if(Seguindo)
         {
-            agent.speed=5.25f;
+
+                switch(PhotonNetwork.CurrentRoom.PlayerCount)
+                {
+                    case 1:
+                        agent.speed = minRunV;
+                        break;
+                    case 2:
+                        agent.speed = minRunV + 0.25f;
+                        break;
+                    case 3:
+                        agent.speed = minRunV + 0.5f;
+                        break;
+                    case 4:
+                        agent.speed = minRunV + 0.75f;
+                        break;
+                    case >4:
+                        agent.speed = minRunV + 1f;
+                        break;
+                }
         }
         else
         {
-            agent.speed=3f;
+            agent.speed=minWalkV;
         }
         anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
         anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
@@ -208,7 +228,7 @@ public class Enemy_Chase : MonoBehaviour
 
     public void Roar()
     {
-        if(!punching && !andando)
+        if(!punching && !andando && !Seguindo)
         {
             punching=true;
             anim.SetTrigger("Roar");
