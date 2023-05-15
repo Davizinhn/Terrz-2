@@ -28,11 +28,9 @@ public class Enemy_Chase : MonoBehaviour
     int randGen;
 
     void Start(){
-                if(PhotonNetwork.IsMasterClient){
         randomPoints = GameObject.FindGameObjectsWithTag("RandPoints");
         visions = GameObject.FindGameObjectsWithTag("MonsterVision");
         ChooseRandomPath();
-                }
     }
 
     public void OnTriggerEnter(Collider collision)
@@ -90,71 +88,79 @@ public class Enemy_Chase : MonoBehaviour
     }
 
     void Update () {
-            if (PhotonNetwork.IsMasterClient)
-        {
 
-        foreach (GameObject vision in visions)
-        {
-            Quaternion rotation = vision.transform.rotation;
-            Quaternion yRotation = Quaternion.AngleAxis(vision.transform.rotation.eulerAngles.y, Vector3.up);
-            Vector3 direction = yRotation * Vector3.forward;
-            RaycastHit hit;
-            Ray ray = new Ray(vision.transform.position, direction);
-            andando = agent.remainingDistance>0;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, collisionLayer))
+            foreach (GameObject vision in visions)
             {
-                Debug.DrawLine(vision.transform.position, hit.point, Color.green, 0.005f);
-                if(hit.transform.gameObject.tag=="Player" && !Seguindo && !hit.transform.gameObject.GetComponent<FirstPersonMovement>().isLaying)
+                Quaternion rotation = vision.transform.rotation;
+                Quaternion yRotation = Quaternion.AngleAxis(vision.transform.rotation.eulerAngles.y, Vector3.up);
+                Vector3 direction = yRotation * Vector3.forward;
+                RaycastHit hit;
+                Ray ray = new Ray(vision.transform.position, direction);
+                andando = agent.remainingDistance>0;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, collisionLayer))
                 {
-                    StopCoroutine(Verify());
-                    StartCoroutine(Verify());
-                    Seguindo=true;
-                    seguindoEsse = hit.transform;
+                    Debug.DrawLine(vision.transform.position, hit.point, Color.green, 0.005f);
+                    if(hit.transform.gameObject.tag=="Player" && !Seguindo && !hit.transform.gameObject.GetComponent<FirstPersonMovement>().isLaying)
+                    {
+                        StopCoroutine(Verify());
+                        StartCoroutine(Verify());
+                        Seguindo=true;
+                        seguindoEsse = hit.transform;
+                    }
                 }
             }
-        }
 
-        if(Seguindo && agent.remainingDistance<2)
-        {
-            Punch(true);
-            this.gameObject.transform.LookAt(seguindoEsse);
-        }
-
-        if(seguindoEsse!=null && !punching)
-        {
-            agent.SetDestination(seguindoEsse.position);
-            ultimaLocalizacao = seguindoEsse.transform.position;
-        }
-        else if(seguindoEsse==null && !punching)
-        {
-            if(ultimaLocalizacao!=new Vector3(0, 0, 0) && agent.destination!=ultimaLocalizacao && agent.remainingDistance==0)
+            if(Seguindo && agent.remainingDistance<2)
             {
-                agent.SetDestination(ultimaLocalizacao);
+                Punch(true);
+                this.gameObject.transform.LookAt(seguindoEsse);
             }
-            if(agent.destination==ultimaLocalizacao && agent.remainingDistance==0 && !esperando)
+
+            if(seguindoEsse!=null && !punching)
+            {
+                agent.SetDestination(seguindoEsse.position);
+                ultimaLocalizacao = seguindoEsse.transform.position;
+            }
+            else if(seguindoEsse==null && !punching)
+            {
+                if(ultimaLocalizacao!=new Vector3(0, 0, 0) && agent.destination!=ultimaLocalizacao && agent.remainingDistance==0)
+                {
+                    agent.SetDestination(ultimaLocalizacao);
+                }
+                if(agent.destination==ultimaLocalizacao && agent.remainingDistance==0 && !esperando)
+                {
+                    StartCoroutine(Esperar());
+                }
+            }
+
+
+            if(!Seguindo && !andando && !esperando)
             {
                 StartCoroutine(Esperar());
             }
-        }
 
-
-        if(!Seguindo && !andando && !esperando)
-        {
-            StartCoroutine(Esperar());
-        }
-
-        if(Seguindo)
-        {
-            agent.speed=4.75f;
-        }
-        else
-        {
-            agent.speed=2.5f;
-        }
-        anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
-        anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
-                this.gameObject.GetComponent<PhotonView>().RPC("SettingBool", RpcTarget.Others, Seguindo);
-        }
+            if(Seguindo)
+            {
+                if(PhotonNetwork.CountOfPlayersInRooms>4)
+                {
+                    agent.speed = 7.5f;
+                }
+                else if(PhotonNetwork.CountOfPlayersInRooms == 3)
+                {
+                    agent.speed = 6.5f;
+                }
+                else
+                {
+                    agent.speed = 5.5f;
+                }
+            }
+            else
+            {
+                agent.speed = 3f;
+            }
+            anim.SetBool("isWalking", agent.remainingDistance>0 && !Seguindo);
+            anim.SetBool("isRunning", agent.remainingDistance>0 && Seguindo);
+            this.gameObject.GetComponent<PhotonView>().RPC("SettingBool", RpcTarget.Others, Seguindo);
     }
 
     public void ChooseRandomPath()
