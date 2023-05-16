@@ -49,6 +49,8 @@ public class FirstPersonMovement : MonoBehaviour
     GameObject outroEu;
     public GameObject morteSound;
     public GameObject[] elementosUIDelete;
+    public GameObject mascaraMegan;
+    public GameObject mascaraLeonard;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -78,6 +80,16 @@ public class FirstPersonMovement : MonoBehaviour
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
                 a.gameObject.layer=9;
+                mascaraLeonard.gameObject.layer=9;
+                                mascaraMegan.gameObject.layer=9;
+                                foreach(MeshRenderer mesh in mascaraMegan.GetComponentsInChildren<MeshRenderer>())
+                                {
+                                    mesh.gameObject.layer = 9;
+                                }
+                                foreach(MeshRenderer mesh in mascaraLeonard.GetComponentsInChildren<MeshRenderer>())
+                                {
+                                    mesh.gameObject.layer = 9;
+                                }
             }
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
@@ -89,6 +101,7 @@ public class FirstPersonMovement : MonoBehaviour
                 {
                     a.enabled = false;
                 }
+                mascaraMegan.active=false;
                 cameraHead.transform.parent = LeonardHead;
 
             }
@@ -99,6 +112,7 @@ public class FirstPersonMovement : MonoBehaviour
                 {
                     a.enabled = false;
                 }
+                mascaraLeonard.active=false;
                 cameraHead.transform.parent = meganHead;
             }
             uiNameText.text = PhotonNetwork.NickName;
@@ -109,11 +123,13 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 outro.active=false;
                 megan.active=true;
+                mascaraLeonard.active=false;
             }
             else
             {
                 megan.active=false;
                 outro.active=true;
+                mascaraMegan.active=false;
             }
             Att();
             foreach(GameObject a in others)
@@ -295,6 +311,16 @@ public class FirstPersonMovement : MonoBehaviour
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
                 a.gameObject.layer=3;
+                mascaraLeonard.gameObject.layer=3;
+                                mascaraMegan.gameObject.layer=3;
+                                foreach(MeshRenderer mesh in mascaraMegan.GetComponentsInChildren<MeshRenderer>())
+                                {
+                                    mesh.gameObject.layer = 3;
+                                }
+                                foreach(MeshRenderer mesh in mascaraLeonard.GetComponentsInChildren<MeshRenderer>())
+                                {
+                                    mesh.gameObject.layer = 3;
+                                }
                     a.enabled = true;
             }
             foreach(GameObject a in elementosUIDelete)
