@@ -33,13 +33,14 @@ public class Jump : MonoBehaviour
 
     void LateUpdate()
     {
-                if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic))
         {
-        // Jump when the Jump button is pressed and we are on the ground.
-        if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))
-        {
-            rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
-            Jumped?.Invoke();
-        }}
+            // Jump when the Jump button is pressed and we are on the ground.
+            if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))
+            {
+                rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
+                Jumped?.Invoke();
+            }
+        }
     }
 }

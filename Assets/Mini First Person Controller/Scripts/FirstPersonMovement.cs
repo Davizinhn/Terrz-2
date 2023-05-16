@@ -2,6 +2,7 @@
 using UnityEngine;
 using Photon.Pun;
 using Unity.Burst.CompilerServices;
+using TMPro;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class FirstPersonMovement : MonoBehaviour
     public Animator anim1;
     public bool isLaying;
     public BedBehaviour curBed;
+    public Transform LeonardHead;
+    public Transform meganHead;
+    public GameObject cameraHead;
+    public TMP_Text uiNameText;
 
     Rigidbody rigidbody;
     public Camera camera;
@@ -43,6 +48,7 @@ public class FirstPersonMovement : MonoBehaviour
     public bool isDead;
     GameObject outroEu;
     public GameObject morteSound;
+    public GameObject[] elementosUIDelete;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -71,19 +77,31 @@ public class FirstPersonMovement : MonoBehaviour
             view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
-                a.enabled=false;
+                a.gameObject.layer=9;
             }
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
             camera = GetComponentInChildren<Camera>();
             if(Persona=="leonard")
             {
-                anim.SetBool("isGrounded", true);
+                anim.SetBool("isGrounded", true);                
+                foreach(SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.enabled = false;
+                }
+                cameraHead.transform.parent = LeonardHead;
+
             }
             else if(Persona=="megan")
             {
                 anim1.SetBool("isGrounded", true);
+                foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.enabled = false;
+                }
+                cameraHead.transform.parent = meganHead;
             }
+            uiNameText.text = PhotonNetwork.NickName;
         }
         else
         {
@@ -276,7 +294,12 @@ public class FirstPersonMovement : MonoBehaviour
             }
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
-                a.enabled=true;
+                a.gameObject.layer=3;
+                    a.enabled = true;
+            }
+            foreach(GameObject a in elementosUIDelete)
+            {
+                a.active=false;
             }
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";

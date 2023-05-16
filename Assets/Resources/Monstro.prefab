@@ -2126,6 +2126,8 @@ MonoBehaviour:
   audioC: {fileID: 104637349916682897}
   roarSound: {fileID: 8300000, guid: aa69646d3f660414285297953da2fdd1, type: 3}
   punchSound: {fileID: 8300000, guid: ed5e70d4b78a47c40ba9ae85fcb2bf6d, type: 3}
+  minWalkV: 3.25
+  minRunV: 5.75
 --- !u!195 &104637349916682988
 NavMeshAgent:
   m_ObjectHideFlags: 0
