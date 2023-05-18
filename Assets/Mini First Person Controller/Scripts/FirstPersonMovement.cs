@@ -3,6 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 using Unity.Burst.CompilerServices;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -49,6 +50,11 @@ public class FirstPersonMovement : MonoBehaviour
     GameObject outroEu;
     public GameObject morteSound;
     public GameObject[] elementosUIDelete;
+    public bool isEmoting;
+    public bool canEmote;
+    public GameObject emotePanel;
+    public GameObject emoteCam;
+    public GameObject userPanel;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -74,6 +80,7 @@ public class FirstPersonMovement : MonoBehaviour
                     Destroy(outroEu);
                 }
             }*/
+
             view.RPC("SetChar", RpcTarget.AllBuffered, PlayerPrefs.GetString("curPersona"));
             foreach(SkinnedMeshRenderer a in personaMesh)
             {
@@ -81,7 +88,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             // Get the rigidbody on this.
             rigidbody = GetComponent<Rigidbody>();
-            camera = GetComponentInChildren<Camera>();
+            //camera = GetComponentInChildren<Camera>();            
             if(Persona=="leonard")
             {
                 anim.SetBool("isGrounded", true);                
@@ -100,6 +107,16 @@ public class FirstPersonMovement : MonoBehaviour
                     a.enabled = false;
                 }
                 cameraHead.transform.parent = meganHead;
+            }
+            if (Persona == "megan")
+            {
+                outro.active = false;
+                megan.active = true;
+            }
+            else
+            {
+                megan.active = false;
+                outro.active = true;
             }
             uiNameText.text = PhotonNetwork.NickName;
         }
@@ -180,17 +197,28 @@ public class FirstPersonMovement : MonoBehaviour
                     curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
                 }
 
+                if (canEmote && Input.GetMouseButton(2) && !isEmoting)
+                {
+                    emotePanel.active = true;
+                    UnityEngine.Cursor.lockState = CursorLockMode.None;
+                }
+                else if (canEmote && !Input.GetMouseButton(2))
+                {
+                    emotePanel.active = false;
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                }
+
             // Get targetMovingSpeed.
             float targetMovingSpeed = IsRunning ? runSpeed : speed;
             if (speedOverrides.Count > 0)
             {
                 targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
             }
-
+                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="";
             // Get targetVelocity from input.
             if(GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic){
                     Vector2 targetVelocity = new Vector2(0f, 0f);
-                    if (!isLaying) { targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed); }
+                    if (!isLaying || !isEmoting) { targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed); }
             if(Persona=="leonard")
             {
                 anim.SetFloat("Vertical", targetVelocity.y);
@@ -198,7 +226,9 @@ public class FirstPersonMovement : MonoBehaviour
                 anim.SetBool("isRunning", IsRunning);
                 anim.SetBool("isGrounded", ground.isGrounded);
                         anim.SetBool("isLaying", isLaying);
-            }
+                        anim.SetBool("isEmoting", isEmoting);
+
+                    }
             else if(Persona=="megan")
             {
                 anim1.SetFloat("Vertical", targetVelocity.y);
@@ -206,11 +236,10 @@ public class FirstPersonMovement : MonoBehaviour
                 anim1.SetBool("isRunning", IsRunning);
                 anim1.SetBool("isGrounded", ground.isGrounded);
                         anim1.SetBool("isLaying", isLaying);
+                        anim1.SetBool("isEmoting", isEmoting);
                     }
-            // Apply movement.
-                        RaycastHit hit;
-            Ray ray = new Ray(this.transform.position, Camera.main.transform.forward);
-
+            // Apply mov
+            // ement.
                     if (!isLaying)
                     {
                         Vector3 movementDirection = new Vector3(targetVelocity.x, 0f, targetVelocity.y);
@@ -223,42 +252,55 @@ public class FirstPersonMovement : MonoBehaviour
                 }
 
             // Apply headbobbing.
-            if(ground.isGrounded && !isLaying)
+            if(ground.isGrounded && !isLaying && !isEmoting)
             {
-            float waveslice = 0.0f;
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
+                float waveslice = 0.0f;
+                float horizontal = Input.GetAxis("Horizontal");
+                float vertical = Input.GetAxis("Vertical");
 
-            if (Mathf.Abs(horizontal) == 0 && Mathf.Abs(vertical) == 0)
-            {
-                timer = 0.0f;
-            }
-            else
-            {
-                waveslice = Mathf.Sin(timer);
-                timer += bobbingSpeed;
-                if (timer > Mathf.PI * 2)
+                if (Mathf.Abs(horizontal) == 0 && Mathf.Abs(vertical) == 0)
                 {
-                    timer = timer - (Mathf.PI * 2);
+                    timer = 0.0f;
+                }
+                else
+                {
+                    waveslice = Mathf.Sin(timer);
+                    timer += bobbingSpeed;
+                    if (timer > Mathf.PI * 2)
+                    {
+                        timer = timer - (Mathf.PI * 2);
+                    }
+                }
+                if (waveslice != 0)
+                {
+                    float translateChange = waveslice * bobbingAmount;
+                    float totalAxes = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
+                    totalAxes = Mathf.Clamp(totalAxes, 0.0f, 1.0f);
+                    translateChange = totalAxes * translateChange;
+                    Vector3 localPosition = camera.transform.localPosition;
+                    localPosition.y = midpoint + translateChange;
+                    camera.transform.localPosition = localPosition;
+                }
+                else
+                {
+                    Vector3 localPosition = camera.transform.localPosition;
+                    localPosition.y = midpoint;
+                    camera.transform.localPosition = localPosition;
                 }
             }
-            if (waveslice != 0)
-            {
-                float translateChange = waveslice * bobbingAmount;
-                float totalAxes = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
-                totalAxes = Mathf.Clamp(totalAxes, 0.0f, 1.0f);
-                translateChange = totalAxes * translateChange;
-                Vector3 localPosition = camera.transform.localPosition;
-                localPosition.y = midpoint + translateChange;
-                camera.transform.localPosition = localPosition;
-            }
-            else
-            {
-                Vector3 localPosition = camera.transform.localPosition;
-                localPosition.y = midpoint;
-                camera.transform.localPosition = localPosition;
-            }
-            }
+            if(isEmoting && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+                {
+                    isEmoting = false;
+                    camera.enabled = true;
+                    emoteCam.active = false;
+                    userPanel.active = true;
+                    foreach (SkinnedMeshRenderer a in personaMesh)
+                    {
+                        a.gameObject.layer = 9;
+                        a.enabled = true;
+                    }
+                }
+            
         }
         }
         else
@@ -267,13 +309,38 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 anim.SetBool("isDead", true);
                 anim.SetBool("isGrounded", true);
+                anim.SetBool("isEmoting", isEmoting);
             }
             else if(Persona=="megan")
             {
                 anim1.SetBool("isDead", true);
                 anim1.SetBool("isGrounded", true);
+                anim1.SetBool("isEmoting", isEmoting);
             }
         }
+    }
+
+    public void FazerEsseEmote(int number)
+    {            
+        isEmoting=true;
+            if (Persona == "leonard")
+            {
+                anim.SetTrigger("emote_" + number.ToString());
+            }
+            else if (Persona == "megan")
+            {
+                anim1.SetTrigger("emote_" + number.ToString());
+            }
+        foreach (SkinnedMeshRenderer a in personaMesh)
+        {
+            a.gameObject.layer = 3;
+            a.enabled = true;
+        }
+        emotePanel.active = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        camera.enabled = false;
+        emoteCam.active = true;
+        userPanel.active = false;
     }
 
     public void Morrer(bool morreu = true)
@@ -282,6 +349,7 @@ public class FirstPersonMovement : MonoBehaviour
         if(!isDead && morreu)
         {
             morteSound.active=true;
+                isEmoting = false;
             if(Persona=="megan")
             {
                 outro.active=false;
@@ -301,13 +369,16 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 a.active=false;
             }
-            GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
+                emotePanel.active = false;
+                GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";
             this.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
                 this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
 
                 isDead =true;
-            view.RPC("MorrerRPC", RpcTarget.AllBuffered);
+                emoteCam.active = false;
+                isEmoting = false;
+                view.RPC("MorrerRPC", RpcTarget.AllBuffered);
             if(Persona=="leonard")
             {
                 anim.SetBool("isDead", true);

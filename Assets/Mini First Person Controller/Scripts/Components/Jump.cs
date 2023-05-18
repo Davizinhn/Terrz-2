@@ -33,7 +33,7 @@ public class Jump : MonoBehaviour
 
     void LateUpdate()
     {
-        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic))
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic) && !this.gameObject.GetComponent<FirstPersonMovement>().isLaying && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
         {
             // Jump when the Jump button is pressed and we are on the ground.
             if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))

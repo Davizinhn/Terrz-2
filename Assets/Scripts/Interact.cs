@@ -31,8 +31,8 @@ public class Interact : MonoBehaviour
         if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
         {
             RaycastHit hit;
-            Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
-            if (Physics.Raycast(ray, out hit, distance, collisionLayer) && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
+            if (Camera.main != null) { Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out hit, distance, collisionLayer) && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
             {
                 if (hit.transform.gameObject.tag == "Door" && !hit.transform.gameObject.GetComponent<Door>().isMetal)
                 {            QuebradoStuff.active=false;
@@ -111,6 +111,7 @@ public class Interact : MonoBehaviour
             {
                             QuebradoStuff.active=false;
                 cue.text="";
+            }
             }
         }
     }
