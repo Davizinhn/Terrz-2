@@ -28,6 +28,9 @@ public class Enemy_Chase : MonoBehaviour
     int randGen;
     public float minWalkV = 3f;
     public float minRunV = 5.25f;
+    bool vendoCama;
+    public BedBehaviour camaAtual;
+    public bool itsTimeToSeeCama=true;
 
     void Start(){
                 if(PhotonNetwork.IsMasterClient){
@@ -40,6 +43,7 @@ public class Enemy_Chase : MonoBehaviour
     public void OnTriggerEnter(Collider collision)
     {
         randGen = Random.RandomRange(0,1);
+
     }
 
     public void OnTriggerStay(Collider collision)
@@ -48,7 +52,33 @@ public class Enemy_Chase : MonoBehaviour
         {
             Punch();
             this.gameObject.transform.LookAt(collision.gameObject.transform);
+        }        
+        if (collision.gameObject.tag == "Bed" && !punching && !Seguindo && !andando && !vendoCama && itsTimeToSeeCama)
+        {            
+            itsTimeToSeeCama = false;
+            camaAtual = collision.gameObject.GetComponent<BedBehaviour>();
+            this.gameObject.transform.LookAt(collision.gameObject.transform);
+            this.gameObject.transform.position = camaAtual.spotMonstro.position;
+            vendoCama = true;
+            anim.SetTrigger("LookHere");
+            if (camaAtual.isSomeoneHere)
+            {
+                anim.SetTrigger("isSomeoneHere");
+            }
         }
+    }
+
+    public void resetCama()
+    {
+        itsTimeToSeeCama = true;
+    }
+
+    public void VoltandoDaCama()
+    {
+        vendoCama = false;
+        camaAtual = null;
+        Invoke("resetCama", 10f);
+        ChooseRandomPath();
     }
 
     public void Punch(bool parar=false)
@@ -78,6 +108,17 @@ public class Enemy_Chase : MonoBehaviour
     {
         audioC.PlayOneShot(punchSound);
         PunchCol.active=true;
+        if(vendoCama && camaAtual.isSomeoneHere)
+        {
+            foreach(GameObject a in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (a.GetComponent<FirstPersonMovement>().curBed == camaAtual)
+                {
+                    a.GetComponent<FirstPersonMovement>().Morrer();
+                    break;
+                }
+            }
+        }
     }
     
     public void DeactivePunch()
@@ -106,7 +147,7 @@ public class Enemy_Chase : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, collisionLayer))
             {
                 Debug.DrawLine(vision.transform.position, hit.point, Color.green, 0.005f);
-                if(hit.transform.gameObject.tag=="Player" && !Seguindo && !hit.transform.gameObject.GetComponent<FirstPersonMovement>().isLaying)
+                if(hit.transform.gameObject.tag=="Player" && !Seguindo && !hit.transform.gameObject.GetComponent<FirstPersonMovement>().isLaying && !vendoCama)
                 {
                     StopCoroutine(Verify());
                     StartCoroutine(Verify());
@@ -115,6 +156,8 @@ public class Enemy_Chase : MonoBehaviour
                 }
             }
         }
+
+            if (vendoCama) { this.gameObject.transform.position = camaAtual.spotMonstro.position; }
 
         if(Seguindo && agent.remainingDistance<2)
         {
@@ -197,7 +240,7 @@ public class Enemy_Chase : MonoBehaviour
         if(a==0)
         {
             yield return new WaitForSeconds(Random.RandomRange(6f, 8f));
-            if(!Seguindo && !punching)
+            if(!Seguindo && !punching && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();
@@ -207,7 +250,7 @@ public class Enemy_Chase : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(Random.RandomRange(3.5f, 6.5f));
-            if(!Seguindo && !punching)
+            if(!Seguindo && !punching && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();

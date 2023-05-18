@@ -9,6 +9,7 @@ public class BedBehaviour : MonoBehaviour
     public Transform spot;
     public Transform unspot;
     public Transform CameraPos;
+    public Transform spotMonstro;
 
     [PunRPC]
     public void LayHere(int playerID)

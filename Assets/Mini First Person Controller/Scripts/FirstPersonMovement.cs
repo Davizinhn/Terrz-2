@@ -175,7 +175,7 @@ public class FirstPersonMovement : MonoBehaviour
             // Update IsRunning from input.
             IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
 
-            if(isLaying && Input.GetKeyDown(KeyCode.E))
+            if(isLaying && Input.GetKeyDown(KeyCode.E) && GameObject.FindObjectOfType<Enemy_Chase>().camaAtual!=curBed)
                 {
                     curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
                 }
@@ -304,7 +304,9 @@ public class FirstPersonMovement : MonoBehaviour
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";
             this.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
-            isDead=true;
+                this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+                isDead =true;
             view.RPC("MorrerRPC", RpcTarget.AllBuffered);
             if(Persona=="leonard")
             {
@@ -314,7 +316,12 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 anim1.SetBool("isDead", true);
             }
-        }
+                isLaying = false;
+                if (isLaying)
+                {
+                    curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
+                }
+            }
         else if(!isDead && !morreu)
         {
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
@@ -330,7 +337,8 @@ public class FirstPersonMovement : MonoBehaviour
         morteSound.active=true;
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
-        this.gameObject.tag="PlayerMorto";
+        this.gameObject.tag="PlayerMorto";                
+        this.gameObject.layer = 6;
     }
 
     [PunRPC]

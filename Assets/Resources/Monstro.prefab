@@ -2128,6 +2128,8 @@ MonoBehaviour:
   punchSound: {fileID: 8300000, guid: ed5e70d4b78a47c40ba9ae85fcb2bf6d, type: 3}
   minWalkV: 3.25
   minRunV: 5.75
+  camaAtual: {fileID: 0}
+  itsTimeToSeeCama: 1
 --- !u!195 &104637349916682988
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2286,6 +2288,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Roar
+  - Type: 9
+    SynchronizeType: 2
+    Name: isSomeoneHere
+  - Type: 9
+    SynchronizeType: 2
+    Name: LookHere
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
