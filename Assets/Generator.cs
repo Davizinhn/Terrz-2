@@ -63,6 +63,8 @@ public class Generator : MonoBehaviour
 
     public void Mudar()
     {
+        if (!canInteract)
+            return;
         if(!Quebrado)
         {
             this.gameObject.GetComponent<PhotonView>().RPC("Trocar", RpcTarget.AllBuffered);
