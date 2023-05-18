@@ -108,16 +108,6 @@ public class FirstPersonMovement : MonoBehaviour
                 }
                 cameraHead.transform.parent = meganHead;
             }
-            if (Persona == "megan")
-            {
-                outro.active = false;
-                megan.active = true;
-            }
-            else
-            {
-                megan.active = false;
-                outro.active = true;
-            }
             uiNameText.text = PhotonNetwork.NickName;
         }
         else
@@ -294,10 +284,33 @@ public class FirstPersonMovement : MonoBehaviour
                     camera.enabled = true;
                     emoteCam.active = false;
                     userPanel.active = true;
-                    foreach (SkinnedMeshRenderer a in personaMesh)
+                    if (Persona == "leonard")
                     {
-                        a.gameObject.layer = 9;
-                        a.enabled = true;
+                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = false;
+                        }
+                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = true;
+                        }
+ 
+
+                    }
+                    else if (Persona == "megan")
+                    {
+                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = true;
+                        }
+                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = false;
+                        }
                     }
                 }
             
@@ -331,16 +344,30 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 anim1.SetTrigger("emote_" + number.ToString());
             }
-        foreach (SkinnedMeshRenderer a in personaMesh)
-        {
-            a.gameObject.layer = 3;
-            a.enabled = true;
-        }
         emotePanel.active = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         camera.enabled = false;
         emoteCam.active = true;
         userPanel.active = false;
+                            if (Persona == "leonard")
+                    {
+
+                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 3;
+                            a.enabled = true;
+                        }
+ 
+
+                    }
+                    else if (Persona == "megan")
+                    {
+                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 3;
+                            a.enabled = true;
+                        }
+                    }
     }
 
     public void Morrer(bool morreu = true)

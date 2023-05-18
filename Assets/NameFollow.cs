@@ -22,8 +22,8 @@ public class NameFollow : MonoBehaviour
         }
         else
         {
-            camera1 = Camera.main.transform;
-            transform.LookAt(transform.position + camera1.rotation * Vector3.forward, camera1.rotation * Vector3.up);
+            if (Camera.main.transform != null) { camera1 = Camera.main.transform;       transform.LookAt(transform.position + camera1.rotation * Vector3.forward, camera1.rotation * Vector3.up);}
+
         }
     }
 }
