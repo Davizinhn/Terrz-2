@@ -336,6 +336,7 @@ public class FirstPersonMovement : MonoBehaviour
     public void FazerEsseEmote(int number)
     {            
         isEmoting=true;
+        view.RPC("MudarAnimRPC", RpcTarget.AllBuffered, number);
             if (Persona == "leonard")
             {
                 anim.SetTrigger("emote_" + number.ToString());
@@ -368,6 +369,21 @@ public class FirstPersonMovement : MonoBehaviour
                             a.enabled = true;
                         }
                     }
+    }
+
+
+    [PunRPC]
+    public void MudarAnimRPC(int number)
+    {
+        isEmoting=true;
+            if (Persona == "leonard")
+            {
+                anim.SetTrigger("emote_" + number.ToString());
+            }
+            else if (Persona == "megan")
+            {
+                anim1.SetTrigger("emote_" + number.ToString());
+            }
     }
 
     public void Morrer(bool morreu = true)
