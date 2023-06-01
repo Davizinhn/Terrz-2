@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG;
+using DG.Tweening.Plugins;
 
 public class CinematicManager : MonoBehaviour
 {
@@ -28,11 +32,6 @@ public class CinematicManager : MonoBehaviour
     void LateUpdate() {
         targetPosition = Camera.main.gameObject.transform.position;
         targetRotation = Camera.main.gameObject.transform.rotation;
-        if(seguir)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5);
-        }
 
         if(this.gameObject.transform.position == targetPosition)
         {
@@ -77,6 +76,8 @@ public class CinematicManager : MonoBehaviour
     public void IrParaCamera()
     {
         seguir = true;
+        transform.DOMove(targetPosition, 1.5f).SetEase(Ease.InOutSine);
+        transform.DORotateQuaternion(targetRotation, 1.5f).SetEase(Ease.InOutSine);
     }
 
     public void CinematicBack()
@@ -104,5 +105,10 @@ public class CinematicManager : MonoBehaviour
             monstro.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=false;
             waitingForOthers.GetComponent<TMPro.TMP_Text>().text = "Waiting for other players: \n"+ GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost + "/"+Photon.Pun.PhotonNetwork.PlayerList.Length.ToString();
         }
+    }
+
+    public void VoltarTudo()
+    {
+
     }
 }

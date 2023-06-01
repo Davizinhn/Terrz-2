@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using DG.Tweening;
 
 public class Generator : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class Generator : MonoBehaviour
 
     public void TocarExplosion()
     {
+        GameObject.FindWithTag("MainCamera").transform.DOShakePosition(1.5f, 0.6f, 5, 25, false, true, ShakeRandomnessMode.Harmonic);
         this.gameObject.GetComponent<PhotonView>().RPC("Explosao", RpcTarget.AllBuffered);
     }
 
