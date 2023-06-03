@@ -136,6 +136,10 @@ public class Enemy_Chase : MonoBehaviour
         if(PhotonNetwork.IsMasterClient)
         {
 
+            if(camaAtual != null)
+            {
+                this.gameObject.transform.LookAt(camaAtual.gameObject.transform);
+            }
         foreach (GameObject vision in visions)
         {
             Quaternion rotation = vision.transform.rotation;

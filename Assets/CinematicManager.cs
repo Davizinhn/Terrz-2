@@ -81,7 +81,7 @@ public class CinematicManager : MonoBehaviour
     public void IrParaCamera()
     {
         seguir = true;
-        transform.DOMove(targetPosition, 1f).SetEase(Ease.InSine);
+        transform.DOMove(targetPosition, 1.15f).SetEase(Ease.OutSine);
         transform.DORotateQuaternion(targetRotation, 1f).SetEase(Ease.InOutSine);
     }
 
