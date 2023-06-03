@@ -39,11 +39,16 @@ public class CinematicManager : MonoBehaviour
             if(!adicionei)
             {
                 adicionei = true;
-                GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("addPlayers", RpcTarget.AllBuffered);
+                Invoke("AdicionaPlayer", 0.5f);
             }
         }
 
         allPlayersReady = GameObject.Find("GameManager").GetComponent<ManageGame>().playersPost == Photon.Pun.PhotonNetwork.PlayerList.Length;
+    }
+
+    void AdicionaPlayer()
+    {
+        GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("addPlayers", RpcTarget.AllBuffered);
     }
 
     IEnumerator GoToCamera()
@@ -76,8 +81,8 @@ public class CinematicManager : MonoBehaviour
     public void IrParaCamera()
     {
         seguir = true;
-        transform.DOMove(targetPosition, 1.5f).SetEase(Ease.InOutSine);
-        transform.DORotateQuaternion(targetRotation, 1.5f).SetEase(Ease.InOutSine);
+        transform.DOMove(targetPosition, 1f).SetEase(Ease.InSine);
+        transform.DORotateQuaternion(targetRotation, 1f).SetEase(Ease.InOutSine);
     }
 
     public void CinematicBack()

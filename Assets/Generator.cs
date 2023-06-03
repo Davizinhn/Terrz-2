@@ -37,7 +37,6 @@ public class Generator : MonoBehaviour
 
     public void TocarExplosion()
     {
-        GameObject.FindWithTag("MainCamera").transform.DOShakePosition(1.5f, 0.6f, 5, 25, false, true, ShakeRandomnessMode.Harmonic);
         this.gameObject.GetComponent<PhotonView>().RPC("Explosao", RpcTarget.AllBuffered);
     }
 
@@ -47,6 +46,12 @@ public class Generator : MonoBehaviour
         canInteract = false;
         StartCoroutine(CanInteractBack());
         ParticleSystem exp = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
+            RaycastHit hit;
+            Ray ray = new Ray(this.transform.position, Camera.main.transform.position);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 0))
+            {
+                GameObject.FindWithTag("MainCamera").transform.DOShakePosition(1.8f, 0.75f, 3, 29, false, true, ShakeRandomnessMode.Harmonic);
+            }
     }
 
     IEnumerator CanInteractBack()

@@ -20,11 +20,15 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        if(GetComponent<PlayerName>().nameInpunField.text=="" || createField.text=="")
+            return;
         PhotonNetwork.CreateRoom(createField.text);
     }
 
     public void JoinRoom()
     {
+        if(GetComponent<PlayerName>().nameInpunField.text=="" || joinField.text=="")
+            return;
         PhotonNetwork.JoinRoom(joinField.text);
     }
 
