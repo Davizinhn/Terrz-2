@@ -415,9 +415,7 @@ public class FirstPersonMovement : MonoBehaviour
                 emotePanel.active = false;
                 GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator=true;
             this.gameObject.tag="PlayerMorto";
-            this.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
-                this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-
+            this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 isDead =true;
                 emoteCam.active = false;
                 isEmoting = false;
@@ -448,6 +446,7 @@ public class FirstPersonMovement : MonoBehaviour
     [PunRPC]
     public void MorrerRPC()
     {
+        //this.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
         morteSound.active=true;
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
