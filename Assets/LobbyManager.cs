@@ -44,6 +44,7 @@ public class LobbyManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name!="Game")
         {
+                    PhotonNetwork.AutomaticallySyncScene=true;
         PhotonNetwork.LoadLevel("Game");
         }
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
