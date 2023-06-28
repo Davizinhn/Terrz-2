@@ -12,8 +12,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField createField;
     public TMP_InputField joinField;
-    private void Start()
-    {
+    private void Start(){
         Cursor.lockState = CursorLockMode.None;
         GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Menus", "");
     }
