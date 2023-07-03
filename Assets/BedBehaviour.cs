@@ -41,4 +41,10 @@ public class BedBehaviour : MonoBehaviour
             playerToLay.GetComponent<FirstPersonMovement>().curBed = null;
         //playerToLay.GetComponent<FirstPersonMovement>().camera.transform.position = new Vector3(playerToLay.GetComponent<FirstPersonMovement>().camera.transform.position.x, 2.126f, playerToLay.GetComponent<FirstPersonMovement>().camera.transform.position.z);
     }
+
+    [PunRPC]
+    public void beBackFromThingie()
+    {
+        if(isSomeoneHere){isSomeoneHere = false;}
+    }
 }

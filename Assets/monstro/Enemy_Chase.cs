@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 using Random = UnityEngine.Random;
+using Workbench.Wolfsbane.Multiplayer;
 
 //using Random = System.Random;
 
@@ -60,10 +61,10 @@ public class Enemy_Chase : MonoBehaviour
             this.gameObject.transform.LookAt(collision.gameObject.transform);
             this.gameObject.transform.position = camaAtual.spotMonstro.position;
             vendoCama = true;
-            anim.SetTrigger("LookHere");
+            this.gameObject.GetComponent<PhotonView>().RPC("TriggerAnim", RpcTarget.AllBufferedViaServer, "LookHere");
             if (camaAtual.isSomeoneHere)
             {
-                anim.SetTrigger("isSomeoneHere");
+                this.gameObject.GetComponent<PhotonView>().RPC("TriggerAnim", RpcTarget.AllBufferedViaServer, "isSomeoneHere");
             }
         }
     }
@@ -71,11 +72,14 @@ public class Enemy_Chase : MonoBehaviour
     public void resetCama()
     {
         itsTimeToSeeCama = true;
+        this.gameObject.GetComponent<PhotonView>().RPC("ChangeBoolBed", RpcTarget.AllBufferedViaServer, true);
     }
 
     public void VoltandoDaCama()
     {
+        camaAtual.gameObject.GetComponent<PhotonView>().RPC("beBackFromThingie", RpcTarget.AllBuffered);
         vendoCama = false;
+        this.gameObject.GetComponent<PhotonView>().RPC("ChangeBoolBed", RpcTarget.AllBufferedViaServer, false);
         camaAtual = null;
         Invoke("resetCama", 10f);
         ChooseRandomPath();
@@ -187,7 +191,7 @@ public class Enemy_Chase : MonoBehaviour
         }
 
 
-        if(!Seguindo && !andando && !esperando)
+        if(!Seguindo && !andando && !esperando && !itsTimeToSeeCama && !vendoCama)
         {
             StartCoroutine(Esperar());
         }
@@ -235,7 +239,7 @@ public class Enemy_Chase : MonoBehaviour
         int a = Random.RandomRange(0,6);
         if(a==0)
         {
-            if(!punching && !Seguindo && !andando)
+            if(!punching && !Seguindo && !andando && !itsTimeToSeeCama && !vendoCama)
             {
             Roar();
             }
@@ -244,7 +248,7 @@ public class Enemy_Chase : MonoBehaviour
         if(a==0)
         {
             yield return new WaitForSeconds(Random.RandomRange(6f, 8f));
-            if(!Seguindo && !punching && !vendoCama)
+            if(!Seguindo && !punching && !vendoCama && !itsTimeToSeeCama && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();
@@ -254,7 +258,7 @@ public class Enemy_Chase : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(Random.RandomRange(3.5f, 6.5f));
-            if(!Seguindo && !punching && !vendoCama)
+            if(!Seguindo && !punching && !vendoCama && !itsTimeToSeeCama && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();
@@ -268,7 +272,7 @@ public class Enemy_Chase : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         seguindoEsse=null;
-        this.gameObject.GetComponent<PhotonView>().RPC("SettingPlayer", RpcTarget.All, null);
+        //this.gameObject.GetComponent<PhotonView>().RPC("SettingPlayer", RpcTarget.All, null);
         Seguindo = false;
         yield break;
     }
@@ -304,6 +308,26 @@ public class Enemy_Chase : MonoBehaviour
     public void SettingBool (bool someValue)
     {
         Seguindo = someValue;
+    }
+
+    [PunRPC]
+    public void ChangeBoolBed (bool qual)
+    {
+        if(!qual)
+        {
+            vendoCama = false;
+        }
+        else
+        {
+            itsTimeToSeeCama = true;
+        }
+
+    }
+
+    [PunRPC]
+    public void TriggerAnim(string animation)
+    {
+        anim.SetTrigger(animation);
     }
 
     

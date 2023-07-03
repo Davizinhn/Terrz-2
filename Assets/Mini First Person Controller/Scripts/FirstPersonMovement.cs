@@ -204,7 +204,14 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
             }
+            if(GameObject.Find("CinematicCamera") != null)
+            {
+                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="" && !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic;
+            }
+            else{
                 canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="";
+            }
+
             // Get targetVelocity from input.
             if(GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic){
                     Vector2 targetVelocity = new Vector2(0f, 0f);

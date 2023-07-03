@@ -23,8 +23,8 @@ public class LobbyManager : MonoBehaviour
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Menu");
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene("Menu");
     }
 
     IEnumerator startTimer()
@@ -41,12 +41,8 @@ public class LobbyManager : MonoBehaviour
 
     [PunRPC]
     public void Teleportar()
-    {
-        if(SceneManager.GetActiveScene().name!="Game")
-        {
-                    PhotonNetwork.AutomaticallySyncScene=true;
-        PhotonNetwork.LoadLevel("Game");
-        }
+    {        
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        PhotonNetwork.LoadLevel("Game");
     }
 }

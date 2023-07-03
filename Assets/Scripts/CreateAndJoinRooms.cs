@@ -42,10 +42,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     }
 
     public override void OnJoinedRoom()
-    {
-        PhotonNetwork.LoadLevel("Lobby");
-        PhotonNetwork.AutomaticallySyncScene=true;
+    {        
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        PhotonNetwork.LoadLevel("Lobby");
+
         /*
         MenuLobby.SetActive(true);
         MenuNormal.SetActive(false);
