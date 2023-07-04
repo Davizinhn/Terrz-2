@@ -58,12 +58,12 @@ public class Interact : MonoBehaviour
                     }
                     else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && arrow.Pode)
                     {
+                            tick.Play();
                             hit.transform.gameObject.GetComponent<Generator>().Mudar();
                             Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
                     }
                     else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && !arrow.Pode)
                     {
-                        tick.Play();
                         hit.transform.gameObject.GetComponent<Generator>().TocarExplosion();
                         hahi = this.gameObject.transform.position;
                         view.RPC("Atrair", RpcTarget.AllViaServer, this.gameObject.transform.position);
