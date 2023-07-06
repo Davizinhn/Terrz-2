@@ -191,7 +191,7 @@ public class Enemy_Chase : MonoBehaviour
         }
 
 
-        if(!Seguindo && !andando && !esperando && !itsTimeToSeeCama && !vendoCama)
+        if(!Seguindo && !andando && !esperando && !vendoCama)
         {
             StartCoroutine(Esperar());
         }
@@ -239,7 +239,7 @@ public class Enemy_Chase : MonoBehaviour
         int a = Random.RandomRange(0,6);
         if(a==0)
         {
-            if(!punching && !Seguindo && !andando && !itsTimeToSeeCama && !vendoCama)
+            if(!punching && !Seguindo && !andando && !vendoCama)
             {
             Roar();
             }
@@ -248,7 +248,7 @@ public class Enemy_Chase : MonoBehaviour
         if(a==0)
         {
             yield return new WaitForSeconds(Random.RandomRange(6f, 8f));
-            if(!Seguindo && !punching && !vendoCama && !itsTimeToSeeCama && !vendoCama)
+            if(!Seguindo && !punching && !vendoCama && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();
@@ -258,7 +258,7 @@ public class Enemy_Chase : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(Random.RandomRange(3.5f, 6.5f));
-            if(!Seguindo && !punching && !vendoCama && !itsTimeToSeeCama && !vendoCama)
+            if(!Seguindo && !punching && !vendoCama && !vendoCama)
             {
                 ultimaLocalizacao = new Vector3(0, 0, 0);
                 ChooseRandomPath();
