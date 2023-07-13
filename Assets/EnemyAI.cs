@@ -103,12 +103,12 @@ public class EnemyAI : MonoBehaviour
 
     public void VerifyForPlayer()
     {
-        int rayCount = 50;
+        int rayCount = 60;
         float rayLength = 100f;
-        float angleBetweenRays = 2.5f; 
+        float angleBetweenRays = 3f; 
         for (int i = 0; i < rayCount; i++)
         {
-            Quaternion rotation = Quaternion.Euler(0f, i * angleBetweenRays - 40f, 0f);
+            Quaternion rotation = Quaternion.Euler(0f, this.gameObject.transform.rotation.y * i * angleBetweenRays + (this.gameObject.transform.rotation.y>0?-rayCount+25f:+rayCount+25f), 0f);
             Vector3 direction = rotation * transform.forward;
 
             RaycastHit hit;
@@ -141,6 +141,7 @@ public class EnemyAI : MonoBehaviour
     public void ChasingState()
     {
         agent.speed=runSpeed;
+        isLoopingIdle=false;
         alreadyWalking=false;
         VerifyForPlayer();
         if(chasingPlayer!=null && !jaToPerdendo)
@@ -160,7 +161,7 @@ public class EnemyAI : MonoBehaviour
     public IEnumerator perderPlayer()
     {
         jaToPerdendo=true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.2f);
         chasingPlayer=null;
         jaToPerdendo=false;
     }
