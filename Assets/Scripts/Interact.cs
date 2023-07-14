@@ -66,7 +66,7 @@ public class Interact : MonoBehaviour
                     {
                         hit.transform.gameObject.GetComponent<Generator>().TocarExplosion();
                         hahi = this.gameObject.transform.position;
-                        view.RPC("Atrair", RpcTarget.AllViaServer, this.gameObject.transform.position);
+                        view.RPC("Atrair", RpcTarget.AllViaServer, hit.transform.gameObject.name);
                     }
                     if(QuebradoStuff.active)
                     {
@@ -117,8 +117,8 @@ public class Interact : MonoBehaviour
     }
 
     [PunRPC]
-    public void Atrair(Vector3 ha)
+    public void Atrair(string ha)
     {
-        GameObject.FindObjectOfType<Enemy_Chase>().GeradorOuvir(hahi);
+        GameObject.FindObjectOfType<EnemyAI>().AvisarGenerator(GameObject.Find(ha).transform);
     }
 }

@@ -150,6 +150,34 @@ public class EnemyAI : MonoBehaviour
         alreadyWalking=true;
     }
 
+    public void AvisarGenerator(Transform thisGen)
+    {
+        if(curState == AIStates.Idle || curState == AIStates.Walking)
+        {
+            agent.SetDestination(EncontrarTransformMaisProximo(thisGen).position);
+            ChangeToState(AIStates.Walking);
+        }
+    }
+
+    private Transform EncontrarTransformMaisProximo(Transform referencia)
+    {
+        float distanciaMinima = Mathf.Infinity;
+        Transform transformMaisProximo = null;
+
+        foreach (GameObject transformAtual in randLocations)
+        {
+            float distancia = Vector3.Distance(transformAtual.transform.position, referencia.transform.position);
+
+            if (distancia < distanciaMinima)
+            {
+                distanciaMinima = distancia;
+                transformMaisProximo = transformAtual.transform;
+            }
+        }
+
+        return transformMaisProximo;
+    }
+
     public void VerifyForPlayer()
     {
         int rayCount = 75;
