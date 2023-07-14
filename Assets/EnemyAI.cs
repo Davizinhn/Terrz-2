@@ -23,11 +23,13 @@ public class EnemyAI : MonoBehaviour
     public float walkSpeed;
     public float runSpeed;
     GameObject[] randLocations;
+    public GameObject punchCol;
     Vector3 nil=new Vector3(0,0,0);
 
     public void ChangeToState(AIStates state)
     {
-        curState = state;
+        if(curState != state)
+            curState = state;
     }
 
     public void Update()
@@ -43,6 +45,9 @@ public class EnemyAI : MonoBehaviour
                 break;
             case AIStates.Chasing:
                 ChasingState();
+                break;
+            case AIStates.Punching:
+                PunchingState();
                 break;
         }
     }
@@ -148,8 +153,13 @@ public class EnemyAI : MonoBehaviour
     {
         agent.speed=runSpeed;
         isLoopingIdle=false;
+        //isPunching=false;
         alreadyWalking=false;
         VerifyForPlayer();
+        if(chasingPlayer!=null && agent.remainingDistance < 1.5f && jaToPerdendo)
+        {
+            ChangeToState(AIStates.Punching);
+        }
         if(chasingPlayer!=null && !jaToPerdendo)
         {
             StartCoroutine(perderPlayer());
@@ -170,6 +180,29 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         chasingPlayer=null;
         jaToPerdendo=false;
+    }
+
+    bool isPunching = false;
+    public void PunchingState()
+    {
+        agent.speed = 0;
+        if(!isPunching)
+        {
+            isPunching=true;
+            anim.SetTrigger("Punch");
+            Invoke("BackToChasing", 1f);
+        }
+    }
+
+    public void BackToChasing()
+    {
+        ChangeToState(AIStates.Chasing);
+        isPunching=false;
+    }
+
+    public void PunchColActive(int zero = 1)
+    {
+        punchCol.SetActive(zero==1?true:false);
     }
 
 
