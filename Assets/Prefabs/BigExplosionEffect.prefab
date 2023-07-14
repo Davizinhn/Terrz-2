@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6836490054028339241}
   - component: {fileID: 6652183271089342655}
   - component: {fileID: 6641929783047462335}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4758,7 +4758,7 @@ GameObject:
   - component: {fileID: 6836490054477490219}
   - component: {fileID: 6652183271656840391}
   - component: {fileID: 6641929789092365679}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Debris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9467,7 +9467,7 @@ GameObject:
   - component: {fileID: 6836490054905300825}
   - component: {fileID: 6652183270521100337}
   - component: {fileID: 6641929785144192655}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DerisFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14183,7 +14183,7 @@ GameObject:
   - component: {fileID: 6836490052975012187}
   - component: {fileID: 6652183268210210875}
   - component: {fileID: 6641929782054719521}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19065,7 +19065,7 @@ GameObject:
   - component: {fileID: 6836490052060954541}
   - component: {fileID: 6652183268191153543}
   - component: {fileID: 6641929785057709607}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23821,7 +23821,7 @@ GameObject:
   - component: {fileID: 6836490052860941269}
   - component: {fileID: 6652183282735387899}
   - component: {fileID: 6641929781856969789}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DebrisSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28557,7 +28557,7 @@ GameObject:
   - component: {fileID: 6641929781111265173}
   - component: {fileID: 9142051426482268381}
   - component: {fileID: 4788271583969025524}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BigExplosionEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33399,7 +33399,7 @@ GameObject:
   - component: {fileID: 6845093557735565359}
   - component: {fileID: 6652201798209986165}
   - component: {fileID: 6642087641931257145}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}

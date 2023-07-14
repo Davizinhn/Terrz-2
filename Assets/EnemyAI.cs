@@ -15,16 +15,23 @@ public class EnemyAI : MonoBehaviour
         LookingBed,
         Punching
     }
+    [Header("Main Variables")]
     public AIStates curState = AIStates.Idle;
     public NavMeshAgent agent;
-    public Animator anim;
-    Transform chasingPlayer;
-    Vector3 ultimaLocation;
+    public Animator anim;    
     public float walkSpeed;
-    public float runSpeed;
-    GameObject[] randLocations;
-    public GameObject punchCol;
+    public float runSpeed;    
+    public LayerMask layerMask;
+    Transform chasingPlayer;
+    Vector3 ultimaLocation;    
     Vector3 nil=new Vector3(0,0,0);
+    AudioSource audioSource;
+    GameObject[] randLocations;
+    int randGen;
+    [Header("Punch")]
+    public GameObject punchCol;
+    public AudioClip punchSound;
+
 
     public void ChangeToState(AIStates state)
     {
@@ -49,6 +56,28 @@ public class EnemyAI : MonoBehaviour
             case AIStates.Punching:
                 PunchingState();
                 break;
+        }
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        if(col.CompareTag("Generator"))
+        {
+            Random.Range(0,1);
+        }
+    }
+
+    public void OnTriggerStay(Collider col)
+    {
+        if(col.CompareTag("Generator"))
+        {
+            if(randGen==1 && !isPunching && (curState == AIStates.Idle || curState == AIStates.Walking) && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge && !col.gameObject.GetComponent<Generator>().Quebrado)
+            {
+                this.gameObject.transform.LookAt(col.gameObject.transform);
+                punchType=1;
+                ChangeToState(AIStates.Punching);
+                randGen=0;
+            }
         }
     }
 
@@ -123,7 +152,7 @@ public class EnemyAI : MonoBehaviour
             Vector3 direction = rotation * Vector3.forward;
 
             RaycastHit hit;
-            if (Physics.Raycast(objectPosition, direction, out hit, rayLength))
+            if (Physics.Raycast(objectPosition, direction, out hit, rayLength, layerMask))
             {
                 Debug.DrawRay(objectPosition, direction * hit.distance, Color.red);
                 if(hit.transform.gameObject.CompareTag("Player"))
@@ -158,6 +187,7 @@ public class EnemyAI : MonoBehaviour
         VerifyForPlayer();
         if(chasingPlayer!=null && agent.remainingDistance < 1.5f && jaToPerdendo)
         {
+            punchType = 0;
             ChangeToState(AIStates.Punching);
         }
         if(chasingPlayer!=null && !jaToPerdendo)
@@ -177,20 +207,31 @@ public class EnemyAI : MonoBehaviour
     public IEnumerator perderPlayer()
     {
         jaToPerdendo=true;
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.5f);
         chasingPlayer=null;
         jaToPerdendo=false;
     }
 
     bool isPunching = false;
+    int punchType = 0;
     public void PunchingState()
     {
         agent.speed = 0;
         if(!isPunching)
         {
             isPunching=true;
-            anim.SetTrigger("Punch");
-            Invoke("BackToChasing", 1f);
+            switch(punchType)
+            {
+                case 0:
+                    anim.SetTrigger("Punch");
+                    Invoke("BackToChasing", 1f);
+                    break;
+                case 1:
+                    anim.SetTrigger("Punch");
+                    Invoke("BackToIdle", 1f);
+                    break;
+            }
+
         }
     }
 
@@ -200,9 +241,18 @@ public class EnemyAI : MonoBehaviour
         isPunching=false;
     }
 
+    public void BackToIdle()
+    {
+        ChangeToState(AIStates.Idle);
+        isPunching=false;
+    }
+
     public void PunchColActive(int zero = 1)
     {
         punchCol.SetActive(zero==1?true:false);
+        if(zero==0)
+            return;
+        audioSource.PlayOneShot(punchSound);
     }
 
 
@@ -211,6 +261,7 @@ public class EnemyAI : MonoBehaviour
     {
         chasingPlayer = null;
         randLocations = GameObject.FindGameObjectsWithTag("RandPoints");
+        audioSource=this.gameObject.GetComponent<AudioSource>();
     }
 
     public void Animations()

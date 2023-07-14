@@ -40,7 +40,7 @@ public class ChromaticControler : MonoBehaviour
             {
                  chaseMusic.Play();
             }
-            if(musicVol > 0.25f && this.gameObject.GetComponent<Enemy_Chase>().Seguindo)
+            if(musicVol > 0.25f && this.gameObject.GetComponent<EnemyAI>().curState == EnemyAI.AIStates.Chasing)
             {
                                 musicChase=true;
             }

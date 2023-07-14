@@ -23,7 +23,7 @@ public class CinematicManager : MonoBehaviour
 
     public void Awake()
     {
-        monstro = GameObject.Find("Monstro");
+        monstro = GameObject.Find("Monster");
         music.Play();
         monstro.GetComponent<ChromaticControler>().normalMusic.gameObject.active=false;
         StartCoroutine(GoToCamera());
