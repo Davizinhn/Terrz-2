@@ -13,7 +13,8 @@ public class EnemyAI : MonoBehaviour
         Walking,
         Chasing,
         LookingBed,
-        Punching
+        Punching,
+        Roar
     }
     [Header("Main Variables")]
     public AIStates curState = AIStates.Idle;
@@ -28,9 +29,10 @@ public class EnemyAI : MonoBehaviour
     AudioSource audioSource;
     GameObject[] randLocations;
     int randGen;
-    [Header("Punch")]
+    [Header("Punch and Roar")]
     public GameObject punchCol;
     public AudioClip punchSound;
+    public AudioClip roarSound;
 
 
     public void ChangeToState(AIStates state)
@@ -55,6 +57,9 @@ public class EnemyAI : MonoBehaviour
                 break;
             case AIStates.Punching:
                 PunchingState();
+                break;
+            case AIStates.Roar:
+                RoarState();
                 break;
         }
     }
@@ -98,8 +103,16 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3,5));
         if(curState == AIStates.Idle)
         {
-            ChooseRandomLocation();
-            ChangeToState(AIStates.Walking);
+            int roar = Random.Range(0,2);
+            if(roar==2&&!jaRoarou)
+            {
+                ChangeToState(AIStates.Roar);
+            }
+            else
+            {
+                ChooseRandomLocation();
+                ChangeToState(AIStates.Walking);
+            }
         }
         isLoopingIdle=false;
     }
@@ -245,6 +258,33 @@ public class EnemyAI : MonoBehaviour
     {
         ChangeToState(AIStates.Idle);
         isPunching=false;
+        isRoaring=false;
+    }
+
+    bool isRoaring = false;
+    bool jaRoarou = false;
+    public void RoarState()
+    {
+        agent.speed=0;
+        if(!isRoaring)
+        {
+            isRoaring=true;
+            jaRoarou=true;
+            Invoke("VoltarRoar", 10f);
+            anim.SetTrigger("Roar");
+            Invoke("BackToIdle", 4.25f);
+        }
+    }
+
+    public void SoundRoar()
+    {
+        audioSource.clip=roarSound;
+        audioSource.Play();
+    }
+
+    public void VoltarRoar()
+    {
+        jaRoarou=false;
     }
 
     public void PunchColActive(int zero = 1)

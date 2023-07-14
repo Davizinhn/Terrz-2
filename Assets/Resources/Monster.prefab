@@ -1933,6 +1933,7 @@ MonoBehaviour:
     m_Bits: 73
   punchCol: {fileID: 8052044611605240649}
   punchSound: {fileID: 8300000, guid: ed5e70d4b78a47c40ba9ae85fcb2bf6d, type: 3}
+  roarSound: {fileID: 8300000, guid: aa69646d3f660414285297953da2fdd1, type: 3}
 --- !u!114 &6230767534811077477
 MonoBehaviour:
   m_ObjectHideFlags: 0
