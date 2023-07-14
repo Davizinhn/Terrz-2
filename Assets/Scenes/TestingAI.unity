@@ -450,7 +450,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4037825949932150609, guid: 1a867a4b4a7552f4889d7810c5ba8c46, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1.7000732
+      value: -1.7001953
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268864513700691173, guid: 1a867a4b4a7552f4889d7810c5ba8c46, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.5230713
       objectReference: {fileID: 0}
     - target: {fileID: 6413430603566427437, guid: 1a867a4b4a7552f4889d7810c5ba8c46, type: 3}
       propertyPath: sceneViewId
@@ -466,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8387210475777761592, guid: 1a867a4b4a7552f4889d7810c5ba8c46, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8389613359559522960, guid: 1a867a4b4a7552f4889d7810c5ba8c46, type: 3}
       propertyPath: m_RootOrder
@@ -1657,6 +1661,7 @@ MonoBehaviour:
   anim: {fileID: 104637351208305739}
   walkSpeed: 3
   runSpeed: 5
+  coiso: 95
 --- !u!4 &1047147437746914781
 Transform:
   m_ObjectHideFlags: 0

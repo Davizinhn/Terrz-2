@@ -64,6 +64,7 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3,5));
         if(curState == AIStates.Idle)
         {
+            ChooseRandomLocation();
             ChangeToState(AIStates.Walking);
         }
         isLoopingIdle=false;
@@ -73,6 +74,7 @@ public class EnemyAI : MonoBehaviour
     public void WalkingState()
     {
         agent.speed=walkSpeed;
+        isLoopingIdle=false;
         VerifyForPlayer();
         if(!alreadyWalking && ultimaLocation != nil)
         {
@@ -83,7 +85,7 @@ public class EnemyAI : MonoBehaviour
         {
             ChooseRandomLocation();
         }
-        if(alreadyWalking && agent.remainingDistance==0f)
+        if(alreadyWalking && agent.destination == agent.gameObject.transform.position)
         {
             if(agent.destination==ultimaLocation)
             {
@@ -103,18 +105,22 @@ public class EnemyAI : MonoBehaviour
 
     public void VerifyForPlayer()
     {
-        int rayCount = 60;
+        int rayCount = 75;
+        float coiso=95f;
         float rayLength = 100f;
-        float angleBetweenRays = 3f; 
+        float angleBetweenRays = 2.9f; 
+        Vector3 objectPosition = transform.position;
+        Quaternion objectRotation = transform.rotation;
+
         for (int i = 0; i < rayCount; i++)
         {
-            Quaternion rotation = Quaternion.Euler(0f, this.gameObject.transform.rotation.y * i * angleBetweenRays + (this.gameObject.transform.rotation.y>0?-rayCount+25f:+rayCount+25f), 0f);
-            Vector3 direction = rotation * transform.forward;
+            Quaternion rotation = Quaternion.Euler(0f, i * angleBetweenRays + objectRotation.eulerAngles.y - coiso, 0f);
+            Vector3 direction = rotation * Vector3.forward;
 
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, direction, out hit, rayLength))
+            if (Physics.Raycast(objectPosition, direction, out hit, rayLength))
             {
-                Debug.DrawRay(transform.position, direction * hit.distance, Color.red);
+                Debug.DrawRay(objectPosition, direction * hit.distance, Color.red);
                 if(hit.transform.gameObject.CompareTag("Player"))
                 {
                     if(curState == AIStates.Chasing)
@@ -132,7 +138,7 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                Debug.DrawRay(transform.position, direction * rayLength, Color.green);
+                Debug.DrawRay(objectPosition, direction * rayLength, Color.green);
             }
         }
     }
