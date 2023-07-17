@@ -182,7 +182,7 @@ public class FirstPersonMovement : MonoBehaviour
             // Update IsRunning from input.
             IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
 
-            if(isLaying && Input.GetKeyDown(KeyCode.E))
+            if(isLaying && Input.GetKeyDown(KeyCode.E) && GameObject.Find("Monster").GetComponent<EnemyAI>().curBed != curBed)
                 {
                     curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
                 }

@@ -25312,17 +25312,10 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
+    intParameter: 1
     messageOptions: 0
-  - time: 0.78333336
-    functionName: DeactivePunch
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.85
-    functionName: NoPunch
+  - time: 0.65
+    functionName: PunchColActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

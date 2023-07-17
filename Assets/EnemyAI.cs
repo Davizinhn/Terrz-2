@@ -5,6 +5,10 @@ using UnityEngine.AI;
 using Photon.Pun;
 using Random = UnityEngine.Random;
 using Workbench.Wolfsbane.Multiplayer;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG;
+using DG.Tweening.Plugins;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -61,6 +65,9 @@ public class EnemyAI : MonoBehaviour
             case AIStates.Roar:
                 RoarState();
                 break;
+            case AIStates.LookingBed:
+                LookingBedState();
+                break;
         }
     }
 
@@ -84,6 +91,11 @@ public class EnemyAI : MonoBehaviour
                 randGen=0;
             }
         }
+        if(col.CompareTag("Bed") && curState==AIStates.Idle && !isLookingBed)
+        {
+            curBed = col.gameObject.GetComponent<BedBehaviour>();
+            ChangeToState(AIStates.LookingBed);
+        }
     }
 
     bool isLoopingIdle = false;
@@ -103,8 +115,8 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3,5));
         if(curState == AIStates.Idle)
         {
-            int roar = Random.Range(0,2);
-            if(roar==2&&!jaRoarou)
+            int roar = Random.Range(0,1);
+            if(roar==1&&!jaRoarou)
             {
                 ChangeToState(AIStates.Roar);
             }
@@ -271,6 +283,9 @@ public class EnemyAI : MonoBehaviour
                     anim.SetTrigger("Punch");
                     Invoke("BackToIdle", 1f);
                     break;
+                case 2:
+                    anim.SetTrigger("isSomeoneHere");
+                    break;
             }
 
         }
@@ -287,6 +302,16 @@ public class EnemyAI : MonoBehaviour
         ChangeToState(AIStates.Idle);
         isPunching=false;
         isRoaring=false;
+    }
+
+    public void BackToWalking()
+    {
+        curBed=null;
+        ChooseRandomLocation();
+        ChangeToState(AIStates.Walking);
+        isPunching=false;
+        isRoaring=false;
+        isLookingBed=false;
     }
 
     bool isRoaring = false;
@@ -306,13 +331,13 @@ public class EnemyAI : MonoBehaviour
 
     public void SoundRoar()
     {
-        audioSource.clip=roarSound;
-        audioSource.Play();
+        audioSource.PlayOneShot(roarSound);
     }
 
     public void VoltarRoar()
     {
         jaRoarou=false;
+        isRoaring=false;
     }
 
     public void PunchColActive(int zero = 1)
@@ -321,9 +346,37 @@ public class EnemyAI : MonoBehaviour
         if(zero==0)
             return;
         audioSource.PlayOneShot(punchSound);
+        if(isLookingBed && curBed!=null)
+        {
+            foreach(FirstPersonMovement a in GameObject.FindObjectsOfType<FirstPersonMovement>())
+            {
+                if(a.curBed==curBed)
+                {
+                    a.Morrer();
+                    break;
+                }
+            }
+        }
     }
 
-
+    bool isLookingBed = false;
+    public BedBehaviour curBed = null;
+    public void LookingBedState()
+    {
+        agent.speed=0;
+        if(!isLookingBed)
+        {
+            transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);
+            this.transform.LookAt(curBed.transform);
+            isLookingBed=true;
+            anim.SetTrigger("LookHere");
+            if(curBed.isSomeoneHere)
+            {
+                punchType = 2;
+                ChangeToState(AIStates.Punching);
+            }
+        }
+    }
 
     public void Start()
     {

@@ -32364,7 +32364,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.6
-    functionName: VoltandoDaCama
+    functionName: BackToWalking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
