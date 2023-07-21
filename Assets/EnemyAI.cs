@@ -45,29 +45,65 @@ public class EnemyAI : MonoBehaviour
             curState = state;
     }
 
+    [PunRPC]
+    public void syncValues(ExitGames.Client.Photon.Hashtable data)
+    {
+        curState = (AIStates)data["curState"];
+        if(data["chasingPlayer"]!=null)
+        {
+            Vector3 chasingPlayer1 = (Vector3)data["chasingPlayer"];
+            chasingPlayer.position = chasingPlayer1;
+        }
+        else
+        {
+            chasingPlayer.position=nil;
+        }
+        
+
+        ultimaLocation = (Vector3)data["ultimaLocation"];
+        if(data["curBed"] != null)
+        {
+            GameObject curBed1 = (GameObject)data["curBed"];
+            curBed = curBed1.GetComponent<BedBehaviour>();
+        }
+        else
+        {
+            curBed=null;
+        }
+    }
+
     public void Update()
     {
-        Animations();
-        switch(curState)
+        if(PhotonNetwork.IsMasterClient)
         {
-            case AIStates.Idle:
-                IdleState();
-                break;
-            case AIStates.Walking:
-                WalkingState();
-                break;
-            case AIStates.Chasing:
-                ChasingState();
-                break;
-            case AIStates.Punching:
-                PunchingState();
-                break;
-            case AIStates.Roar:
-                RoarState();
-                break;
-            case AIStates.LookingBed:
-                LookingBedState();
-                break;
+            ExitGames.Client.Photon.Hashtable data = new ExitGames.Client.Photon.Hashtable();
+            data.Add("curState", curState);
+            data.Add("chasingPlayer", chasingPlayer==null?null:chasingPlayer.transform.position);
+            data.Add("ultimaLocation", ultimaLocation);
+            data.Add("curBed", curBed==null?null:curBed.gameObject);
+            this.gameObject.GetPhotonView().RPC("syncValues", RpcTarget.Others, data);
+            Animations();
+            switch(curState)
+            {
+                case AIStates.Idle:
+                    IdleState();
+                    break;
+                case AIStates.Walking:
+                    WalkingState();
+                    break;
+                case AIStates.Chasing:
+                    ChasingState();
+                    break;
+                case AIStates.Punching:
+                    PunchingState();
+                    break;
+                case AIStates.Roar:
+                    RoarState();
+                    break;
+                case AIStates.LookingBed:
+                    LookingBedState();
+                    break;
+            }
         }
     }
 
@@ -157,10 +193,12 @@ public class EnemyAI : MonoBehaviour
 
     public void ChooseRandomLocation()
     {
-        agent.SetDestination(randLocations[Random.Range(0, randLocations.Length-1)].transform.position);        
+        int i = Random.Range(0, randLocations.Length-1);
+        agent.SetDestination(randLocations[i].transform.position);        
         Debug.DrawLine(agent.transform.position, agent.destination, Color.blue, 10f);
         alreadyWalking=true;
     }
+
 
     public void AvisarGenerator(Transform thisGen)
     {
@@ -346,13 +384,13 @@ public class EnemyAI : MonoBehaviour
         if(zero==0)
             return;
         audioSource.PlayOneShot(punchSound);
-        if(isLookingBed && curBed!=null)
+        if(isLookingBed)
         {
             foreach(FirstPersonMovement a in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
                 if(a.curBed==curBed)
                 {
-                    a.Morrer();
+                    GameObject.FindObjectOfType<PunchCol>().SimulatePunch(a.gameObject);
                     break;
                 }
             }
@@ -380,6 +418,7 @@ public class EnemyAI : MonoBehaviour
 
     public void Start()
     {
+        //PhotonNetwork.AutomaticallySyncScene = true;
         chasingPlayer = null;
         randLocations = GameObject.FindGameObjectsWithTag("RandPoints");
         audioSource=this.gameObject.GetComponent<AudioSource>();
