@@ -19,7 +19,7 @@ public class PunchCol : MonoBehaviour
 
     public void SimulatePunch(GameObject playerToPunch)
     {
-        if(playerToPunch.GetComponent<FirstPersonMovement>().isDead)
+        if(!playerToPunch.GetComponent<FirstPersonMovement>().isDead)
         {
             playerToPunch.gameObject.GetComponent<FirstPersonMovement>().Morrer();
         } 

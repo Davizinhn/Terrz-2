@@ -215,7 +215,7 @@ public class FirstPersonMovement : MonoBehaviour
             // Get targetVelocity from input.
             if(GameObject.Find("CinematicCamera") == null || !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic){
                     Vector2 targetVelocity = new Vector2(0f, 0f);
-                    if (!isLaying || !isEmoting) { targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed); }
+                    if (!isLaying || !isEmoting) { targetVelocity = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f) * targetMovingSpeed; }
             if(Persona=="leonard")
             {
                 anim.SetFloat("Vertical", targetVelocity.y);

@@ -45,26 +45,15 @@ public class EnemyAI : MonoBehaviour
             curState = state;
     }
 
+
     [PunRPC]
     public void syncValues(ExitGames.Client.Photon.Hashtable data)
     {
-        curState = (AIStates)data["curState"];
-        if(data["chasingPlayer"]!=null)
-        {
-            Vector3 chasingPlayer1 = (Vector3)data["chasingPlayer"];
-            chasingPlayer.position = chasingPlayer1;
-        }
-        else
-        {
-            chasingPlayer.position=nil;
-        }
-        
-
-        ultimaLocation = (Vector3)data["ultimaLocation"];
         if(data["curBed"] != null)
         {
-            GameObject curBed1 = (GameObject)data["curBed"];
-            curBed = curBed1.GetComponent<BedBehaviour>();
+            string curBed1 = (string)data["curBed"];
+            GameObject curBed2 = GameObject.Find(curBed1);
+            curBed = curBed2.GetComponent<BedBehaviour>();
         }
         else
         {
@@ -77,10 +66,7 @@ public class EnemyAI : MonoBehaviour
         if(PhotonNetwork.IsMasterClient)
         {
             ExitGames.Client.Photon.Hashtable data = new ExitGames.Client.Photon.Hashtable();
-            data.Add("curState", curState);
-            data.Add("chasingPlayer", chasingPlayer==null?null:chasingPlayer.transform.position);
-            data.Add("ultimaLocation", ultimaLocation);
-            data.Add("curBed", curBed==null?null:curBed.gameObject);
+            data.Add("curBed", curBed==null?null:curBed.gameObject.name);
             this.gameObject.GetPhotonView().RPC("syncValues", RpcTarget.Others, data);
             Animations();
             switch(curState)
@@ -391,7 +377,6 @@ public class EnemyAI : MonoBehaviour
                 if(a.curBed==curBed)
                 {
                     GameObject.FindObjectOfType<PunchCol>().SimulatePunch(a.gameObject);
-                    break;
                 }
             }
         }
