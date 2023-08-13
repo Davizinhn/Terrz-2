@@ -7,6 +7,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -29,7 +30,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
             return;
         jogar.SetActive(false);
         Carregando.SetActive(true);
-        PhotonNetwork.CreateRoom(createField.text);
+        RoomOptions roomOptions = new RoomOptions(){
+            MaxPlayers = 4
+        };
+        PhotonNetwork.CreateRoom(createField.text, roomOptions);
     }
 
     public void JoinRoom()
@@ -44,7 +48,18 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         GameObject ha = Instantiate(messagePrefab, aondeMessage);
-        ha.GetComponent<TMPro.TMP_Text>().text="Error creating room";
+        switch(returnCode)
+        {
+            case 32762:
+                ha.GetComponent<TMPro.TMP_Text>().text="Room is full";
+                break;
+            case 32766:
+                ha.GetComponent<TMPro.TMP_Text>().text="Room already exists";
+                break;
+            default:
+                ha.GetComponent<TMPro.TMP_Text>().text="Error creating room";
+                break;
+        }
         jogar.SetActive(true);
         Carregando.SetActive(false);
     }
@@ -52,7 +67,18 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         GameObject ha = Instantiate(messagePrefab, aondeMessage);
-        ha.GetComponent<TMPro.TMP_Text>().text="Room not found";
+        switch(returnCode)
+        {
+            case 32765:
+                ha.GetComponent<TMPro.TMP_Text>().text="Room is full";
+                break;
+            case 32758:
+                ha.GetComponent<TMPro.TMP_Text>().text="Room not found";
+                break;
+            default:
+                ha.GetComponent<TMPro.TMP_Text>().text="Room not found";
+                break;
+        }
         jogar.SetActive(true);
         Carregando.SetActive(false);
     }

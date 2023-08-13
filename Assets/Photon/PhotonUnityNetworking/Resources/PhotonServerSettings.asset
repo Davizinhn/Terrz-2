@@ -73,6 +73,7 @@ MonoBehaviour:
   - LookToThat
   - SimulatePunch
   - TriggerAnim1
+  - ChaseForOthers
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

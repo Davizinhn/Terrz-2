@@ -9,6 +9,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG;
 using DG.Tweening.Plugins;
+using Workbench.Wolfsbane.Multiplayer;
 
 public class EnemyAI : MonoBehaviour, IPunObservable
 {
@@ -43,6 +44,13 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     {
         if(curState != state)
             curState = state;
+            GetComponent<PhotonView>().RPC("ChaseForOthers", RpcTarget.OthersBuffered, state==AIStates.Chasing);
+    }
+
+    [PunRPC]
+    public void ChaseForOthers(bool a = false)
+    {
+        curState=a?AIStates.Chasing:AIStates.Idle;
     }
 
 
@@ -241,7 +249,8 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     bool jaToPerdendo=false;
     public void ChasingState()
     {
-        agent.speed=runSpeed;
+        float multiplier = PhotonNetwork.PlayerList.Length<3 ? 1f : 1.15f;
+        agent.speed=runSpeed * multiplier;
         isLoopingIdle=false;
         //isPunching=false;
         alreadyWalking=false;
@@ -284,11 +293,11 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             switch(punchType)
             {
                 case 0:
-                    gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Punch");
+                    anim.SetBool("Punch", true);
                     Invoke("BackToChasing", 1f);
                     break;
                 case 1:
-                    gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Punch");
+                    anim.SetBool("Punch", true);
                     Invoke("BackToIdle", 1f);
                     break;
                 case 2:
@@ -332,7 +341,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             isRoaring=true;
             jaRoarou=true;
             Invoke("VoltarRoar", 10f);
-            gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Roar");
+            anim.SetBool("Roar", true);
             Invoke("BackToIdle", 4.25f);
         }
     }
@@ -386,10 +395,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         if(!isLookingBed)
         {
             transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);        
-            transform.LookAt(curBed.spot.transform.position);
+            transform.LookAt(curBed.transform.position);
             isLookingBed=true;
             anim.SetBool("LookHere", true);
-            gameObject.GetComponent<PhotonView>().RPC("LookToThat", RpcTarget.OthersBuffered, curBed.spot.transform.position.x, curBed.spot.transform.position.y, curBed.spot.transform.position.z);
+            gameObject.GetComponent<PhotonView>().RPC("LookToThat", RpcTarget.OthersBuffered, curBed.transform.position.x, curBed.transform.position.y, curBed.transform.position.z);
             if(curBed.isSomeoneHere)
             {
                 punchType = 2;
@@ -440,10 +449,22 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         }
     }
 
-    [PunRPC]
-    public void TriggerAnim1(string which)
+    /*[PunRPC]
+    public void TriggerAnim1(string which1)
     {
-        anim.SetTrigger(which);
+        anim.SetTrigger(which1);
+    }*/
+
+    public void TirarPunchERoar(int qual)
+    {
+        if(qual==1)
+        {
+            anim.SetBool("Punch", false);
+        }
+        else
+        {
+            anim.SetBool("Roar", false);
+        }
     }
 
 

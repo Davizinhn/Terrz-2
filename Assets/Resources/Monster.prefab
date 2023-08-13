@@ -1930,7 +1930,7 @@ MonoBehaviour:
   agent: {fileID: 6230767534811077473}
   anim: {fileID: 6230767534811077483}
   walkSpeed: 3.25
-  runSpeed: 6.25
+  runSpeed: 6
   layerMask:
     serializedVersion: 2
     m_Bits: 73

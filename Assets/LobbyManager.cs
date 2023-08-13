@@ -9,6 +9,7 @@ public class LobbyManager : MonoBehaviour
 {
 
     public TMP_Text text;
+    public TMP_Text players;
 
     public void Start()
     {
@@ -18,6 +19,11 @@ public class LobbyManager : MonoBehaviour
     {
         PhotonNetwork.CurrentRoom.IsOpen=false;
         StartCoroutine(startTimer());
+    }
+
+    public void Update()
+    {
+        players.text=PhotonNetwork.PlayerList.Length.ToString()+"/4";
     }
 
     public void LeaveRoom()
