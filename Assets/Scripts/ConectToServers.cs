@@ -10,16 +10,20 @@ public class ConectToServers : MonoBehaviourPunCallbacks
 {
     public string thisVersion;
     public string gitHubVersion;
+    public bool debug = false;
     public GameObject loader;
     public GameObject textinho;
     public GameObject Erro;
-    private string url = "https://raw.githubusercontent.com/yourusername/yourrepository/main/yourfile.txt";
+    private string url = "https://raw.githubusercontent.com/Davizinhn/Terrz-2/sem-ragdoll/gameVersion.txt";
 
     // Start is called before the first frame update
     void Start()
     {
         thisVersion = Application.version;
-        StartCoroutine(GetTextFromGitHub());
+        if(!debug)
+            StartCoroutine(GetTextFromGitHub());
+        else
+            PhotonNetwork.ConnectUsingSettings();
     }
 
     IEnumerator GetTextFromGitHub()
@@ -56,14 +60,18 @@ public class ConectToServers : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        if(thisVersion == gitHubVersion)
-        {
+        if(!debug)
+            if(thisVersion == gitHubVersion)
+            {
+                PhotonNetwork.JoinLobby();
+            }
+            else{
+                textinho.active=true;
+                loader.active=false;
+            }
+        else
             PhotonNetwork.JoinLobby();
-        }
-        else{
-            textinho.active=true;
-            loader.active=false;
-        }
+
     }
 
     public override void OnJoinedLobby()
