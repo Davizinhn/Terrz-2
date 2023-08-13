@@ -189,11 +189,13 @@ public class FirstPersonMovement : MonoBehaviour
 
                 if (canEmote && Input.GetMouseButton(2) && !isEmoting)
                 {
+                    camera.gameObject.GetComponent<FirstPersonLook>().enabled = false;
                     emotePanel.active = true;
                     UnityEngine.Cursor.lockState = CursorLockMode.None;
                 }
                 else if (canEmote && !Input.GetMouseButton(2))
                 {
+                    camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
                     emotePanel.active = false;
                     UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 }
@@ -287,6 +289,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             if(isEmoting && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
                 {
+                    camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
                     isEmoting = false;
                     camera.enabled = true;
                     emoteCam.active = false;

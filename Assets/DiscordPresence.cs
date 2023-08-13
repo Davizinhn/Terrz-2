@@ -71,7 +71,7 @@ public class DiscordPresence : MonoBehaviour
     void OnApplicationQuit()
     {
         if (pname.Length != 0){
-        discord.Dispose();
+            discord.Dispose();
         }
     }
 }

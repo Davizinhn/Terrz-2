@@ -7168,7 +7168,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -24.3
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -27931,7 +27931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6533176238899578845, guid: 0b0ee01098fe0024b812679ac6c4bd2a, type: 3}
       propertyPath: curState
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6715978251447239120, guid: 0b0ee01098fe0024b812679ac6c4bd2a, type: 3}
       propertyPath: m_Name
