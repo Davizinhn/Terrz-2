@@ -10,7 +10,7 @@ using DG.Tweening.Core;
 using DG;
 using DG.Tweening.Plugins;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IPunObservable
 {
     public enum AIStates{
         Idle,
@@ -46,28 +46,12 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    [PunRPC]
-    public void syncValues(ExitGames.Client.Photon.Hashtable data)
-    {
-        if(data["curBed"] != null)
-        {
-            string curBed1 = (string)data["curBed"];
-            GameObject curBed2 = GameObject.Find(curBed1);
-            curBed = curBed2.GetComponent<BedBehaviour>();
-        }
-        else
-        {
-            curBed=null;
-        }
-    }
+
 
     public void Update()
     {
         if(PhotonNetwork.IsMasterClient)
         {
-            ExitGames.Client.Photon.Hashtable data = new ExitGames.Client.Photon.Hashtable();
-            data.Add("curBed", curBed==null?null:curBed.gameObject.name);
-            this.gameObject.GetPhotonView().RPC("syncValues", RpcTarget.Others, data);
             Animations();
             switch(curState)
             {
@@ -308,7 +292,7 @@ public class EnemyAI : MonoBehaviour
                     Invoke("BackToIdle", 1f);
                     break;
                 case 2:
-                    anim.SetTrigger("isSomeoneHere");
+                    anim.SetBool("isSomeoneHere", true);
                     break;
             }
 
@@ -372,14 +356,26 @@ public class EnemyAI : MonoBehaviour
         audioSource.PlayOneShot(punchSound);
         if(isLookingBed)
         {
+            Debug.Log("chegei na 359");
             foreach(FirstPersonMovement a in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
-                if(a.curBed==curBed)
+                if(a.curBed.gameObject==curBed.gameObject)
                 {
-                    GameObject.FindObjectOfType<PunchCol>().SimulatePunch(a.gameObject);
+                    Debug.Log("chegei na 364");
+                    Debug.Log(a.gameObject.GetComponent<PhotonView>().ViewID);
+                    gameObject.GetComponent<PhotonView>().RPC("SimulatePunch", RpcTarget.AllBuffered, a.gameObject.GetComponent<PhotonView>().ViewID);
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void SimulatePunch(int playerToPunch1)
+    {
+        Debug.Log(playerToPunch1);
+        PhotonView a = PhotonView.Find(playerToPunch1);
+        GameObject playerToPunch = a.gameObject;
+        playerToPunch.gameObject.GetComponent<FirstPersonMovement>().Morrer();
     }
 
     bool isLookingBed = false;
@@ -389,16 +385,30 @@ public class EnemyAI : MonoBehaviour
         agent.speed=0;
         if(!isLookingBed)
         {
-            transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);
-            this.transform.LookAt(curBed.transform);
+            transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);        
+            transform.LookAt(curBed.spot.transform.position);
             isLookingBed=true;
-            anim.SetTrigger("LookHere");
+            anim.SetBool("LookHere", true);
+            gameObject.GetComponent<PhotonView>().RPC("LookToThat", RpcTarget.OthersBuffered, curBed.spot.transform.position.x, curBed.spot.transform.position.y, curBed.spot.transform.position.z);
             if(curBed.isSomeoneHere)
             {
                 punchType = 2;
                 ChangeToState(AIStates.Punching);
             }
         }
+    }
+
+    public void TirarHere(int a = 1)
+    {
+        anim.SetBool("LookHere", false);
+        if(a==1)
+            anim.SetBool("isSomeoneHere", false);
+    }
+
+    [PunRPC]
+    public void LookToThat(float vectorX, float vectorY, float vectorZ)
+    {
+        transform.LookAt(new Vector3(vectorX, vectorY, vectorZ));
     }
 
     public void Start()
@@ -414,5 +424,21 @@ public class EnemyAI : MonoBehaviour
         anim.SetBool("isWalking", agent.remainingDistance>0 && curState == AIStates.Walking);
         anim.SetBool("isRunning", agent.remainingDistance>0 && curState == AIStates.Chasing);
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // We are the Master Client, send data to others
+            stream.SendNext(curBed != null ? curBed.gameObject.GetPhotonView().ViewID : -1);
+        }
+        else
+        {
+            // We are not the Master Client, receive data from Master Client
+            int receivedViewID = (int)stream.ReceiveNext();
+            curBed = receivedViewID == -1 ? null : PhotonView.Find(receivedViewID).GetComponent<BedBehaviour>();
+        }
+    }
+
 
 }

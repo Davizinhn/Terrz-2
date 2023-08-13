@@ -53,7 +53,9 @@ public class GraphicsManager : MonoBehaviour
         if(!pode)
             return;
         string[] res = resolutionDropdown.options[resolutionDropdown.value].text.Split("x");
-        Screen.SetResolution(int.Parse(res[0]), int.Parse(res[0]), fullDropdown.value==0?FullScreenMode.FullScreenWindow:FullScreenMode.Windowed);
+        Screen.SetResolution(int.Parse(res[0]), int.Parse(res[1]), fullDropdown.value==0?FullScreenMode.FullScreenWindow:FullScreenMode.Windowed);
+        Debug.Log(int.Parse(res[0]));
+        Debug.Log(int.Parse(res[1])); 
     }
 
     bool pode=false;
@@ -90,6 +92,15 @@ public class GraphicsManager : MonoBehaviour
                 }
             }
         fullDropdown.value=Screen.fullScreenMode==FullScreenMode.FullScreenWindow?0:1;
+        for (int i = 0; i<resolutionDropdown.options.Count; i++)
+        {
+            string resAtual = Screen.width.ToString()+"x"+Screen.height.ToString();
+            if(resolutionDropdown.options[i].text==resAtual)
+            {
+                resolutionDropdown.value=i;
+                break;
+            }
+        }
         pode=true;
     }
 

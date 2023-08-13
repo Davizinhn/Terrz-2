@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PunchCol : MonoBehaviour
 {
@@ -15,13 +16,5 @@ public class PunchCol : MonoBehaviour
         {
             col.gameObject.GetComponent<FirstPersonMovement>().Morrer();
         }
-    }
-
-    public void SimulatePunch(GameObject playerToPunch)
-    {
-        if(!playerToPunch.GetComponent<FirstPersonMovement>().isDead)
-        {
-            playerToPunch.gameObject.GetComponent<FirstPersonMovement>().Morrer();
-        } 
     }
 }
