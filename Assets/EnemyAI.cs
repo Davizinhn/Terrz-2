@@ -284,11 +284,11 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             switch(punchType)
             {
                 case 0:
-                    anim.SetTrigger("Punch");
+                    gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Punch");
                     Invoke("BackToChasing", 1f);
                     break;
                 case 1:
-                    anim.SetTrigger("Punch");
+                    gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Punch");
                     Invoke("BackToIdle", 1f);
                     break;
                 case 2:
@@ -332,7 +332,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             isRoaring=true;
             jaRoarou=true;
             Invoke("VoltarRoar", 10f);
-            anim.SetTrigger("Roar");
+            gameObject.GetComponent<PhotonView>().RPC("TriggerAnim1", RpcTarget.AllBuffered, "Roar");
             Invoke("BackToIdle", 4.25f);
         }
     }
@@ -438,6 +438,12 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             int receivedViewID = (int)stream.ReceiveNext();
             curBed = receivedViewID == -1 ? null : PhotonView.Find(receivedViewID).GetComponent<BedBehaviour>();
         }
+    }
+
+    [PunRPC]
+    public void TriggerAnim1(string which)
+    {
+        anim.SetTrigger(which);
     }
 
 

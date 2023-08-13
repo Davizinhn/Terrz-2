@@ -349,11 +349,11 @@ public class FirstPersonMovement : MonoBehaviour
         view.RPC("MudarAnimRPC", RpcTarget.AllBuffered, number);
             if (Persona == "leonard")
             {
-                anim.SetTrigger("emote_" + number.ToString());
+                view.RPC("TriggerAnim", RpcTarget.AllBuffered, "emote_"+number.ToString(), 0);
             }
             else if (Persona == "megan")
             {
-                anim1.SetTrigger("emote_" + number.ToString());
+                view.RPC("TriggerAnim", RpcTarget.AllBuffered, "emote_"+number.ToString(), 1);
             }
         emotePanel.active = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -388,11 +388,11 @@ public class FirstPersonMovement : MonoBehaviour
         isEmoting=true;
             if (Persona == "leonard")
             {
-                anim.SetTrigger("emote_" + number.ToString());
+                view.RPC("TriggerAnim", RpcTarget.AllBuffered, "emote_"+number.ToString(), 0);
             }
             else if (Persona == "megan")
             {
-                anim1.SetTrigger("emote_" + number.ToString());
+                view.RPC("TriggerAnim", RpcTarget.AllBuffered, "emote_"+number.ToString(), 1);
             }
     }
 
@@ -468,5 +468,18 @@ public class FirstPersonMovement : MonoBehaviour
     public void DestroyThis()
     {
         Destroy(this.gameObject);
+    }
+
+    [PunRPC]
+    public void TriggerAnim(string which, int qual = 0)
+    {
+        if(qual==0)
+        {
+        anim.SetTrigger(which);
+        }
+        else
+        {
+        anim1.SetTrigger(which);
+        }
     }
 }

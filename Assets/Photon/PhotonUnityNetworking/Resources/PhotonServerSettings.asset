@@ -72,6 +72,7 @@ MonoBehaviour:
   - syncValues
   - LookToThat
   - SimulatePunch
+  - TriggerAnim1
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
