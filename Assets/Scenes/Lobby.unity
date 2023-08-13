@@ -449,7 +449,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh319014
+  m_Name: pb_Mesh-839114
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1243,7 +1243,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262506813}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -10.74}
+  m_LocalPosition: {x: 0, y: 0, z: -10.755}
   m_LocalScale: {x: 0.16042736, y: 0.16042736, z: 0.16042736}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1658,7 +1658,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh318702
+  m_Name: pb_Mesh-839126
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2120,7 +2120,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh318814
+  m_Name: pb_Mesh-839090
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2432,7 +2432,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh318418
+  m_Name: pb_Mesh-839138
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3394,7 +3394,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh318908
+  m_Name: pb_Mesh-839102
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4813,7 +4813,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh319098
+  m_Name: pb_Mesh-839078
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6219,5 +6219,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5932421311972730197, guid: b02065481f56d9d44993ce846feb23b8, type: 3}
+    - {fileID: 562975127469113275, guid: b02065481f56d9d44993ce846feb23b8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b02065481f56d9d44993ce846feb23b8, type: 3}

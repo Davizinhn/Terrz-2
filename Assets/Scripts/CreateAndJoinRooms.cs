@@ -12,6 +12,12 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField createField;
     public TMP_InputField joinField;
+    public Button botoes;
+        public Button botoes1;
+    public GameObject Carregando;
+    public GameObject jogar;
+    public GameObject messagePrefab;
+    public Transform aondeMessage;
     private void Start(){
         Cursor.lockState = CursorLockMode.None;
         GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Menus", "");
@@ -19,8 +25,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        if(GetComponent<PlayerName>().nameInpunField.text=="" || createField.text=="")
+        if(GetComponent<PlayerName>().nameInpunField.text=="" || joinField.text=="")
             return;
+        jogar.SetActive(false);
+        Carregando.SetActive(true);
         PhotonNetwork.CreateRoom(createField.text);
     }
 
@@ -28,7 +36,31 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         if(GetComponent<PlayerName>().nameInpunField.text=="" || joinField.text=="")
             return;
+        jogar.SetActive(false);
+        Carregando.SetActive(true);
         PhotonNetwork.JoinRoom(joinField.text);
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        GameObject ha = Instantiate(messagePrefab, aondeMessage);
+        ha.GetComponent<TMPro.TMP_Text>().text="Error creating room";
+        jogar.SetActive(true);
+        Carregando.SetActive(false);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        GameObject ha = Instantiate(messagePrefab, aondeMessage);
+        ha.GetComponent<TMPro.TMP_Text>().text="Room not found";
+        jogar.SetActive(true);
+        Carregando.SetActive(false);
+    }
+
+    public void Update()
+    {
+        botoes.interactable = GetComponent<PlayerName>().nameInpunField.text!="" && joinField.text!="";
+        botoes1.interactable = GetComponent<PlayerName>().nameInpunField.text!="" && joinField.text!="";
     }
 
     public void LeaveRoom()

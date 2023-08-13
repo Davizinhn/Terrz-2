@@ -11,11 +11,13 @@ public class ManageGame : MonoBehaviour
     public Door terminarDoor;
     public bool isacabando;
     public bool foge;
+    public SpectatorManager spectatorManager;
         public Generator[] allGen;
         public List<Generator> activeGenerators = new List<Generator>();
         public bool ativados;
         public TMP_Text genText;
     public int playersPost;
+    public TMP_Text alive;
 
     public void Awake()
     {
@@ -31,6 +33,7 @@ public class ManageGame : MonoBehaviour
     public void Update()
     {
         genText.text="Generators Left: \n"+activeGenerators.Count+"/"+allGen.Length.ToString();
+        alive.text = "Players Left: \n"+(PhotonNetwork.PlayerList.Length-spectatorManager.playersMortos).ToString()+"/"+PhotonNetwork.PlayerList.Length.ToString();
 
         // Limpa a lista de geradores ativos
         activeGenerators.Clear();
