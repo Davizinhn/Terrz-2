@@ -38,6 +38,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     public GameObject punchCol;
     public AudioClip punchSound;
     public AudioClip roarSound;
+    public AudioSource PassosSound;
 
 
     public void ChangeToState(AIStates state)
@@ -115,6 +116,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     bool isLoopingIdle = false;
     public void IdleState()
     {
+        if(PassosSound.isPlaying)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 0);
+        }
         agent.speed = 0;
         VerifyForPlayer();
         if(!isLoopingIdle)
@@ -146,6 +151,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     bool alreadyWalking = false;
     public void WalkingState()
     {
+        if(!PassosSound.isPlaying || PassosSound.pitch != 0.95f)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 1);
+        }
         agent.speed=walkSpeed;
         isLoopingIdle=false;
         VerifyForPlayer();
@@ -249,6 +258,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     bool jaToPerdendo=false;
     public void ChasingState()
     {
+        if(!PassosSound.isPlaying || PassosSound.pitch != 1.6f)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 2);
+        }
         float multiplier = PhotonNetwork.PlayerList.Length<3 ? 1f : 1.15f;
         agent.speed=runSpeed * multiplier;
         isLoopingIdle=false;
@@ -286,6 +299,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     int punchType = 0;
     public void PunchingState()
     {
+        if(PassosSound.isPlaying)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 0);
+        }
         agent.speed = 0;
         if(!isPunching)
         {
@@ -335,6 +352,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     bool jaRoarou = false;
     public void RoarState()
     {
+        if(PassosSound.isPlaying)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 0);
+        }
         agent.speed=0;
         if(!isRoaring)
         {
@@ -391,6 +412,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     public BedBehaviour curBed = null;
     public void LookingBedState()
     {
+        if(PassosSound.isPlaying)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 0);
+        }
         agent.speed=0;
         if(!isLookingBed)
         {
@@ -464,6 +489,27 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         else
         {
             anim.SetBool("Roar", false);
+        }
+    }
+
+    [PunRPC]
+    public void PassosTirarOuColocar(int simoun)
+    {
+        switch(simoun)
+        {
+            case 0:
+                PassosSound.Stop();
+                break;
+            case 1:
+                if(!PassosSound.isPlaying)
+                    {PassosSound.Play();}
+                PassosSound.pitch=0.95f;
+                break;
+            case 2:
+                if(!PassosSound.isPlaying)
+                    {PassosSound.Play();}
+                PassosSound.pitch=1.6f;
+                break;
         }
     }
 
