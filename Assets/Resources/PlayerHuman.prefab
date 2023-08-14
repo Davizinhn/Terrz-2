@@ -798,7 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera1: {fileID: 0}
   camera2: {fileID: 0}
-  camera3: {fileID: 1028977890840856439}
+  camera3: {fileID: 1450882661577789924}
 --- !u!1 &759246340136065767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2996,7 +2996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera1: {fileID: 0}
   camera2: {fileID: 0}
-  camera3: {fileID: 1028977890840856439}
+  camera3: {fileID: 1450882661577789924}
 --- !u!1 &2797809461841575025
 GameObject:
   m_ObjectHideFlags: 0
@@ -10374,7 +10374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceThreshold: 0.15
-  isGrounded: 1
+  isGrounded: 0
 --- !u!1 &8387601470110389260
 GameObject:
   m_ObjectHideFlags: 0
