@@ -7,6 +7,8 @@ public class SairDoJogo : MonoBehaviour
     public GameObject Normal;
     public GameObject Configs;
     public GameObject Jogar1;
+    public GameObject ConfigsGraphics;
+    public GameObject ConfigsSound;
 
     public void SairJogo()
     {
@@ -34,6 +36,15 @@ public class SairDoJogo : MonoBehaviour
         Normal.active=true;
         Configs.active=false;
     }
+
+    public void VoltarConfigs()
+    {
+        PlayAudioA();
+        ConfigsGraphics.active=false;
+        ConfigsSound.active=false;
+        Configs.active=true;
+    }
+    
 
     public void PlayAudioA()
     {

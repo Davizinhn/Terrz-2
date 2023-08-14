@@ -740,6 +740,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8312824252490370768, guid: dc8f3955c063af240afd23143f496335, type: 3}
+      propertyPath: sceneViewId
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc8f3955c063af240afd23143f496335, type: 3}
 --- !u!1001 &212365179
@@ -848,7 +852,7 @@ AudioSource:
   m_GameObject: {fileID: 221559175}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: e05e24e615f583141857a1f52b8ea6ae, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -1579,6 +1583,10 @@ PrefabInstance:
     - target: {fileID: 470138, guid: dc8f3955c063af240afd23143f496335, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312824252490370768, guid: dc8f3955c063af240afd23143f496335, type: 3}
+      propertyPath: sceneViewId
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc8f3955c063af240afd23143f496335, type: 3}
@@ -3238,7 +3246,7 @@ AudioSource:
   m_GameObject: {fileID: 1119345731}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: e05e24e615f583141857a1f52b8ea6ae, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -4021,6 +4029,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8312824252490370768, guid: dc8f3955c063af240afd23143f496335, type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc8f3955c063af240afd23143f496335, type: 3}
 --- !u!1 &1623402291
@@ -4584,6 +4596,10 @@ PrefabInstance:
     - target: {fileID: 470138, guid: dc8f3955c063af240afd23143f496335, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312824252490370768, guid: dc8f3955c063af240afd23143f496335, type: 3}
+      propertyPath: sceneViewId
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc8f3955c063af240afd23143f496335, type: 3}

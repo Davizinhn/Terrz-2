@@ -1451,7 +1451,7 @@ AudioSource:
   m_GameObject: {fileID: 1200229314467261772}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1969c4242da26114fa78bf1f229c78b0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -6089,7 +6089,7 @@ AudioSource:
   m_GameObject: {fileID: 5476125225251577329}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: 834214686b5d2b74b9d534327e432f1a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -8882,7 +8882,7 @@ AudioSource:
   m_GameObject: {fileID: 7662205439271560245}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: 2977809a115d4e149b7ae7b4a04264b6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
@@ -9236,7 +9236,7 @@ AudioSource:
   m_GameObject: {fileID: 8008090944623694658}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1969c4242da26114fa78bf1f229c78b0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -9974,7 +9974,7 @@ AudioSource:
   m_GameObject: {fileID: 8387210475777761592}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2375204277852373742, guid: 9f7f13f7db4e78243894cb5a9cbb3606, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -10158,7 +10158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceThreshold: 0.15
-  isGrounded: 0
+  isGrounded: 1
 --- !u!1 &8387601470110389260
 GameObject:
   m_ObjectHideFlags: 0

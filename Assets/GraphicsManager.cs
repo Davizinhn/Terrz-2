@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class GraphicsManager : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class GraphicsManager : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown fullDropdown;
     public GameObject campadrao;
+
+    public Slider musicSlider;
+    public Slider soundSlider;
+    public AudioMixer musicMixer;
     
     void Update()
     {
@@ -119,5 +125,44 @@ public class GraphicsManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("PostProcess", 1);
         }
+
+        if(!PlayerPrefs.HasKey("MusicVol"))
+        {
+            musicSlider.value=0;
+            PlayerPrefs.SetFloat("MusicVol", 0);
+            soundSlider.value=0;
+            PlayerPrefs.SetFloat("volSound", 0);
+            UpdateMusicAudio();
+        }
+        else
+        {
+            musicSlider.value=PlayerPrefs.GetFloat("MusicVol");
+            soundSlider.value=PlayerPrefs.GetFloat("volSound");
+
+
+            Debug.Log(PlayerPrefs.GetFloat("volSound"));
+
+            UpdateMusicAudio();
+        }
+
+
+
+    }
+
+    public void UpdateMusicAudio()
+    {
+        musicMixer.SetFloat("musicVol", musicSlider.value);
+        musicMixer.SetFloat("soundVol", soundSlider.value);
+    }
+
+    public void Depois()
+    {
+        PlayerPrefs.SetFloat("volSound", soundSlider.value);
+    }
+
+    public void Depois1()
+    {
+        PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
+
     }
 }
