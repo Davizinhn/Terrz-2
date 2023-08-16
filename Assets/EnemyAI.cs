@@ -421,7 +421,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         if(!isLookingBed && canLookBed)
         {
             canLookBed=false;
-            Invoke("VoltarBed", 10f);
+            Invoke("VoltarBed", 30f);
             transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);        
             transform.LookAt(curBed.transform.position);
             isLookingBed=true;
@@ -429,6 +429,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             gameObject.GetComponent<PhotonView>().RPC("LookToThat", RpcTarget.OthersBuffered, curBed.transform.position.x, curBed.transform.position.y, curBed.transform.position.z);
             if(curBed.isSomeoneHere)
             {
+                transform.LookAt(curBed.transform.position);
                 punchType = 2;
                 ChangeToState(AIStates.Punching);
             }
@@ -456,6 +457,8 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     public void Start()
     {
         //PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
         chasingPlayer = null;
         randLocations = GameObject.FindGameObjectsWithTag("RandPoints");
         audioSource=this.gameObject.GetComponent<AudioSource>();
