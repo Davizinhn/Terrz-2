@@ -15,6 +15,8 @@ public class GraphicsManager : MonoBehaviour
 
     public Slider musicSlider;
     public Slider soundSlider;
+    public Slider masterSlider;
+    public Slider voiceSlider;
     public AudioMixer musicMixer;
     
     void Update()
@@ -145,6 +147,30 @@ public class GraphicsManager : MonoBehaviour
             UpdateMusicAudio();
         }
 
+        if(!PlayerPrefs.HasKey("VoiceVol"))
+        {
+            voiceSlider.value=0;
+            PlayerPrefs.SetFloat("VoiceVol", 0);
+            UpdateMusicAudio();
+        }
+        else
+        {
+            voiceSlider.value=PlayerPrefs.GetFloat("VoiceVol");
+            UpdateMusicAudio();
+        }
+
+        if(!PlayerPrefs.HasKey("MasterVol"))
+        {
+            masterSlider.value=0;
+            PlayerPrefs.SetFloat("MasterVol", 0);
+            UpdateMusicAudio();
+        }
+        else
+        {
+            masterSlider.value=PlayerPrefs.GetFloat("MasterVol");
+            UpdateMusicAudio();
+        }
+
 
 
     }
@@ -153,6 +179,8 @@ public class GraphicsManager : MonoBehaviour
     {
         musicMixer.SetFloat("musicVol", musicSlider.value);
         musicMixer.SetFloat("soundVol", soundSlider.value);
+        musicMixer.SetFloat("masterVol", masterSlider.value);
+        musicMixer.SetFloat("voiceVol", voiceSlider.value);
     }
 
     public void Depois()
@@ -163,6 +191,18 @@ public class GraphicsManager : MonoBehaviour
     public void Depois1()
     {
         PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
+
+    }
+
+    public void Depois2()
+    {
+        PlayerPrefs.SetFloat("MasterVol", masterSlider.value);
+
+    }
+
+    public void Depois3()
+    {
+        PlayerPrefs.SetFloat("VoiceVol", voiceSlider.value);
 
     }
 }

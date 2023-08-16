@@ -68,15 +68,20 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: ea4584b36d0d800478ecaca901f04fb8
+    name: masterVol
   - guid: 39dce624b2289764fb218026c34be032
     name: musicVol
   - guid: b2a6ea562c08e1841b2be8e51c6b5ee9
     name: soundVol
+  - guid: 0b6a009404684954d943dd294a2c42e1
+    name: voiceVol
   m_AudioMixerGroupViews:
   - guids:
     - 6746a1acab70c5c4c91e46b1203d5184
     - eb03c8f043c05504ca8773151e1d50db
     - 616257f8001e8f84f93c27a70e91583c
+    - c325e65770910154482e8dd653775738
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -92,6 +97,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: -5008722210500612217}
   - {fileID: -2375204277852373742}
+  - {fileID: 2639387087071392286}
   m_Volume: ea4584b36d0d800478ecaca901f04fb8
   m_Pitch: 68ac7ed8aa3661e4b9a02dcefca44adc
   m_Send: 00000000000000000000000000000000
@@ -127,6 +133,25 @@ AudioMixerSnapshotController:
   m_FloatValues:
     39dce624b2289764fb218026c34be032: 0
   m_TransitionOverrides: {}
+--- !u!243 &2639387087071392286
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Voice
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: c325e65770910154482e8dd653775738
+  m_Children: []
+  m_Volume: 0b6a009404684954d943dd294a2c42e1
+  m_Pitch: e07b2a205a212a3418c1e9401991c410
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 2865426449349886010}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &2661168147154218237
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -137,6 +162,20 @@ AudioMixerEffectController:
   m_EffectID: 1d9b7136f911e404fad103185c7b037c
   m_EffectName: Attenuation
   m_MixLevel: c96f0611dda5b524d9bde184dda4bccc
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &2865426449349886010
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 6301525eb3ae3d3418993c673978313d
+  m_EffectName: Attenuation
+  m_MixLevel: 649a0e1dfa174214e901130d4ecdfa78
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0

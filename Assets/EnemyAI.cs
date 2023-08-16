@@ -106,7 +106,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
                 randGen=0;
             }
         }
-        if(col.CompareTag("Bed") && curState==AIStates.Idle && !isLookingBed)
+        if(col.CompareTag("Bed") && curState==AIStates.Idle && !isLookingBed && canLookBed)
         {
             curBed = col.gameObject.GetComponent<BedBehaviour>();
             ChangeToState(AIStates.LookingBed);
@@ -409,6 +409,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     }
 
     bool isLookingBed = false;
+    bool canLookBed = true;
     public BedBehaviour curBed = null;
     public void LookingBedState()
     {
@@ -417,8 +418,10 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             gameObject.GetComponent<PhotonView>().RPC("PassosTirarOuColocar", RpcTarget.AllBuffered, 0);
         }
         agent.speed=0;
-        if(!isLookingBed)
+        if(!isLookingBed && canLookBed)
         {
+            canLookBed=false;
+            Invoke("VoltarBed", 10f);
             transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);        
             transform.LookAt(curBed.transform.position);
             isLookingBed=true;
@@ -430,6 +433,11 @@ public class EnemyAI : MonoBehaviour, IPunObservable
                 ChangeToState(AIStates.Punching);
             }
         }
+    }
+
+    public void VoltarBed()
+    {
+        canLookBed=true;
     }
 
     public void TirarHere(int a = 1)
