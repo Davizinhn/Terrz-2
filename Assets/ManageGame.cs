@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class ManageGame : MonoBehaviour
+public class ManageGame : MonoBehaviourPunCallbacks
 {
     public GameObject acabouText;
     public Door terminarDoor;
@@ -96,4 +97,11 @@ public class ManageGame : MonoBehaviour
     {
         playersPost++;
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        spectatorManager.playersMortos--;
+
+    }
+
 }

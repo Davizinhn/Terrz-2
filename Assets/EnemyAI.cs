@@ -90,7 +90,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     {
         if(col.CompareTag("Generator"))
         {
-            Random.Range(0,1);
+            Random.Range(0,2);
         }
     }
 
@@ -134,7 +134,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         yield return new WaitForSeconds(Random.Range(3,5));
         if(curState == AIStates.Idle)
         {
-            int roar = Random.Range(0,1);
+            int roar = Random.Range(0,2);
             if(roar==1&&!jaRoarou)
             {
                 ChangeToState(AIStates.Roar);
@@ -340,12 +340,12 @@ public class EnemyAI : MonoBehaviour, IPunObservable
 
     public void BackToWalking()
     {
-        curBed=null;
         ChooseRandomLocation();
-        ChangeToState(AIStates.Walking);
+        curBed=null;
         isPunching=false;
         isRoaring=false;
         isLookingBed=false;
+        ChangeToState(AIStates.Walking);
     }
 
     bool isRoaring = false;
@@ -422,14 +422,12 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         {
             canLookBed=false;
             Invoke("VoltarBed", 30f);
-            transform.DOMove(curBed.spotMonstro.position, 0.25f).SetEase(Ease.InCubic);        
-            transform.LookAt(curBed.transform.position);
+            transform.DOMove(curBed.spotMonstro.position, 0.25f).OnComplete(()=> transform.LookAt(curBed.transform.position)).SetEase(Ease.InCubic);        
             isLookingBed=true;
             anim.SetBool("LookHere", true);
             gameObject.GetComponent<PhotonView>().RPC("LookToThat", RpcTarget.OthersBuffered, curBed.transform.position.x, curBed.transform.position.y, curBed.transform.position.z);
             if(curBed.isSomeoneHere)
             {
-                transform.LookAt(curBed.transform.position);
                 punchType = 2;
                 ChangeToState(AIStates.Punching);
             }

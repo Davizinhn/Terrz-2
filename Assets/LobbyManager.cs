@@ -13,6 +13,8 @@ public class LobbyManager : MonoBehaviour
 
     public void Start()
     {
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
         GameObject.FindObjectOfType<DiscordPresence>().ChangePresence("In Lobby", "");
     }
     public void InitGame()

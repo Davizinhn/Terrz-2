@@ -1738,7 +1738,7 @@ GameObject:
   - component: {fileID: 6021121995460985748}
   - component: {fileID: 6730260183764524707}
   m_Layer: 7
-  m_Name: Monstro
+  m_Name: Monstro (ANTIGO)
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

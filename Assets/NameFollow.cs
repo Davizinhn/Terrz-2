@@ -23,7 +23,7 @@ public class NameFollow : MonoBehaviour
                 camera2 = GameObject.FindWithTag("SpectatorCam").GetComponent<Camera>().transform;
                 transform.LookAt(transform.position + camera2.rotation * Vector3.forward, camera2.rotation * Vector3.up);
             }
-            else if(camera3.gameObject.active)
+            else
             {
                 transform.LookAt(transform.position + camera3.rotation * Vector3.forward, camera3.rotation * Vector3.up);
             }

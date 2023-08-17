@@ -30,9 +30,18 @@ public class SpectatorManager : MonoBehaviour
         }
     }
 
+    void AcabarOuNJogo()
+    {
+        if(PhotonNetwork.PlayerList.Length-playersMortos==0){
+        GameObject.Find("GameManager").GetComponent<ManageGame>().AcabarJogoo();
+        jaInvokei=false;
+        }
+    }
+
+    bool jaInvokei=false;
     void Update()
     {
-        if(playersMortos==players.Length-1 || players.Length==1){GameObject.Find("GameManager").GetComponent<ManageGame>().AcabarJogoo();}
+        if(PhotonNetwork.PlayerList.Length-playersMortos==0 && !jaInvokei){ jaInvokei=true; Invoke("AcabarOuNJogo", 2f); }
         players = GameObject.FindObjectsOfType<SpectatorMePls>();
 
         if (Spectator)
