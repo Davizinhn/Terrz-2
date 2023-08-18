@@ -15,6 +15,7 @@ TagManager:
   - PlayerMorto
   - SpectatorCam
   - Bed
+  - EmoteCam
   layers:
   - Default
   - TransparentFX

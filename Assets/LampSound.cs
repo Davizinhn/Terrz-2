@@ -8,6 +8,7 @@ public class LampSound : MonoBehaviour
 {
     public PhotonView view;
     public AudioSource audioS;
+    public GameObject[] quais;
     bool jaTaIndo = false;
 
     public void Update()
@@ -27,8 +28,12 @@ public class LampSound : MonoBehaviour
 
     public IEnumerator timerPraComecar()
     {
-        yield return new WaitForSeconds(Random.Range(3f, 10f));
+        yield return new WaitForSeconds(Random.Range(10f, 25f));
         view.RPC("LigarOuDesligar", RpcTarget.AllBuffered, audioS.isPlaying?0:1);
+        if(Random.Range(0,15) == 1)
+        {
+        view.RPC("Sparklings", RpcTarget.AllBuffered, Random.Range(0,2));
+        }
         jaTaIndo=false;
         StopCoroutine(timerPraComecar());
     }
@@ -45,4 +50,12 @@ public class LampSound : MonoBehaviour
             audioS.Play();
         }
     }
+
+    [PunRPC]
+    public void Sparklings(int qual)
+    {
+        quais[qual].SetActive(true);
+    }
+
+
 }

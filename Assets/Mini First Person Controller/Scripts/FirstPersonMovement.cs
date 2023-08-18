@@ -112,6 +112,7 @@ public class FirstPersonMovement : MonoBehaviour
         }
         else
         {
+            Destroy(emoteCam);
             if(Persona=="megan")
             {
                 outro.active=false;

@@ -11,14 +11,16 @@ public class NameFollow : MonoBehaviour
     void Start()
     {
         camera1 = Camera.main.transform;
+        camera3 = camera1.parent.GetChild(8).GetChild(0);
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        if(camera1==null)
+        if(camera1.parent.GetComponent<FirstPersonMovement>().isDead || camera1.parent.GetComponent<FirstPersonMovement>().isEmoting)
         {
-            if(!camera3.gameObject.active)
+            if(camera3.parent.gameObject.active==false)
             {
                 camera2 = GameObject.FindWithTag("SpectatorCam").GetComponent<Camera>().transform;
                 transform.LookAt(transform.position + camera2.rotation * Vector3.forward, camera2.rotation * Vector3.up);
@@ -30,7 +32,8 @@ public class NameFollow : MonoBehaviour
         }
         else
         {
-            if (Camera.main.transform != null) { camera1 = Camera.main.transform;       transform.LookAt(transform.position + camera1.rotation * Vector3.forward, camera1.rotation * Vector3.up);}
+            camera1 = Camera.main.transform;       
+            transform.LookAt(transform.position + camera1.rotation * Vector3.forward, camera1.rotation * Vector3.up);
 
         }
     }

@@ -100,7 +100,18 @@ public class ManageGame : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        spectatorManager.playersMortos--;
+        List<FirstPersonMovement> allPlayersDead = new List<FirstPersonMovement>();
+        foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
+        {
+            if(player.isDead)
+            {
+                allPlayersDead.Add(player);
+            }
+        }
+        if(spectatorManager.playersMortos>allPlayersDead.Count)
+        {
+            spectatorManager.playersMortos--;
+        }
 
     }
 
