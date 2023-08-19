@@ -33,6 +33,7 @@ public class ManageGame : MonoBehaviourPunCallbacks
 
     public void UnPause()
     {
+        GetComponent<AudioSource>().Play();
         pauseCoisos.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable=false;
         pauseCoisos.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable=true;
         pauseCoisos.SetActive(false);
