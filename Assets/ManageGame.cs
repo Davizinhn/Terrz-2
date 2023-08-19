@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class ManageGame : MonoBehaviourPunCallbacks
 {
@@ -19,11 +20,31 @@ public class ManageGame : MonoBehaviourPunCallbacks
         public TMP_Text genText;
     public int playersPost;
     public TMP_Text alive;
+    public bool isPaused;
+    public bool canPause;
+    public GameObject pauseCoisos;
+    public GameObject cinematicCamera;
 
     public void Awake()
     {
                 allGen = FindObjectsOfType<Generator>();
 
+    }
+
+    public void UnPause()
+    {
+        pauseCoisos.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable=false;
+        pauseCoisos.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable=true;
+        pauseCoisos.SetActive(false);
+        isPaused=false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void Quit()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene("Menu");
     }
 
     public void Start()
@@ -64,6 +85,17 @@ public class ManageGame : MonoBehaviourPunCallbacks
             terminarDoor.Mudar();
         }
         foge = terminarDoor.isOpen && ativados;
+        canPause = !isPaused && !cinematicCamera.GetComponent<CinematicManager>().inCinematic;
+        if(isPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if(canPause && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            pauseCoisos.SetActive(true);
+            isPaused=true;
+        }
     }
 
     public void AcabarJogoo()

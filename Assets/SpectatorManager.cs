@@ -19,10 +19,12 @@ public class SpectatorManager : MonoBehaviour
     [SerializeField] public SpectatorMePls[] players;
     public GameObject currentPlayer;
     public int playersMortos;
+    public ManageGame gameManager;
     int i;
 
     private void Start()
     {
+        gameManager=GameObject.FindObjectOfType<ManageGame>();
         currentPlayer = players[0].gameObject;
                 if(PlayerPrefs.GetInt("PostProcess") == 0)
         {
@@ -46,6 +48,7 @@ public class SpectatorManager : MonoBehaviour
 
         if (Spectator)
         {
+            spectatorCine.enabled = !gameManager.isPaused;
             SpectatorCam.SetActive(true);
             if(PlayerPrefs.GetInt("PostProcess") == 0 && campadrao.GetComponent<PostProcessVolume>().enabled==true)
             {

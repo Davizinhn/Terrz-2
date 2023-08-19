@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class FirstPersonLook : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FirstPersonLook : MonoBehaviour
 
     Vector2 velocity;
     Vector2 frameVelocity;
+    public ManageGame gameManager;
+
 
 
     void Reset()
@@ -25,12 +28,16 @@ public class FirstPersonLook : MonoBehaviour
         {
             this.gameObject.GetComponent<PostProcessVolume>().enabled=false;
         }
+            if(SceneManager.GetActiveScene().name=="Game")
+            {
+            gameManager = GameObject.FindObjectOfType<ManageGame>();
+            }
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if(GameObject.Find("CinematicCamera") == null ||!GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic)
+        if((GameObject.Find("CinematicCamera") == null ||!GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic) && (gameManager!=null ? !gameManager.isPaused : true))
         {
             // Get smooth velocity.
             Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class Interact : MonoBehaviour
 {
@@ -19,16 +21,22 @@ public class Interact : MonoBehaviour
     public TMP_Text cue;
     public AudioSource tick;
         Vector3 hahi;
+    public ManageGame gameManager;
+
 
     void Start()
     {
         view = this.gameObject.GetComponent<PhotonView>();
         Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
+            if(SceneManager.GetActiveScene().name=="Game")
+            {
+            gameManager = GameObject.FindObjectOfType<ManageGame>();
+            }
     }
 
     public void Update()
     {
-        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (gameManager!=null ? !gameManager.isPaused : true))
         {
             RaycastHit hit;
             if (Camera.main != null) { Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);

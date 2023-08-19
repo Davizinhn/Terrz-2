@@ -4,6 +4,7 @@ using Photon.Pun;
 using Unity.Burst.CompilerServices;
 using TMPro;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class FirstPersonMovement : MonoBehaviour
     public GameObject emotePanel;
     public GameObject emoteCam;
     public GameObject userPanel;
+    public ManageGame gameManager;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -72,6 +74,10 @@ public class FirstPersonMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
+            if(SceneManager.GetActiveScene().name=="Game")
+            {
+            gameManager = GameObject.FindObjectOfType<ManageGame>();
+            }
             /*foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
                 if(player.gameObject.GetComponent<PhotonView>().IsMine && player.gameObject != this.gameObject)
@@ -170,7 +176,47 @@ public class FirstPersonMovement : MonoBehaviour
                 outro.active=true;
             }
         }
-        if(view.IsMine)
+        if((gameManager!=null ? gameManager.isPaused : false))
+        {
+            rigidbody.velocity=new Vector3(0, 0, 0);
+            if(isEmoting)
+            {
+                    camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
+                    isEmoting = false;
+                    camera.enabled = true;
+                    emoteCam.active = false;
+                    userPanel.active = true;
+                    if (Persona == "leonard")
+                    {
+                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = false;
+                        }
+                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = true;
+                        }
+ 
+
+                    }
+                    else if (Persona == "megan")
+                    {
+                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = true;
+                        }
+                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        {
+                            a.gameObject.layer = 9;
+                            a.enabled = false;
+                        }
+                    }
+            }
+        }
+        if(view.IsMine && (gameManager!=null ? !gameManager.isPaused : true))
         {
                     if(IsRunning)
                     {
