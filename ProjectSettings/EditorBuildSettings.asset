@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Stinger.unity
+    guid: b11a2ad526320f84faec4fe05727c4e0
+  - enabled: 1
     path: Assets/Scenes/Loading.unity
     guid: 7ad2a7fb2587e544ca4d9c6563042cdf
   - enabled: 1
