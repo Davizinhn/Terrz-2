@@ -36,7 +36,7 @@ public class Interact : MonoBehaviour
 
     public void Update()
     {
-        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (gameManager!=null ? !gameManager.isPaused : true))
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (gameManager!=null ? !gameManager.isPaused : true) && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
         {
             RaycastHit hit;
             if (Camera.main != null) { Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
@@ -121,6 +121,10 @@ public class Interact : MonoBehaviour
                 cue.text="";
             }
             }
+        }
+        else
+        {
+            cue.text="";
         }
     }
 

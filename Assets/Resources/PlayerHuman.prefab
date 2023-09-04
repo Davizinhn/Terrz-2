@@ -10723,7 +10723,7 @@ MonoBehaviour:
   runSpeed: 5
   ground: {fileID: 8499943449460734008}
   runningKey: 304
-  bobbingSpeed: 0.1
+  bobbingSpeed: 0.12
   bobbingAmount: 0.045
   midpoint: 2.126
   anim: {fileID: 2802297574790990220}
