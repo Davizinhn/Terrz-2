@@ -125,6 +125,7 @@ public class Interact : MonoBehaviour
         else
         {
             cue.text="";
+            QuebradoStuff.active=false;
         }
     }
 
