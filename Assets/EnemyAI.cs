@@ -106,7 +106,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
                 randGen=0;
             }
         }
-        if(col.CompareTag("Bed") && curState==AIStates.Idle && !isLookingBed && canLookBed && ultimaLocation==nil)
+        if(col.CompareTag("Bed") && curState==AIStates.Idle && !isLookingBed && canLookBed && curState!=AIStates.Walking && curState != AIStates.Chasing)
         {
             curBed = col.gameObject.GetComponent<BedBehaviour>();
             ChangeToState(AIStates.LookingBed);
@@ -217,6 +217,8 @@ public class EnemyAI : MonoBehaviour, IPunObservable
 
     public void VerifyForPlayer()
     {
+        if (isLookingBed || isRoaring)
+            return;
         int rayCount = 75;
         float coiso=95f;
         float rayLength = 100f;
@@ -342,7 +344,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     public void BackToWalking()
     {
         ChooseRandomLocation();
-        isLoopingIdle = false;
+        punchType = 0;
         curBed=null;
         isPunching=false;
         isRoaring=false;
