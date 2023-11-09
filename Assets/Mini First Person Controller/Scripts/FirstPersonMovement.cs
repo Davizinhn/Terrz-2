@@ -507,6 +507,8 @@ public class FirstPersonMovement : MonoBehaviour
                 }
                 emotePanel.active = false;
                 emoteCam.active = true;
+                camera.gameObject.GetComponent<FirstPersonLook>().enabled = false;
+                camera.enabled = false;
                 if (isLaying)
                 {
                     curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
@@ -540,40 +542,33 @@ public class FirstPersonMovement : MonoBehaviour
     [PunRPC]
     public void LevantarPlayer()
     {
-        if(hasFallen)
-        {
             hasFallen = false;
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos--;
             this.gameObject.tag = "Player";
-            this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
+            this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             if (Persona == "leonard")
             {
                 anim.SetBool("hasFallen", false);
+            outro.GetComponent<Outline>().enabled = false;
+
+
             }
             else if (Persona == "megan")
             {
                 anim1.SetBool("hasFallen", false);
+            megan.GetComponent<Outline>().enabled = false;
+
             }
-            if (view.IsMine)
+        if (view.IsMine)
             {
+                camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
+                camera.enabled = true;
                 emoteCam.active = false;
                 foreach (GameObject a in elementosUIDelete)
                 {
                     a.active = true;
                 }
             }
-            else
-            {
-                if (Persona == "megan")
-                {
-                    megan.GetComponent<Outline>().enabled = false;
-                }
-                else
-                {
-                    outro.GetComponent<Outline>().enabled = false;
-                }
-            }
-        }
 
     }
 
