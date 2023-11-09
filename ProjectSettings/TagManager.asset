@@ -16,6 +16,7 @@ TagManager:
   - SpectatorCam
   - Bed
   - EmoteCam
+  - PlayerCaido
   layers:
   - Default
   - TransparentFX

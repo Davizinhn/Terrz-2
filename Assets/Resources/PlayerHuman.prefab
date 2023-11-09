@@ -394,8 +394,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195072027956604463}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.126, z: 3}
+  m_LocalRotation: {x: 0.08441479, y: 0.0000000042946064, z: -3.6382686e-10, w: 0.9964307}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1012,7 +1012,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788145723475448904}
-  m_LocalRotation: {x: 0.23911473, y: -0.00000000858064, z: -6.2252725e-10, w: 0.9709913}
+  m_LocalRotation: {x: 0.08441476, y: 0.000000008576668, z: -7.265907e-10, w: 0.99643075}
   m_LocalPosition: {x: 0, y: 3.4791534, z: -3.0001383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3942,7 +3942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 7.100006, y: 67.599976}
+  m_AnchoredPosition: {x: 7.0999756, y: 67.599976}
   m_SizeDelta: {x: 122.6726, y: 40.4593}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6515530567730212091
@@ -4943,7 +4943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 1.68, z: -3}
+  m_FollowOffset: {x: 0, y: 3.51, z: -3}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -6279,7 +6279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 1.68, z: -3}
+  m_FollowOffset: {x: 0, y: 3.51, z: -3}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -6557,8 +6557,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4975094143157846271}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.126, z: 3}
+  m_LocalRotation: {x: 0.1336784, y: 0.039726667, z: -0.0053630825, w: 0.9902137}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9638,6 +9638,7 @@ GameObject:
   - component: {fileID: 7177473806383598621}
   - component: {fileID: 4763541302005967848}
   - component: {fileID: 8098943532393064089}
+  - component: {fileID: 5480667672237623657}
   m_Layer: 3
   m_Name: Megan
   m_TagString: Untagged
@@ -9735,9 +9736,30 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: emote_3
+  - Type: 4
+    SynchronizeType: 2
+    Name: hasFallen
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
+--- !u!114 &5480667672237623657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552627605801408167}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 3
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &7621033773354938484
 GameObject:
   m_ObjectHideFlags: 0
@@ -10116,8 +10138,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7932531107810671641}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.126, z: 3}
+  m_LocalRotation: {x: 0.15479735, y: 0.000000008419664, z: -0.0000000013192436, w: 0.9879463}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10772,6 +10794,8 @@ MonoBehaviour:
   emoteCam: {fileID: 7505256125416556786}
   userPanel: {fileID: 2927920060098201713}
   gameManager: {fileID: 0}
+  hasFallen: 0
+  coisos: {fileID: 5854657242218139002}
 --- !u!114 &8468278693173653293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11796,6 +11820,7 @@ GameObject:
   - component: {fileID: 8247147929985614823}
   - component: {fileID: 2802297574790990220}
   - component: {fileID: 8728140840364765488}
+  - component: {fileID: 4470779005199967016}
   m_Layer: 9
   m_Name: Leonard
   m_TagString: Untagged
@@ -11894,9 +11919,30 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: emote_3
+  - Type: 4
+    SynchronizeType: 2
+    Name: hasFallen
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
+--- !u!114 &4470779005199967016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8734751218067593565}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 3
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &8751119278884642464
 GameObject:
   m_ObjectHideFlags: 0
@@ -12247,7 +12293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 1.68, z: -3}
+  m_FollowOffset: {x: 0, y: 3.51, z: -3}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1

@@ -36,7 +36,7 @@ public class Interact : MonoBehaviour
 
     public void Update()
     {
-        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && (gameManager!=null ? !gameManager.isPaused : true) && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && !this.gameObject.GetComponent<FirstPersonMovement>().hasFallen && (gameManager!=null ? !gameManager.isPaused : true) && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
         {
             RaycastHit hit;
             if (Camera.main != null) { Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);
@@ -109,6 +109,18 @@ public class Interact : MonoBehaviour
                         }
                     }
                 }
+                else if(hit.transform.gameObject.tag == "PlayerCaido")
+                    {
+                        QuebradoStuff.active = false;
+                        cue.text = "Help";
+                        if (hit.transform.gameObject != this.gameObject)
+                        {
+                            if (Input.GetKeyDown(KeyCode.E))
+                            {
+                                hit.transform.gameObject.GetComponent<PhotonView>().RPC("LevantarPlayer", RpcTarget.AllBuffered);
+                            }
+                        }
+                    }
                 else
                 {
                                 QuebradoStuff.active=false;
@@ -125,7 +137,11 @@ public class Interact : MonoBehaviour
         else
         {
             cue.text="";
-            QuebradoStuff.active=false;
+            if(QuebradoStuff!=null)
+            {
+                QuebradoStuff.active = false;
+
+            }
         }
     }
 

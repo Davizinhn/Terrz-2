@@ -14,7 +14,7 @@ public class PunchCol : MonoBehaviour
         }
         if(col.gameObject.tag=="Player" && !col.gameObject.GetComponent<FirstPersonMovement>().isDead)
         {
-            col.gameObject.GetComponent<FirstPersonMovement>().Morrer();
+            col.gameObject.GetComponent<FirstPersonMovement>().MorrerEscolher();
         }
     }
 }
