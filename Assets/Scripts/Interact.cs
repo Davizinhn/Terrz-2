@@ -22,6 +22,7 @@ public class Interact : MonoBehaviour
     public AudioSource tick;
         Vector3 hahi;
     public ManageGame gameManager;
+    LobbyManager lobbyManager;
 
 
     void Start()
@@ -32,11 +33,15 @@ public class Interact : MonoBehaviour
             {
             gameManager = GameObject.FindObjectOfType<ManageGame>();
             }
+            else
+            {
+            lobbyManager = GameObject.FindObjectOfType<LobbyManager>();
+            }
     }
 
     public void Update()
     {
-        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && !this.gameObject.GetComponent<FirstPersonMovement>().hasFallen && (gameManager!=null ? !gameManager.isPaused : true) && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
+        if(view.IsMine && !this.gameObject.GetComponent<FirstPersonMovement>().isDead && !this.gameObject.GetComponent<FirstPersonMovement>().hasFallen && (gameManager!=null ? !gameManager.isPaused : !lobbyManager.rulesOpen) && !this.gameObject.GetComponent<FirstPersonMovement>().isEmoting)
         {
             RaycastHit hit;
             if (Camera.main != null) { Ray ray = new Ray(thisCamera.transform.position, Camera.main.transform.forward);

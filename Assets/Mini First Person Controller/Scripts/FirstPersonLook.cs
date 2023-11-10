@@ -12,6 +12,7 @@ public class FirstPersonLook : MonoBehaviour
     Vector2 velocity;
     Vector2 frameVelocity;
     public ManageGame gameManager;
+    LobbyManager lobbyManager;
 
 
 
@@ -32,12 +33,16 @@ public class FirstPersonLook : MonoBehaviour
             {
             gameManager = GameObject.FindObjectOfType<ManageGame>();
             }
+            else
+            { 
+            lobbyManager = GameObject.FindObjectOfType<LobbyManager>();
+            }
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if((GameObject.Find("CinematicCamera") == null ||!GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic) && (gameManager!=null ? !gameManager.isPaused : true))
+        if((GameObject.Find("CinematicCamera") == null ||!GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic) && (gameManager!=null ? !gameManager.isPaused : !lobbyManager.rulesOpen))
         {
             // Get smooth velocity.
             Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));

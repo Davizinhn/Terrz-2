@@ -84,7 +84,7 @@ public class ChromaticControler : MonoBehaviour
             v = player.gameObject.GetComponentInChildren<PostProcessVolume>();
             chaseMusic.Stop();
         }
-        else if(GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator==true)
+        else if(GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().Spectator==true || player.gameObject.layer == 11)
         {
             chaseMusic.volume--;
             normalMusic.volume = 0.1f;

@@ -9,6 +9,7 @@ public class LampSound : MonoBehaviour
     public PhotonView view;
     public AudioSource audioS;
     public GameObject[] quais;
+    int maxRange = 15;
     bool jaTaIndo = false;
 
     public void Update()
@@ -24,15 +25,40 @@ public class LampSound : MonoBehaviour
                 }
             }
         }
+        else if(SceneManager.GetActiveScene().name == "Menu")
+        {
+            if (!jaTaIndo)
+            {
+                maxRange = 2;
+                jaTaIndo = true;
+                StartCoroutine(timerPraComecar());
+            }
+        }
     }
 
     public IEnumerator timerPraComecar()
     {
         yield return new WaitForSeconds(Random.Range(10f, 25f));
-        view.RPC("LigarOuDesligar", RpcTarget.AllBuffered, audioS.isPlaying?0:1);
-        if(Random.Range(0,15) == 1)
+        if(view!=null)
         {
-        view.RPC("Sparklings", RpcTarget.AllBuffered, Random.Range(0,2));
+            view.RPC("LigarOuDesligar", RpcTarget.AllBuffered, audioS.isPlaying ? 0 : 1);
+        }
+        else
+        {
+            LigarOuDesligar(audioS.isPlaying ? 0 : 1);
+        }
+        if (Random.Range(0,maxRange) == 1)
+        {
+            if (view != null)
+            {
+                view.RPC("Sparklings", RpcTarget.AllBuffered, Random.Range(0, 2));
+
+            }
+            else
+            {
+                Sparklings(Random.Range(0, 2));
+            }
+
         }
         jaTaIndo=false;
         StopCoroutine(timerPraComecar());

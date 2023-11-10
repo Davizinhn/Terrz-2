@@ -60,6 +60,11 @@ public class FirstPersonMovement : MonoBehaviour
     public bool hasFallen;
     int morrerInt = 0;
     public GameObject coisos;
+    LobbyManager lobbyManager;
+    public object maxLives;
+    public AudioClip[] grunts;
+    public AudioSource gruntSource;
+    public AudioSource breath;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -77,9 +82,15 @@ public class FirstPersonMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
-            if(SceneManager.GetActiveScene().name=="Game")
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Lives", out maxLives);
+
+            if (SceneManager.GetActiveScene().name=="Game")
             {
             gameManager = GameObject.FindObjectOfType<ManageGame>();
+            }
+            else
+            {
+                lobbyManager = GameObject.FindObjectOfType<LobbyManager>();
             }
             /*foreach(FirstPersonMovement player in GameObject.FindObjectsOfType<FirstPersonMovement>())
             {
@@ -181,7 +192,7 @@ public class FirstPersonMovement : MonoBehaviour
                 outro.active=true;
             }
         }
-        if((gameManager!=null ? gameManager.isPaused : false))
+        if((gameManager!=null ? gameManager.isPaused : lobbyManager.rulesOpen))
         {
             rigidbody.velocity=new Vector3(0, 0, 0);
             if(isEmoting)
@@ -221,7 +232,7 @@ public class FirstPersonMovement : MonoBehaviour
                     }
             }
         }
-        if(view.IsMine && (gameManager!=null ? !gameManager.isPaused : true))
+        if(view.IsMine && (gameManager!=null ? !gameManager.isPaused : !lobbyManager.rulesOpen))
         {
                     if(IsRunning)
                     {
@@ -239,13 +250,13 @@ public class FirstPersonMovement : MonoBehaviour
                     curBed.gameObject.GetComponent<PhotonView>().RPC("unLayHere", RpcTarget.AllBuffered, this.gameObject.GetComponent<PhotonView>().ViewID);
                 }
 
-                if (canEmote && Input.GetMouseButton(2) && !isEmoting)
+                if (canEmote && Input.GetKey(KeyCode.Q) && !isEmoting)
                 {
                     camera.gameObject.GetComponent<FirstPersonLook>().enabled = false;
                     emotePanel.active = true;
                     UnityEngine.Cursor.lockState = CursorLockMode.None;
                 }
-                else if (canEmote && !Input.GetMouseButton(2))
+                else if (canEmote && !Input.GetKey(KeyCode.Q))
                 {
                     camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
                     emotePanel.active = false;
@@ -456,9 +467,9 @@ public class FirstPersonMovement : MonoBehaviour
         {
             if (gameManager.playersPost > 1)
             {
-                if (morrerInt > 0)
+                if (morrerInt > (int)maxLives)
                 {
-                    Morrer();
+                    Morrer(true);
                 }
                 else
                 {
@@ -467,7 +478,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             else
             {
-                Morrer(); // MUDAR PRO SÓ MORRER DPS
+                Morrer(true); // MUDAR PRO SÓ MORRER DPS
             }
         }
 
@@ -481,7 +492,7 @@ public class FirstPersonMovement : MonoBehaviour
             if(!hasFallen)
             {
                 hasFallen = true;
-                morrerInt=1;
+                morrerInt++;
                 isEmoting = false;
                 if (Persona == "megan")
                 {
@@ -516,15 +527,21 @@ public class FirstPersonMovement : MonoBehaviour
                 this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 this.gameObject.tag = "PlayerCaido";
                 GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
-                view.RPC("QuaseMorrerOutros", RpcTarget.OthersBuffered);
-
+                this.gameObject.layer = 11;
+                int gruntInt = Random.Range(0, grunts.Length);
+                gruntSource.PlayOneShot(grunts[gruntInt]);
+                breath.Play();
+                view.RPC("QuaseMorrerOutros", RpcTarget.OthersBuffered, gruntInt);
             }
         }
     }
 
     [PunRPC]
-    public void QuaseMorrerOutros()
+    public void QuaseMorrerOutros(int gruntInt)
     {
+        this.gameObject.layer = 11;
+        gruntSource.PlayOneShot(grunts[gruntInt]);
+        breath.Play();
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag = "PlayerCaido";
         this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -545,7 +562,7 @@ public class FirstPersonMovement : MonoBehaviour
             hasFallen = false;
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos--;
             this.gameObject.tag = "Player";
-            this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+
             if (Persona == "leonard")
             {
                 anim.SetBool("hasFallen", false);
@@ -559,17 +576,33 @@ public class FirstPersonMovement : MonoBehaviour
             megan.GetComponent<Outline>().enabled = false;
 
             }
-        if (view.IsMine)
-            {
-                camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
-                camera.enabled = true;
-                emoteCam.active = false;
-                foreach (GameObject a in elementosUIDelete)
-                {
-                    a.active = true;
-                }
-            }
+        breath.Stop();
+        Invoke("VoltarMovimentoAnim", 1.2f);
 
+
+    }
+
+    public void VoltarMovimentoAnim()
+    {
+        view.RPC("VoltarMovimentos", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void VoltarMovimentos()
+    {
+        this.gameObject.layer = 3;
+
+        this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        if (view.IsMine)
+        {
+            camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
+            camera.enabled = true;
+            emoteCam.active = false;
+            foreach (GameObject a in elementosUIDelete)
+            {
+                a.active = true;
+            }
+        }
     }
 
     public void Morrer(bool morreu = true)
@@ -633,11 +666,11 @@ public class FirstPersonMovement : MonoBehaviour
     {
         //this.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
         morteSound.active=true;
+        this.gameObject.layer = 11;
         this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         Destroy(gameObject.GetComponentInChildren<FirstPersonAudio>().gameObject);
         GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos++;
         this.gameObject.tag="PlayerMorto";                
-        this.gameObject.layer = 6;
     }
 
     [PunRPC]
