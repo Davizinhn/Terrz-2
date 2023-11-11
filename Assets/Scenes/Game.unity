@@ -23167,6 +23167,10 @@ PrefabInstance:
       value: Box (1)
       objectReference: {fileID: 0}
     - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -24498,6 +24502,10 @@ PrefabInstance:
     - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
       propertyPath: m_Name
       value: Box (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
       propertyPath: m_NavMeshLayer
@@ -59023,6 +59031,10 @@ PrefabInstance:
     - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
       propertyPath: m_Name
       value: Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 345144645893872334, guid: 529529979bc3b0a41b38278bd1171e9e, type: 3}
       propertyPath: m_NavMeshLayer

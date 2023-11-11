@@ -5,6 +5,7 @@ using Unity.Burst.CompilerServices;
 using TMPro;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -532,6 +533,7 @@ public class FirstPersonMovement : MonoBehaviour
                 gruntSource.PlayOneShot(grunts[gruntInt]);
                 breath.Play();
                 view.RPC("QuaseMorrerOutros", RpcTarget.OthersBuffered, gruntInt);
+                //StartCoroutine(morrerPorDemora());
             }
         }
     }
@@ -559,6 +561,8 @@ public class FirstPersonMovement : MonoBehaviour
     [PunRPC]
     public void LevantarPlayer()
     {
+        //StopCoroutine(morrerPorDemora());
+
             hasFallen = false;
             GameObject.Find("SpectatorManager").GetComponent<SpectatorManager>().playersMortos--;
             this.gameObject.tag = "Player";
@@ -604,6 +608,19 @@ public class FirstPersonMovement : MonoBehaviour
             }
         }
     }
+
+    /*
+    public IEnumerator morrerPorDemora()
+    {
+        yield return new WaitForSeconds(15f);
+        if (!isDead && hasFallen)
+        {
+            Morrer(true);
+            yield break;
+        }
+        yield break;
+    }
+    */
 
     public void Morrer(bool morreu = true)
     {
