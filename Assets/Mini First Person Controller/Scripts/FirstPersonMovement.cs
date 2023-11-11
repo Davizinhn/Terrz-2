@@ -244,10 +244,10 @@ public class FirstPersonMovement : MonoBehaviour
                         bobbingSpeed = 0.18f;
                     }
                 //#if UNITY_EDITOR
-                if(Input.GetKeyDown(KeyCode.M))
+                /*if(Input.GetKeyDown(KeyCode.M))
                 {
                     MorrerEscolher();
-                }
+                }*/
                 //#endif
                 // Update IsRunning from input.
                 IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
