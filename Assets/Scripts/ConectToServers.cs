@@ -14,7 +14,7 @@ public class ConectToServers : MonoBehaviourPunCallbacks
     public GameObject loader;
     public GameObject textinho;
     public GameObject Erro;
-    private string url = "https://raw.githubusercontent.com/Davizinhn/patches/main/terrz2-version.txt";
+    private string url = "https://raw.githubusercontent.com/Davizinhn/Terrz-2/sem-ragdoll/gameVersion.txt";
 
     // Start is called before the first frame update
     void Start()
