@@ -243,8 +243,14 @@ public class FirstPersonMovement : MonoBehaviour
                     {
                         bobbingSpeed = 0.18f;
                     }
-            // Update IsRunning from input.
-            IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
+                //#if UNITY_EDITOR
+                if(Input.GetKeyDown(KeyCode.M))
+                {
+                    MorrerEscolher();
+                }
+                //#endif
+                // Update IsRunning from input.
+                IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
 
             if(isLaying && Input.GetKeyDown(KeyCode.E) && GameObject.Find("Monster").GetComponent<EnemyAI>().curBed != curBed)
                 {
@@ -605,6 +611,34 @@ public class FirstPersonMovement : MonoBehaviour
             foreach (GameObject a in elementosUIDelete)
             {
                 a.active = true;
+            }
+            if (Persona == "leonard")
+            {
+                foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.gameObject.layer = 9;
+                    a.enabled = false;
+                }
+                foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.gameObject.layer = 9;
+                    a.enabled = true;
+                }
+
+
+            }
+            else if (Persona == "megan")
+            {
+                foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.gameObject.layer = 9;
+                    a.enabled = true;
+                }
+                foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    a.gameObject.layer = 9;
+                    a.enabled = false;
+                }
             }
         }
     }

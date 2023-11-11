@@ -413,7 +413,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         Debug.Log(playerToPunch1);
         PhotonView a = PhotonView.Find(playerToPunch1);
         GameObject playerToPunch = a.gameObject;
-        playerToPunch.gameObject.GetComponent<FirstPersonMovement>().Morrer();
+        playerToPunch.gameObject.GetComponent<FirstPersonMovement>().MorrerEscolher();
     }
 
     bool isLookingBed = false;

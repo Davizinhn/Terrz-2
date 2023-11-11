@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class Interact : MonoBehaviour
@@ -16,6 +17,9 @@ public class Interact : MonoBehaviour
         public TMP_Text quebradoText;
     public CollisionCheckArrow arrow;
     public RectTransform Coiso;
+
+    public GameObject ajudarUI;
+    public Slider ajudarSlider;
 
     PhotonView view;
     public TMP_Text cue;
@@ -49,7 +53,9 @@ public class Interact : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Door" && !hit.transform.gameObject.GetComponent<Door>().isMetal)
                 {            QuebradoStuff.active=false;
-                    if(hit.transform.gameObject.GetComponent<Door>().canInteract)
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        if (hit.transform.gameObject.GetComponent<Door>().canInteract)
                     {
                         cue.text="Door";
                         if(Input.GetKeyDown(KeyCode.E))
@@ -64,7 +70,10 @@ public class Interact : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "Generator")
                 {
-                    cue.text="Generator";
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        cue.text="Generator";
+
                     if(Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
                     {
                             hit.transform.gameObject.GetComponent<Generator>().Mudar();
@@ -89,7 +98,9 @@ public class Interact : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "Button" && PhotonNetwork.IsMasterClient)
                 {            QuebradoStuff.active=false;
-                    cue.text="Button";
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
                     {
                             hit.transform.gameObject.GetComponent<FirstPersonButton>().Pressing();
@@ -97,7 +108,9 @@ public class Interact : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "OpenButton")
                 {            QuebradoStuff.active=false;
-                    cue.text="Button";
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
                     {
                             hit.transform.gameObject.GetComponent<FirstPersonButton>().Pressing(true);
@@ -106,7 +119,11 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "Bed")
                 {
                     cue.text="Hide";
-                    if(Input.GetKeyDown(KeyCode.E))
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        QuebradoStuff.active = false;
+
+                        if (Input.GetKeyDown(KeyCode.E))
                     {
                         if (!this.GetComponent<FirstPersonMovement>().isLaying)
                         { 
@@ -120,33 +137,70 @@ public class Interact : MonoBehaviour
                         cue.text = "Help";
                         if (hit.transform.gameObject != this.gameObject)
                         {
-                            if (Input.GetKeyDown(KeyCode.E))
+                            ajudarUI.SetActive(true);
+                            if (Input.GetKey(KeyCode.E) && ajudarUI.activeSelf == true)
                             {
+                                StartCoroutine(encher());
+                            }
+                            else if(!Input.GetKey(KeyCode.E))
+                            {
+                                StopAllCoroutines();
+                                ajudarSlider.value = 0;
+                            }
+                            if (ajudarSlider.value==1)
+                            {
+                                ajudarSlider.value = 0;
+                                ajudarUI.SetActive(false);
                                 hit.transform.gameObject.GetComponent<PhotonView>().RPC("LevantarPlayer", RpcTarget.AllBuffered);
                             }
                         }
                     }
                 else
                 {
-                                QuebradoStuff.active=false;
+                        ajudarSlider.value = 0;
+                        ajudarUI.SetActive(false);
+                        QuebradoStuff.active=false;
                     cue.text="";
                 }
             }
             else
             {
-                            QuebradoStuff.active=false;
+                    ajudarSlider.value = 0;
+                    ajudarUI.SetActive(false);
+                    QuebradoStuff.active=false;
                 cue.text="";
             }
             }
         }
         else
         {
+            ajudarSlider.value = 0;
+            ajudarUI.SetActive(false);
             cue.text="";
             if(QuebradoStuff!=null)
             {
                 QuebradoStuff.active = false;
 
             }
+        }
+    }
+
+    public IEnumerator encher()
+    {
+        yield return new WaitForSeconds(0.00005f);
+        if (ajudarUI.activeSelf)
+        {
+            ajudarSlider.value += 0.005f;
+        }
+        else
+        {
+            ajudarSlider.value = 0;
+            StopAllCoroutines();
+        }
+        if (Input.GetKey(KeyCode.E) && ajudarUI.activeSelf == true)
+        {
+            StopAllCoroutines();
+            StartCoroutine(encher());
         }
     }
 
