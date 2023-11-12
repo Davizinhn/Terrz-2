@@ -694,6 +694,14 @@ public class FirstPersonMovement : MonoBehaviour
                     a.enabled = false;
                 }
             }
+            if (lobbyManager != null)
+            {
+                lobbyManager.curCam = camera.gameObject.transform;
+            }
+            else
+            {
+                gameManager.curCam = camera.gameObject.transform;
+            }
         }
     }
 
