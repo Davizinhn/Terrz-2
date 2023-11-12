@@ -24,6 +24,7 @@ public class ManageGame : MonoBehaviourPunCallbacks
     public bool canPause;
     public GameObject pauseCoisos;
     public GameObject cinematicCamera;
+    public Transform curCam;
 
     public void Awake()
     {
@@ -87,7 +88,7 @@ public class ManageGame : MonoBehaviourPunCallbacks
         }
         foge = terminarDoor.isOpen && ativados;
         canPause = !isPaused && !cinematicCamera.GetComponent<CinematicManager>().inCinematic;
-        if(isPaused)
+        if(isPaused && Cursor.lockState != CursorLockMode.None && !isacabando)
         {
             Cursor.lockState = CursorLockMode.None;
         }
@@ -96,6 +97,17 @@ public class ManageGame : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.None;
             pauseCoisos.SetActive(true);
             isPaused=true;
+            foreach (FirstPersonMovement fpc in GameObject.FindObjectsOfType<FirstPersonMovement>())
+            {
+                if (fpc.gameObject.GetComponent<PhotonView>().IsMine)
+                {
+                    if (!fpc.hasFallen && !fpc.isDead)
+                    {
+                        fpc.TirarAnimsLobby();
+                    }
+                    break;
+                }
+            }
         }
     }
 

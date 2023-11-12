@@ -6,28 +6,14 @@ using TMPro;
 public class Nominho : MonoBehaviour
 {
     public float maxDistance;
+    public Transform curCam;
 
     void Update()
     {
-        if(Camera.main != null)
+        curCam = GameObject.FindObjectOfType<LobbyManager>() != null ? GameObject.FindObjectOfType<LobbyManager>().curCam : GameObject.FindObjectOfType<ManageGame>().curCam;
+        if (curCam != null)
         {
-            if (GameObject.FindObjectOfType<SpectatorManager>()!=null)
-            {
-                if(GameObject.FindObjectOfType<SpectatorManager>().Spectator)
-                {
-                    this.gameObject.GetComponent<Animator>().SetBool("Ativado", true);
-                }
-                else
-                {
-                    this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(Camera.main.transform.position, this.gameObject.transform.position) < maxDistance);
-                }
-                
-            }
-            else
-            {
-                this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(Camera.main.transform.position, this.gameObject.transform.position) < maxDistance);
-            }
-            
+            this.gameObject.GetComponent<Animator>().SetBool("Ativado", Vector3.Distance(curCam.position, this.gameObject.transform.position) < maxDistance);
         }
         else
         {

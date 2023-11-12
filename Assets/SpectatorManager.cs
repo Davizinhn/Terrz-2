@@ -59,6 +59,8 @@ public class SpectatorManager : MonoBehaviour
 
             spectatorCine.Follow = currentPlayer.transform;
             spectatorCine.LookAt = currentPlayer.transform;
+            gameManager.curCam = campadrao.gameObject.transform;
+
         }
 
         if (Spectator && Input.GetKeyDown(KeyCode.D))

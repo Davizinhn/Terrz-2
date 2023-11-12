@@ -82,6 +82,7 @@ MonoBehaviour:
   - LevantarPlayer
   - VoltarMovimentos
   - ComecarAjudarPlayer
+  - TirarAnimsLobby
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

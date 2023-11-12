@@ -1078,9 +1078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb871534d045bd4da569c90685069fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera1: {fileID: 0}
-  camera2: {fileID: 0}
-  camera3: {fileID: 1450882661577789924}
+  nomim: {fileID: 897500535924143236}
 --- !u!1 &759246340136065767
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,9 +3816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb871534d045bd4da569c90685069fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera1: {fileID: 0}
-  camera2: {fileID: 0}
-  camera3: {fileID: 1450882661577789924}
+  nomim: {fileID: 897500535924143236}
 --- !u!1 &2797809461841575025
 GameObject:
   m_ObjectHideFlags: 0
@@ -8188,6 +8184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 17
+  curCam: {fileID: 0}
 --- !u!95 &8527278612182496287
 Animator:
   serializedVersion: 4
@@ -11621,6 +11618,7 @@ MonoBehaviour:
   meganHead: {fileID: 5933958150213897412}
   cameraHead: {fileID: 2797809461841575025}
   uiNameText: {fileID: 1833724158489008902}
+  emoteCamCine: {fileID: 7549312344552730282}
   camera: {fileID: 8370940058182751266}
   view: {fileID: 6413430603566427437}
   personaMesh:

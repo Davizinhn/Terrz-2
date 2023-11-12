@@ -32,6 +32,8 @@ public class FirstPersonMovement : MonoBehaviour
     public GameObject cameraHead;
     public TMP_Text uiNameText;
 
+    public Cinemachine.CinemachineFreeLook emoteCamCine;
+
     Rigidbody rigidbody;
     public Camera camera;
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
@@ -84,7 +86,7 @@ public class FirstPersonMovement : MonoBehaviour
         if(view.IsMine)
         {
             PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Lives", out maxLives);
-
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             if (SceneManager.GetActiveScene().name=="Game")
             {
             gameManager = GameObject.FindObjectOfType<ManageGame>();
@@ -130,6 +132,14 @@ public class FirstPersonMovement : MonoBehaviour
                 cameraHead.transform.parent = meganHead;
             }
             uiNameText.text = PhotonNetwork.NickName;
+            if (lobbyManager != null)
+            {
+                lobbyManager.curCam = camera.gameObject.transform;
+            }
+            else
+            {
+                gameManager.curCam = camera.gameObject.transform;
+            }
         }
         else
         {
@@ -150,9 +160,9 @@ public class FirstPersonMovement : MonoBehaviour
                 Destroy(a);
             }
         }
-        
 
-        
+
+
     }
     int bibi;
     public void Att()
@@ -175,64 +185,79 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
+    public void TirarAnimsLobby()
+    {
+        rigidbody.velocity = new Vector3(0, 0, 0);
+        camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
+        isEmoting = false;
+        camera.enabled = true;
+        emoteCam.active = false;
+        userPanel.active = true;
+        if (Persona == "leonard")
+        {
+            anim.SetFloat("Vertical", 0f);
+            anim.SetFloat("Horizontal", 0f);
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isEmoting", false);
+            foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                a.gameObject.layer = 9;
+                a.enabled = false;
+            }
+            foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                a.gameObject.layer = 9;
+                a.enabled = true;
+            }
+
+
+        }
+        else if (Persona == "megan")
+        {
+            anim1.SetFloat("Vertical", 0f);
+            anim1.SetFloat("Horizontal", 0f);
+            anim1.SetBool("isRunning", false);
+            anim1.SetBool("isEmoting", false);
+            foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                a.gameObject.layer = 9;
+                a.enabled = true;
+            }
+            foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                a.gameObject.layer = 9;
+                a.enabled = false;
+            }
+        }
+        if (lobbyManager != null)
+        {
+            lobbyManager.curCam = camera.gameObject.transform;
+        }
+        else
+        {
+            gameManager.curCam = camera.gameObject.transform;
+        }
+    }
+
     void FixedUpdate()
     {
-        if(!isDead && !hasFallen)
+        if (!isDead && !hasFallen)
         {
-             if(!view.IsMine)
-        {
-            if(!hi){Att();}
-            if(Persona=="megan")
-            {
-                outro.active=false;
-                megan.active=true;
-            }
-            else
-            {
-                megan.active=false;
-                outro.active=true;
-            }
-        }
-        if((gameManager!=null ? gameManager.isPaused : lobbyManager.rulesOpen))
-        {
-            rigidbody.velocity=new Vector3(0, 0, 0);
-            if(isEmoting)
-            {
-                    camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
-                    isEmoting = false;
-                    camera.enabled = true;
-                    emoteCam.active = false;
-                    userPanel.active = true;
-                    if (Persona == "leonard")
-                    {
-                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
-                        {
-                            a.gameObject.layer = 9;
-                            a.enabled = false;
-                        }
-                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
-                        {
-                            a.gameObject.layer = 9;
-                            a.enabled = true;
-                        }
- 
 
-                    }
-                    else if (Persona == "megan")
-                    {
-                        foreach (SkinnedMeshRenderer a in anim1.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
-                        {
-                            a.gameObject.layer = 9;
-                            a.enabled = true;
-                        }
-                        foreach (SkinnedMeshRenderer a in anim.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
-                        {
-                            a.gameObject.layer = 9;
-                            a.enabled = false;
-                        }
-                    }
+            if(!view.IsMine)
+            {
+                if(!hi){Att();}
+                if(Persona=="megan")
+                {
+                    outro.active=false;
+                    megan.active=true;
+                }
+                else
+                {
+                    megan.active=false;
+                    outro.active=true;
+                }
             }
-        }
         if(view.IsMine && (gameManager!=null ? !gameManager.isPaused : !lobbyManager.rulesOpen))
         {
                     if(IsRunning)
@@ -392,13 +417,22 @@ public class FirstPersonMovement : MonoBehaviour
                             a.enabled = false;
                         }
                     }
+                    if (lobbyManager != null)
+                    {
+                        lobbyManager.curCam = camera.gameObject.transform;
+                    }
+                    else
+                    {
+                        gameManager.curCam = camera.gameObject.transform;
+                    }
                 }
             
         }
         }
         else
         {
-            if(Persona=="leonard")
+            emoteCamCine.enabled = gameManager != null ? !gameManager.isPaused : true;
+            if (Persona=="leonard")
             {
                 anim.SetBool("isDead", isDead);
                 anim.SetBool("isGrounded", true);
@@ -451,6 +485,14 @@ public class FirstPersonMovement : MonoBehaviour
                             a.enabled = true;
                         }
                     }
+        if (lobbyManager != null)
+        {
+            lobbyManager.curCam = emoteCam.transform.GetChild(0).gameObject.transform;
+        }
+        else
+        {
+            gameManager.curCam = emoteCam.transform.GetChild(0).gameObject.transform;
+        }
     }
 
 
@@ -474,7 +516,7 @@ public class FirstPersonMovement : MonoBehaviour
         {
             if (gameManager.playersPost > 1)
             {
-                if (morrerInt > (int)maxLives)
+                if (morrerInt > (int)maxLives-1)
                 {
                     Morrer(true);
                 }
@@ -485,7 +527,11 @@ public class FirstPersonMovement : MonoBehaviour
             }
             else
             {
-                Morrer(true); // MUDAR PRO SÓ MORRER DPS
+                #if UNITY_EDITOR
+                    QuaseMorrer();
+                #else
+                    Morrer(true); // MUDAR PRO SÓ MORRER DPS
+                #endif
             }
         }
 
@@ -540,6 +586,14 @@ public class FirstPersonMovement : MonoBehaviour
                 breath.Play();
                 view.RPC("QuaseMorrerOutros", RpcTarget.OthersBuffered, gruntInt);
                 //StartCoroutine(morrerPorDemora());
+                if(lobbyManager!=null)
+                {
+                    lobbyManager.curCam = emoteCam.transform.GetChild(0).gameObject.transform;
+                }
+                else
+                {
+                    gameManager.curCam = emoteCam.transform.GetChild(0).gameObject.transform;
+                }
             }
         }
     }

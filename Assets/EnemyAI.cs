@@ -468,6 +468,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
         chasingPlayer = null;
         randLocations = GameObject.FindGameObjectsWithTag("RandPoints");
         audioSource=this.gameObject.GetComponent<AudioSource>();
+        RoarState();
     }
 
     public void Animations()

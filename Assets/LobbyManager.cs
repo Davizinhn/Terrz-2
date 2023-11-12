@@ -4,8 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : MonoBehaviourPunCallbacks
 {
 
     public TMP_Text text;
@@ -18,6 +19,7 @@ public class LobbyManager : MonoBehaviour
     public bool isMatchStarting = false;
     public GameObject masterClientTxt;
     public bool rulesOpen = false;
+    public Transform curCam;
     bool isMasterClient;
 
     public void Start()
@@ -62,6 +64,12 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        Start();
+    }
+
     public void UpdatePhotonProperties()
     {
         ExitGames.Client.Photon.Hashtable custom = new ExitGames.Client.Photon.Hashtable();
@@ -96,6 +104,14 @@ public class LobbyManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 rulesOpen = true;
                 rulesTab.SetActive(true);
+                foreach(FirstPersonMovement fpc in GameObject.FindObjectsOfType<FirstPersonMovement>())
+                {
+                    if (fpc.gameObject.GetComponent<PhotonView>().IsMine)
+                    {
+                        fpc.TirarAnimsLobby();
+                        break;
+                    }
+                }
             }
         }
         else if (rulesOpen && isMasterClient && !isMatchStarting)
