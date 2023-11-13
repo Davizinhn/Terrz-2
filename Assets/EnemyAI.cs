@@ -90,7 +90,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
     {
         if(col.CompareTag("Generator"))
         {
-            Random.Range(0,2);
+            randGen = Random.Range(0,2);
         }
     }
 

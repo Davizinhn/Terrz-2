@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
     public bool Quebrado;
     public bool canInteract = true;
     public int quebradoPoints = 0;
+    public bool modoSegurar = true;
     public GameObject quebradoStuff;
     public ParticleSystem explosion;
     public LayerMask lm;
@@ -42,8 +43,15 @@ public class Generator : MonoBehaviour
     }
 
     [PunRPC]
+    public void MudarModo(bool segurar = false)
+    {
+        modoSegurar = segurar;
+    }
+
+    [PunRPC]
     public void Explosao()
     {
+        modoSegurar = true;
         canInteract = false;
         StartCoroutine(CanInteractBack());
         ParticleSystem exp = Instantiate(explosion, this.gameObject.transform.position, Quaternion.identity);
@@ -60,7 +68,8 @@ public class Generator : MonoBehaviour
     [PunRPC]
     public void Quebrar()
     {
-        Quebrado=true;
+        modoSegurar = true;
+        Quebrado = true;
         Ativada=false;
     }
 
@@ -87,10 +96,10 @@ public class Generator : MonoBehaviour
     [PunRPC]
     public void Consertar()
     {
-        if(Quebrado)
+        if(Quebrado && !modoSegurar)
         {
             quebradoPoints++;
-            if(quebradoPoints>=10)
+            if(quebradoPoints>=5)
             {
                 quebradoPoints=0;
                 Quebrado=false;

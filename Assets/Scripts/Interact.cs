@@ -17,6 +17,8 @@ public class Interact : MonoBehaviour
         public TMP_Text quebradoText;
     public CollisionCheckArrow arrow;
     public RectTransform Coiso;
+    public GameObject sliderGenerator;
+    public GameObject[] apertarGenerator;
 
     public GameObject ajudarUI;
     public Slider ajudarSlider;
@@ -54,6 +56,8 @@ public class Interact : MonoBehaviour
                 if (hit.transform.gameObject.tag == "Door" && !hit.transform.gameObject.GetComponent<Door>().isMetal)
                 {            QuebradoStuff.active=false;
                         ajudarSlider.value = 0;
+                        sliderGenerator.GetComponent<Slider>().value = 0;
+
                         ajudarUI.SetActive(false);
                         if (hit.transform.gameObject.GetComponent<Door>().canInteract)
                     {
@@ -73,32 +77,62 @@ public class Interact : MonoBehaviour
                         ajudarSlider.value = 0;
                         ajudarUI.SetActive(false);
                         cue.text="Generator";
+                        if (QuebradoStuff.active)
+                        {
+                            if (hit.transform.gameObject.GetComponent<Generator>().modoSegurar)
+                            {
+                                if (Input.GetKey(KeyCode.E) && sliderGenerator.activeSelf == true)
+                                {
+                                    StartCoroutine(encher1());
+                                }
+                                else if (!Input.GetKey(KeyCode.E))
+                                {
+                                    StopAllCoroutines();
+                                    sliderGenerator.GetComponent<Slider>().value = 0;
+                                }
+                                if (sliderGenerator.GetComponent<Slider>().value == 1)
+                                {
+                                    sliderGenerator.GetComponent<Slider>().value = 0;
+                                    hit.transform.gameObject.GetComponent<PhotonView>().RPC("MudarModo", RpcTarget.AllBuffered, false);
+                                }
+                            }
+                            else
+                            {
+                                if (Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
+                                {
+                                    hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                                }
+                                else if (Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && arrow.Pode)
+                                {
+                                    tick.Play();
+                                    hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                                    Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
+                                    hit.transform.gameObject.GetComponent<PhotonView>().RPC("MudarModo", RpcTarget.AllBuffered, true);
+                                }
+                                else if (Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && !arrow.Pode)
+                                {
+                                    hit.transform.gameObject.GetComponent<Generator>().TocarExplosion();
+                                    hahi = this.gameObject.transform.position;
+                                    view.RPC("Atrair", RpcTarget.AllViaServer, hit.transform.gameObject.name);
+                                    hit.transform.gameObject.GetComponent<PhotonView>().RPC("MudarModo", RpcTarget.AllBuffered, true);
+                                }
+                            }
+                            quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString() + "/5";
+                            foreach(GameObject a in apertarGenerator)
+                            {
+                                a.SetActive(!hit.transform.gameObject.GetComponent<Generator>().modoSegurar);
+                            }
+                            sliderGenerator.SetActive(hit.transform.gameObject.GetComponent<Generator>().modoSegurar);
 
-                    if(Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
-                    {
-                            hit.transform.gameObject.GetComponent<Generator>().Mudar();
-                    }
-                    else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && arrow.Pode)
-                    {
-                            tick.Play();
-                            hit.transform.gameObject.GetComponent<Generator>().Mudar();
-                            Coiso.anchoredPosition = new Vector3(Random.RandomRange(-339f, 340), -159f, 0);
-                    }
-                    else if(Input.GetKeyDown(KeyCode.E) && QuebradoStuff.active && !arrow.Pode)
-                    {
-                        hit.transform.gameObject.GetComponent<Generator>().TocarExplosion();
-                        hahi = this.gameObject.transform.position;
-                        view.RPC("Atrair", RpcTarget.AllViaServer, hit.transform.gameObject.name);
-                    }
-                    if(QuebradoStuff.active)
-                    {
-                        quebradoText.text = hit.transform.gameObject.GetComponent<Generator>().quebradoPoints.ToString()+"/10";
-                    }
-                    QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado && hit.transform.gameObject.GetComponent<Generator>().canInteract;
+                        }
+
+
+                        QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado && hit.transform.gameObject.GetComponent<Generator>().canInteract;
                 }
                 else if (hit.transform.gameObject.tag == "Button" && PhotonNetwork.IsMasterClient)
                 {            QuebradoStuff.active=false;
                         ajudarSlider.value = 0;
+                        sliderGenerator.GetComponent<Slider>().value = 0;
                         ajudarUI.SetActive(false);
                         cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
@@ -109,6 +143,8 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "OpenButton")
                 {            QuebradoStuff.active=false;
                         ajudarSlider.value = 0;
+                        sliderGenerator.GetComponent<Slider>().value = 0;
+
                         ajudarUI.SetActive(false);
                         cue.text="Button";
                     if(Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.GetComponent<FirstPersonButton>().canPress)
@@ -120,6 +156,8 @@ public class Interact : MonoBehaviour
                 {
                     cue.text="Hide";
                         ajudarSlider.value = 0;
+                        sliderGenerator.GetComponent<Slider>().value = 0;
+
                         ajudarUI.SetActive(false);
                         QuebradoStuff.active = false;
 
@@ -134,6 +172,8 @@ public class Interact : MonoBehaviour
                 else if(hit.transform.gameObject.tag == "PlayerCaido")
                     {
                         QuebradoStuff.active = false;
+                        sliderGenerator.GetComponent<Slider>().value = 0;
+
                         cue.text = "Help";
                         if (hit.transform.gameObject != this.gameObject)
                         {
@@ -160,7 +200,9 @@ public class Interact : MonoBehaviour
                         ajudarSlider.value = 0;
                         ajudarUI.SetActive(false);
                         QuebradoStuff.active=false;
-                    cue.text="";
+                        sliderGenerator.GetComponent<Slider>().value = 0;
+
+                        cue.text="";
                 }
             }
             else
@@ -168,13 +210,17 @@ public class Interact : MonoBehaviour
                     ajudarSlider.value = 0;
                     ajudarUI.SetActive(false);
                     QuebradoStuff.active=false;
-                cue.text="";
+                    sliderGenerator.GetComponent<Slider>().value = 0;
+
+                    cue.text="";
             }
             }
         }
         else
         {
             ajudarSlider.value = 0;
+            sliderGenerator.GetComponent<Slider>().value = 0;
+
             ajudarUI.SetActive(false);
             cue.text="";
             if(QuebradoStuff!=null)
@@ -201,6 +247,25 @@ public class Interact : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(encher());
+        }
+    }
+
+    public IEnumerator encher1()
+    {
+        yield return new WaitForSeconds(0.0005f);
+        if (sliderGenerator.activeSelf)
+        {
+            sliderGenerator.GetComponent<Slider>().value += 0.01f;
+        }
+        else
+        {
+            sliderGenerator.GetComponent<Slider>().value = 0;
+            StopAllCoroutines();
+        }
+        if (Input.GetKey(KeyCode.E) && sliderGenerator.activeSelf == true)
+        {
+            StopAllCoroutines();
+            StartCoroutine(encher1());
         }
     }
 
