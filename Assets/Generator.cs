@@ -9,7 +9,7 @@ public class Generator : MonoBehaviour
     public bool Ativada;
     public bool Quebrado;
     public bool canInteract = true;
-    public int quebradoPoints = 0;
+    public int quebradoPoints = 1;
     public bool modoSegurar = true;
     public GameObject quebradoStuff;
     public ParticleSystem explosion;
@@ -96,12 +96,12 @@ public class Generator : MonoBehaviour
     [PunRPC]
     public void Consertar()
     {
-        if(Quebrado && !modoSegurar)
+        if(Quebrado)
         {
             quebradoPoints++;
-            if(quebradoPoints>=5)
+            if(quebradoPoints>5)
             {
-                quebradoPoints=0;
+                quebradoPoints=1;
                 Quebrado=false;
             }
         }

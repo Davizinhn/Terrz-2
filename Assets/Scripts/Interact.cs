@@ -125,6 +125,13 @@ public class Interact : MonoBehaviour
                             sliderGenerator.SetActive(hit.transform.gameObject.GetComponent<Generator>().modoSegurar);
 
                         }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
+                            {
+                                hit.transform.gameObject.GetComponent<Generator>().Mudar();
+                            }
+                        }
 
 
                         QuebradoStuff.active=hit.transform.gameObject.GetComponent<Generator>().Quebrado && hit.transform.gameObject.GetComponent<Generator>().canInteract;
