@@ -479,9 +479,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1973200841532095898}
+  - {fileID: 1815180552766839167}
   - {fileID: 8905328003098426344}
   - {fileID: 1807287927630796031}
-  - {fileID: 1815180552766839167}
   - {fileID: 8494200722443215621}
   m_Father: {fileID: 8716434172393298465}
   m_RootOrder: 3
@@ -1639,7 +1639,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6046827974822680426}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3085,7 +3085,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6046827974822680426}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6357,7 +6357,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6046827974822680426}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7567,7 +7567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &876830324289148422
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12227,7 +12227,6 @@ MonoBehaviour:
   apertarGenerator:
   - {fileID: 4728694967899414045}
   - {fileID: 1134494571807398499}
-  - {fileID: 2366349012519145683}
   - {fileID: 648623662031958262}
   ajudarUI: {fileID: 5123712832860765872}
   ajudarSlider: {fileID: 7935696288942816628}

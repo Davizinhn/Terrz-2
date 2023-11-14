@@ -5,6 +5,8 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
+
 
 
 public class Interact : MonoBehaviour
@@ -55,6 +57,8 @@ public class Interact : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Door" && !hit.transform.gameObject.GetComponent<Door>().isMetal)
                 {            QuebradoStuff.active=false;
+                        encher11 = false;
+                        encher10 = false;
                         ajudarSlider.value = 0;
                         sliderGenerator.GetComponent<Slider>().value = 0;
 
@@ -75,6 +79,7 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "Generator")
                 {
                         ajudarSlider.value = 0;
+                        encher10 = false;
                         ajudarUI.SetActive(false);
                         cue.text="Generator";
                         if (QuebradoStuff.active)
@@ -83,21 +88,23 @@ public class Interact : MonoBehaviour
                             {
                                 if (Input.GetKey(KeyCode.E) && sliderGenerator.activeSelf == true)
                                 {
-                                    StartCoroutine(encher1());
+                                    encher11 = true;
                                 }
                                 else if (!Input.GetKey(KeyCode.E))
                                 {
-                                    StopAllCoroutines();
+                                    encher11 = false;
                                     sliderGenerator.GetComponent<Slider>().value = 0;
                                 }
                                 if (sliderGenerator.GetComponent<Slider>().value == 1)
                                 {
+                                    encher11 = false;
                                     sliderGenerator.GetComponent<Slider>().value = 0;
                                     hit.transform.gameObject.GetComponent<PhotonView>().RPC("MudarModo", RpcTarget.AllBuffered, false);
                                 }
                             }
                             else
                             {
+                                encher11 = false;
                                 if (Input.GetKeyDown(KeyCode.E) && !QuebradoStuff.active && !GameObject.Find("GameManager").GetComponent<ManageGame>().foge)
                                 {
                                     hit.transform.gameObject.GetComponent<Generator>().Mudar();
@@ -138,6 +145,9 @@ public class Interact : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "Button" && PhotonNetwork.IsMasterClient)
                 {            QuebradoStuff.active=false;
+                        encher11 = false;
+                        encher10 = false;
+
                         ajudarSlider.value = 0;
                         sliderGenerator.GetComponent<Slider>().value = 0;
                         ajudarUI.SetActive(false);
@@ -149,6 +159,9 @@ public class Interact : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "OpenButton")
                 {            QuebradoStuff.active=false;
+                        encher11 = false;
+                        encher10 = false;
+
                         ajudarSlider.value = 0;
                         sliderGenerator.GetComponent<Slider>().value = 0;
 
@@ -162,6 +175,9 @@ public class Interact : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "Bed")
                 {
                     cue.text="Hide";
+                        encher11 = false;
+                        encher10 = false;
+
                         ajudarSlider.value = 0;
                         sliderGenerator.GetComponent<Slider>().value = 0;
 
@@ -179,6 +195,8 @@ public class Interact : MonoBehaviour
                 else if(hit.transform.gameObject.tag == "PlayerCaido")
                     {
                         QuebradoStuff.active = false;
+                        encher11 = false;
+
                         sliderGenerator.GetComponent<Slider>().value = 0;
 
                         cue.text = "Help";
@@ -187,15 +205,16 @@ public class Interact : MonoBehaviour
                             ajudarUI.SetActive(true);
                             if (Input.GetKey(KeyCode.E) && ajudarUI.activeSelf == true)
                             {
-                                StartCoroutine(encher());
+                                encher10 = true;
                             }
                             else if(!Input.GetKey(KeyCode.E))
                             {
-                                StopAllCoroutines();
+                                encher10 = false;
                                 ajudarSlider.value = 0;
                             }
                             if (ajudarSlider.value==1)
                             {
+                                encher10 = false;
                                 ajudarSlider.value = 0;
                                 ajudarUI.SetActive(false);
                                 hit.transform.gameObject.GetComponent<PhotonView>().RPC("LevantarPlayer", RpcTarget.AllBuffered);
@@ -204,6 +223,9 @@ public class Interact : MonoBehaviour
                     }
                 else
                 {
+                        encher11 = false;
+                        encher10 = false;
+
                         ajudarSlider.value = 0;
                         ajudarUI.SetActive(false);
                         QuebradoStuff.active=false;
@@ -214,6 +236,9 @@ public class Interact : MonoBehaviour
             }
             else
             {
+                    encher11 = false;
+                    encher10 = false;
+
                     ajudarSlider.value = 0;
                     ajudarUI.SetActive(false);
                     QuebradoStuff.active=false;
@@ -225,6 +250,8 @@ public class Interact : MonoBehaviour
         }
         else
         {
+            encher11 = false;
+            encher10 = false;
             ajudarSlider.value = 0;
             sliderGenerator.GetComponent<Slider>().value = 0;
 
@@ -237,44 +264,48 @@ public class Interact : MonoBehaviour
             }
         }
     }
+    bool encher10 = false;
+    bool encher11 = false;
 
-    public IEnumerator encher()
+    public void FixedUpdate()
     {
-        yield return new WaitForSeconds(0.00005f);
-        if (ajudarUI.activeSelf)
+        if (encher11)
         {
-            ajudarSlider.value += 0.005f;
+            encher1();
         }
-        else
+        if(encher10)
         {
-            ajudarSlider.value = 0;
-            StopAllCoroutines();
-        }
-        if (Input.GetKey(KeyCode.E) && ajudarUI.activeSelf == true)
-        {
-            StopAllCoroutines();
-            StartCoroutine(encher());
+            encher();
         }
     }
 
-    public IEnumerator encher1()
+    public void encher()
     {
-        yield return new WaitForSeconds(0.0005f);
         if (sliderGenerator.activeSelf)
         {
-            sliderGenerator.GetComponent<Slider>().value += 0.01f;
+            sliderGenerator.GetComponent<Slider>().value += Time.fixedDeltaTime * 0.25f;
         }
         else
         {
             sliderGenerator.GetComponent<Slider>().value = 0;
-            StopAllCoroutines();
         }
-        if (Input.GetKey(KeyCode.E) && sliderGenerator.activeSelf == true)
-        {
-            StopAllCoroutines();
-            StartCoroutine(encher1());
-        }
+
     }
+
+    public void encher1()
+    {
+        if (sliderGenerator.activeSelf)
+        {
+            sliderGenerator.GetComponent<Slider>().value += Time.fixedDeltaTime * 0.6f;
+        }
+        else
+        {
+            sliderGenerator.GetComponent<Slider>().value = 0;
+        }
+
+    }
+
+
 
     [PunRPC]
     public void Atrair(string ha)

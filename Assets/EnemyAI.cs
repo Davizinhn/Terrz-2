@@ -313,7 +313,7 @@ public class EnemyAI : MonoBehaviour, IPunObservable
             {
                 case 0:
                     anim.SetBool("Punch", true);
-                    Invoke("BackToChasing", 1f);
+                    Invoke("BackToChasing", 0.45f);
                     break;
                 case 1:
                     anim.SetBool("Punch", true);

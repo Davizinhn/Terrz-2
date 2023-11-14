@@ -4980,6 +4980,11 @@ MonoBehaviour:
   rulesTab: {fileID: 1562770210}
   rulesTransform: {fileID: 116137259}
   roomRules:
+  - Name: Map
+    value: 1
+    Options:
+    - m_Text: 1
+      m_Image: {fileID: 0}
   - Name: Lives
     value: 1
     Options:
@@ -4993,10 +4998,13 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: 4
       m_Image: {fileID: 0}
+    - m_Text: 5
+      m_Image: {fileID: 0}
   optionPrefab: {fileID: 8996799426697031296, guid: 14bcfe377346cbb458a90cbdbc90ab14, type: 3}
   isMatchStarting: 0
   masterClientTxt: {fileID: 1721862388}
   rulesOpen: 0
+  curCam: {fileID: 0}
 --- !u!114 &1623402295
 MonoBehaviour:
   m_ObjectHideFlags: 0
