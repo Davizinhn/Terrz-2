@@ -281,13 +281,13 @@ public class Interact : MonoBehaviour
 
     public void encher()
     {
-        if (sliderGenerator.activeSelf)
+        if (ajudarUI.activeSelf)
         {
-            sliderGenerator.GetComponent<Slider>().value += Time.fixedDeltaTime * 0.25f;
+            ajudarSlider.value += Time.fixedDeltaTime * 0.35f;
         }
         else
         {
-            sliderGenerator.GetComponent<Slider>().value = 0;
+            ajudarSlider.value = 0;
         }
 
     }
@@ -296,7 +296,7 @@ public class Interact : MonoBehaviour
     {
         if (sliderGenerator.activeSelf)
         {
-            sliderGenerator.GetComponent<Slider>().value += Time.fixedDeltaTime * 0.6f;
+            sliderGenerator.GetComponent<Slider>().value += Time.fixedDeltaTime * 0.75f;
         }
         else
         {
