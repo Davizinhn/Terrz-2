@@ -67,11 +67,12 @@ public class FirstPersonMovement : MonoBehaviour
     public AudioClip[] grunts;
     public AudioSource gruntSource;
     public AudioSource breath;
-    bool isCrouching = false;
+    public bool isCrouching = false;
     public float crouchY;
     public CapsuleCollider normalCollider;
     public CapsuleCollider crouchCollider;
     public float distance;
+    public Transform[] coisosCrouch;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -246,15 +247,19 @@ public class FirstPersonMovement : MonoBehaviour
     public bool canUnCrouch()
     {
         RaycastHit hit;
-        Ray ray = new Ray(this.gameObject.transform.position, Vector3.up);
-        if (Physics.Raycast(ray, out hit, distance, collisionLayer))
+        foreach(Transform a in coisosCrouch)
         {
-            Debug.DrawLine(this.gameObject.transform.position, hit.point, Color.red);
-            Debug.Log("Hitted " + hit.transform.gameObject.name);
-            return false;
+            Ray ray = new Ray(a.position, Vector3.up);
+            if (Physics.Raycast(ray, out hit, distance, collisionLayer))
+            {
+                Debug.DrawLine(a.position, hit.point, Color.red);
+                Debug.Log("Hitted " + hit.transform.gameObject.name);
+                return false;
+            }
         }
         return true;
     }
+
 
 
     private void Update()

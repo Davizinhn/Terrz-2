@@ -36,7 +36,7 @@ public class FirstPersonAudio : MonoBehaviour
     {
         // Play moving audio if the character is moving and on the ground.
         float velocity = Vector3.Distance(CurrentCharacterPosition, lastCharacterPosition);
-        if (velocity >= velocityThreshold && groundCheck && groundCheck.isGrounded)
+        if (velocity >= velocityThreshold && groundCheck && groundCheck.isGrounded && !character.isCrouching)
         {
             if (character.IsRunning)
             {
