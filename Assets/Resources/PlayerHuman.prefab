@@ -3942,7 +3942,7 @@ GameObject:
   - component: {fileID: 1028977890840856439}
   - component: {fileID: 1810551946491416710}
   - component: {fileID: 5989060239816876558}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11092,6 +11092,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: hasFallen
+  - Type: 4
+    SynchronizeType: 2
+    Name: isCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
@@ -12056,6 +12059,7 @@ GameObject:
   - component: {fileID: 1853631826958909035}
   - component: {fileID: 2542468802653082920}
   - component: {fileID: 7731187224848311383}
+  - component: {fileID: 4645420529603760046}
   m_Layer: 3
   m_Name: PlayerHuman
   m_TagString: Player
@@ -12170,8 +12174,7 @@ MonoBehaviour:
   - {fileID: 2797809461841575025}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 2147483647
-  distance: 0.005
+    m_Bits: 1
   Persona: leonard
   megan: {fileID: 7552627605801408167}
   outro: {fileID: 8734751218067593565}
@@ -12202,6 +12205,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4d8a4d01e2f746844a930e61fcb25396, type: 3}
   gruntSource: {fileID: 4879815277905180673}
   breath: {fileID: 6250507595745096823}
+  crouchY: 0.85
+  normalCollider: {fileID: 8468278693173653290}
+  crouchCollider: {fileID: 4645420529603760046}
+  distance: 2
 --- !u!114 &8468278693173653293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12559,6 +12566,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1169d5b7efa994a4789cb745bf863fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &4645420529603760046
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387210475777761592}
+  m_Material: {fileID: 13400000, guid: 4f697198d565f73468252772a97b0182, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.4721622
+  m_Height: 1.44
+  m_Direction: 1
+  m_Center: {x: -0.010760367, y: 0.72, z: 0}
 --- !u!1 &8387529646035333026
 GameObject:
   m_ObjectHideFlags: 0
@@ -13335,6 +13356,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: hasFallen
+  - Type: 4
+    SynchronizeType: 2
+    Name: isCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

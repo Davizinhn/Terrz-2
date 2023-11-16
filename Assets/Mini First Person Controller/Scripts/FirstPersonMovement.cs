@@ -45,7 +45,6 @@ public class FirstPersonMovement : MonoBehaviour
     public SkinnedMeshRenderer[] personaMesh;
     public GameObject[] others;
     public LayerMask collisionLayer;
-    public float distance = 2f;
     public string Persona;
     string personaOther;
     public GameObject megan, outro;
@@ -68,6 +67,11 @@ public class FirstPersonMovement : MonoBehaviour
     public AudioClip[] grunts;
     public AudioSource gruntSource;
     public AudioSource breath;
+    bool isCrouching = false;
+    public float crouchY;
+    public CapsuleCollider normalCollider;
+    public CapsuleCollider crouchCollider;
+    public float distance;
 
     [PunRPC]
     public void SetChar(string persona)
@@ -239,6 +243,30 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
+    public bool canUnCrouch()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(this.gameObject.transform.position, Vector3.up);
+        if (Physics.Raycast(ray, out hit, distance, collisionLayer))
+        {
+            Debug.DrawLine(this.gameObject.transform.position, hit.point, Color.red);
+            Debug.Log("Hitted " + hit.transform.gameObject.name);
+            return false;
+        }
+        return true;
+    }
+
+
+    private void Update()
+    {
+        if (view.IsMine && (gameManager != null ? !gameManager.isPaused : !lobbyManager.rulesOpen))
+        {
+            CrouchBehaviour();
+            crouchCollider.enabled = isCrouching;
+            normalCollider.enabled = !isCrouching;
+        }
+    }
+
     void FixedUpdate()
     {
         if (!isDead && !hasFallen)
@@ -275,7 +303,7 @@ public class FirstPersonMovement : MonoBehaviour
                 }*/
                 //#endif
                 // Update IsRunning from input.
-                IsRunning = canRun && Input.GetKey(runningKey) && !isLaying;
+                IsRunning = canRun && Input.GetKey(runningKey) && !isLaying && !isCrouching;
 
             if(isLaying && Input.GetKeyDown(KeyCode.E) && GameObject.Find("Monster").GetComponent<EnemyAI>().curBed != curBed)
                 {
@@ -296,17 +324,29 @@ public class FirstPersonMovement : MonoBehaviour
                 }
 
             // Get targetMovingSpeed.
-            float targetMovingSpeed = IsRunning ? runSpeed : speed;
+                float targetMovingSpeed;
+                if(IsRunning)
+                {
+                    targetMovingSpeed = runSpeed;
+                }
+                else if(isCrouching)
+                {
+                    targetMovingSpeed = speed / 2;
+                }
+                else
+                {
+                    targetMovingSpeed = speed;
+                }
             if (speedOverrides.Count > 0)
             {
                 targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
             }
             if(GameObject.Find("CinematicCamera") != null)
             {
-                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="" && !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic;
+                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="" && !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic && !isCrouching;
             }
             else{
-                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text=="";
+                canEmote = !isLaying && !isEmoting && ground.isGrounded && this.gameObject.GetComponent<Interact>().cue.text== "" && !isCrouching;
             }
 
             // Get targetVelocity from input.
@@ -321,6 +361,7 @@ public class FirstPersonMovement : MonoBehaviour
                 anim.SetBool("isGrounded", ground.isGrounded);
                         anim.SetBool("isLaying", isLaying);
                         anim.SetBool("isEmoting", isEmoting);
+                        anim.SetBool("isCrouching", isCrouching);
 
                     }
             else if(Persona=="megan")
@@ -331,9 +372,10 @@ public class FirstPersonMovement : MonoBehaviour
                 anim1.SetBool("isGrounded", ground.isGrounded);
                         anim1.SetBool("isLaying", isLaying);
                         anim1.SetBool("isEmoting", isEmoting);
+                        anim1.SetBool("isCrouching", isCrouching);
                     }
-            // Apply mov
-            // ement.
+                    // Apply mov
+                    // ement.
                     if (!isLaying)
                     {
                         Vector3 movementDirection = new Vector3(targetVelocity.x, 0f, targetVelocity.y);
@@ -346,7 +388,7 @@ public class FirstPersonMovement : MonoBehaviour
                 }
 
             // Apply headbobbing.
-            if(ground.isGrounded && !isLaying && !isEmoting)
+            if(ground.isGrounded && !isLaying && !isEmoting && !isCrouching)
             {
                 float waveslice = 0.0f;
                 float horizontal = Input.GetAxis("Horizontal");
@@ -382,6 +424,17 @@ public class FirstPersonMovement : MonoBehaviour
                     camera.transform.localPosition = localPosition;
                 }
             }
+            else
+                {
+                    Vector3 localPosition = camera.transform.localPosition;
+                    localPosition.y = midpoint;
+                    camera.transform.localPosition = localPosition;
+                    if (isCrouching)
+                    {
+                        camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y - crouchY, camera.transform.position.z);
+                    }
+
+                }
             if(isEmoting && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
                 {
                     camera.gameObject.GetComponent<FirstPersonLook>().enabled = true;
@@ -447,6 +500,48 @@ public class FirstPersonMovement : MonoBehaviour
                 //anim1.SetBool("hasFallen", hasFallen);
             }
         }
+    }
+
+    public void CrouchBehaviour()
+    {
+        bool canCrouch;
+        if (GameObject.Find("CinematicCamera") != null)
+        {
+            canCrouch = !isLaying && !isEmoting && ground.isGrounded && !GameObject.Find("CinematicCamera").GetComponent<CinematicManager>().inCinematic && !isCrouching;
+        }
+        else
+        {
+            canCrouch = !isLaying && !isEmoting && ground.isGrounded && !isCrouching;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if(!isCrouching)
+            {
+                if(canCrouch)
+                {
+                    Crouch();
+                }
+            }
+            else
+            {
+                if(canUnCrouch())
+                {
+                    unCrouch();
+                }
+            }
+        }
+    }
+
+    public void Crouch()
+    {
+        isCrouching = true;
+        camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y-crouchY, camera.transform.position.z);
+    }
+
+    public void unCrouch()
+    {
+        isCrouching = false;
+        camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y + crouchY, camera.transform.position.z);
     }
 
     public void FazerEsseEmote(int number)
