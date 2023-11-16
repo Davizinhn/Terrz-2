@@ -267,9 +267,15 @@ public class FirstPersonMovement : MonoBehaviour
         if (view.IsMine && (gameManager != null ? !gameManager.isPaused : !lobbyManager.rulesOpen))
         {
             CrouchBehaviour();
-            crouchCollider.enabled = isCrouching;
-            normalCollider.enabled = !isCrouching;
         }
+        crouchCollider.enabled = isCrouching;
+        normalCollider.enabled = !isCrouching;
+    }
+
+    [PunRPC]
+    public void isCrouchingRPC(bool crouched)
+    {
+        isCrouching = crouched;
     }
 
     void FixedUpdate()
@@ -540,12 +546,14 @@ public class FirstPersonMovement : MonoBehaviour
     public void Crouch()
     {
         isCrouching = true;
+        view.RPC("isCrouchingRPC", RpcTarget.OthersBuffered, true);
         camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y-crouchY, camera.transform.position.z);
     }
 
     public void unCrouch()
     {
         isCrouching = false;
+        view.RPC("isCrouchingRPC", RpcTarget.OthersBuffered, false);
         camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y + crouchY, camera.transform.position.z);
     }
 
