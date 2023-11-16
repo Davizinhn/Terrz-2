@@ -13950,7 +13950,7 @@ MonoBehaviour:
   gruntSource: {fileID: 4879815277905180673}
   breath: {fileID: 6250507595745096823}
   isCrouching: 0
-  crouchY: 0.85
+  crouchY: 1
   normalCollider: {fileID: 8468278693173653290}
   crouchCollider: {fileID: 4645420529603760046}
   distance: 2
