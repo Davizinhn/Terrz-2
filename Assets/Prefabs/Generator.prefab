@@ -14247,6 +14247,7 @@ GameObject:
   - component: {fileID: 8055974368434813266}
   - component: {fileID: 8055974368434813269}
   - component: {fileID: 8055300896733983495}
+  - component: {fileID: 990399290219879971}
   m_Layer: 10
   m_Name: Generator
   m_TagString: Generator
@@ -14366,6 +14367,7 @@ MonoBehaviour:
   Quebrado: 0
   canInteract: 1
   quebradoPoints: 0
+  modoSegurar: 1
   quebradoStuff: {fileID: 5767412676716603382}
   explosion: {fileID: 6652183271964910265, guid: 657b28e7e476df44781f50ac52c3449a, type: 3}
   lm:
@@ -14522,6 +14524,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.31}
   m_Center: {x: 0, y: 0, z: 0.31}
+--- !u!208 &990399290219879971
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055974368434813262}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.3603053, z: 0.3523836}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 8.315808e-17, y: 0.01281519, z: 0.01907166}
+  m_TimeToStationary: 0.5
 --- !u!1 &8230401957326124327
 GameObject:
   m_ObjectHideFlags: 0

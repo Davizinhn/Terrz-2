@@ -90,7 +90,7 @@ public class FirstPersonMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
-            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Lives", out maxLives);
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Revives", out maxLives);
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             if (SceneManager.GetActiveScene().name=="Game")
             {

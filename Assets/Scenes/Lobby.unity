@@ -1188,7 +1188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &236566089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5078,12 +5078,18 @@ MonoBehaviour:
   rulesTab: {fileID: 1562770210}
   rulesTransform: {fileID: 116137259}
   roomRules:
-  - Name: Map
-    value: 1
+  - Name: Generators
+    value: 10
     Options:
-    - m_Text: 1
+    - m_Text: 5
       m_Image: {fileID: 0}
-  - Name: Lives
+    - m_Text: 10
+      m_Image: {fileID: 0}
+    - m_Text: 15
+      m_Image: {fileID: 0}
+    - m_Text: 20
+      m_Image: {fileID: 0}
+  - Name: Revives
     value: 1
     Options:
     - m_Text: 0

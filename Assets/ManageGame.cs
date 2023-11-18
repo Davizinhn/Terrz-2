@@ -6,6 +6,8 @@ using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using random = System.Random;
+using Utils;
 
 public class ManageGame : MonoBehaviourPunCallbacks
 {
@@ -25,11 +27,77 @@ public class ManageGame : MonoBehaviourPunCallbacks
     public GameObject pauseCoisos;
     public GameObject cinematicCamera;
     public Transform curCam;
+    public GameObject GeneratorRand;
+    public object numeroGeradores;
+    public ReflectionProbe probe;
 
     public void Awake()
     {
-                allGen = FindObjectsOfType<Generator>();
+        PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Generators", out numeroGeradores);
+        //allGen = FindObjectsOfType<Generator>();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(geradoresSpawn());
+        }
+    }
 
+    public IEnumerator geradoresSpawn()
+    {
+        yield return new WaitForSeconds(0);
+        Generator[] children = GeneratorRand.GetComponentsInChildren<Generator>(true);
+        Shuffle(children);
+        int maximo = 0;
+        foreach(Generator a in children)
+        {
+            if(maximo < (int)numeroGeradores)
+            {
+                this.photonView.RPC("ActivateThis", RpcTarget.AllBuffered, a.gameObject.name);
+            }
+            else
+            {
+                break;
+            }
+            maximo++;
+        }
+        this.photonView.RPC("Ilumina", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void Ilumina()
+    {
+        probe.RenderProbe();
+    }
+
+
+    [PunRPC]
+    public void ActivateThis(string name)
+    {
+        GameObject objeto1 = ObjectSerializationExtension.FindObject(GeneratorRand, name);
+        objeto1.SetActive(true);
+    }
+
+
+    void Shuffle(Generator[] a)
+    {
+        // Loops through array
+        for (int i = a.Length - 1; i > 0; i--)
+        {
+            // Randomize a number between 0 and i (so that the range decreases each time)
+            int rnd = Random.Range(0, i);
+
+            // Save the value of the current i, otherwise it'll overright when we swap the values
+            Generator temp = a[i];
+
+            // Swap the new and old values
+            a[i] = a[rnd];
+            a[rnd] = temp;
+        }
+
+        // Print
+        for (int i = 0; i < a.Length; i++)
+        {
+            Debug.Log(a[i]);
+        }
     }
 
     public void UnPause()
@@ -56,6 +124,7 @@ public class ManageGame : MonoBehaviourPunCallbacks
 
     public void Update()
     {
+        allGen = FindObjectsOfType<Generator>();
         genText.text="Generators Left: \n"+activeGenerators.Count+"/"+allGen.Length.ToString();
         alive.text = "Players Left: \n"+(PhotonNetwork.PlayerList.Length-spectatorManager.playersMortos).ToString()+"/"+PhotonNetwork.PlayerList.Length.ToString();
 
