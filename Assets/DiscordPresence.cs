@@ -19,6 +19,7 @@ public class DiscordPresence : MonoBehaviour
     }
     void Start()
     {
+        #if !UNITY_EDITOR
         if (pname.Length != 0){
             discord=new Discord.Discord(appid, (System.UInt64)Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
@@ -40,18 +41,22 @@ public class DiscordPresence : MonoBehaviour
                 }
             });
         }
+        #endif
     }
 
     // Update is called once per frame
     void Update()
     {
+        #if !UNITY_EDITOR
         if (pname.Length != 0){
         discord.RunCallbacks();
         }
+        #endif
     }
 
     public void ChangePresence(string details, string state)
     {
+#if !UNITY_EDITOR
         if (pname.Length != 0){
         activity.Details = details;
         activity.State = state;
@@ -66,12 +71,15 @@ public class DiscordPresence : MonoBehaviour
             }
         });
         }
+#endif
     }
 
     void OnApplicationQuit()
     {
+#if !UNITY_EDITOR
         if (pname.Length != 0){
             discord.Dispose();
         }
+#endif
     }
 }
